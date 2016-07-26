@@ -1,0 +1,625 @@
+﻿/*@import url("reset.css");*/
+
+@font-face {
+    font-family: Roboto-Regular;
+    src: url(../fonts/Roboto-Regular.woff);
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: Roboto-Medium;
+    src: url(../fonts/Roboto-Medium.woff);
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: Roboto-Thin;
+    src: url(../fonts/Roboto-Thin.woff);
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: Roboto-Light;
+    src: url(../fonts/Roboto-Light.woff);
+    font-weight: normal;
+    font-style: normal;
+}
+
+html{
+    font-size: 16px;
+}
+html, body{
+    width: 100%;
+    height: 100%;
+    font-family: Roboto-Regular;
+    box-sizing: border-box;
+    font-weight:normal;
+}
+
+
+.clear {
+	clear: both;
+}
+
+#wrapper {
+	/*border: 0.06rem solid red;*/
+    box-sizing: border-box;
+    display:flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    overflow:hidden;
+}
+/* ------------------ header ------------------ */
+#wrapper > header {
+    flex: 0 0 4rem;
+	/*border: 0.06rem solid red;*/
+    display:flex;
+    flex-direction: row;
+    justify-content:space-between;
+    align-items:center;
+    background: gray;
+    border-width:0px;
+    color:white;
+}
+#goto_main {
+    flex: 0 0 auto;
+    background: url(../images/Lesser_Coat_of_Arms_of_Ukraine.svg) no-repeat center;
+    background-size:contain;
+    width:5rem;
+    align-self:stretch;
+}
+#main-name {
+    padding: 0 2rem;
+    flex:1 2 auto;
+    text-transform:uppercase;
+    min-width:0.5rem;
+    overflow:hidden;
+    /*font-weight:bold;*/
+}
+
+#logoff {
+    flex: 0 0 auto;
+    font-size:1.5rem;
+    padding: 0 2rem;
+    min-width:2rem;
+}
+    #logoff > a {
+        color:#0c628d;
+        text-decoration: none;
+
+    }
+        #logoff > a::before {
+            font-family:FontAwesome;
+            content:'\f011';
+        }
+    
+/* ------------------ /header ------------------ */
+/* ------------------ footer ------------------ */
+#mainfooter {
+	/*border: 0.06rem solid red;*/
+    display:flex;
+    flex: 0 0 auto;
+    align-items:center;
+    justify-content: center;
+    background:gray;/*#0c628d;*/
+    height:0rem;
+    transition-property: height;
+    transition-duration: 1s;
+    overflow:hidden;
+}
+    #mainfooter > a {
+        margin:0px !important;
+    }
+/* ------------------ /footer ------------------ */
+/* ------------------ main ------------------ */
+main {
+    border: 0.06rem solid red;
+    display: flex;
+    flex: 1 1 auto;
+    overflow: hidden;
+    flex-direction: row;
+}
+main > nav {
+    flex:0 0 auto;
+    display: flex;
+    align-items:stretch;
+    flex-direction: column;
+    justify-content:flex-start;
+    background-color: #0c628d;
+    color:white;
+    font-weight:500;
+    overflow-y: auto;
+    overflow-x:hidden;
+}
+
+main article {
+    /*border: 0.06rem solid red;*/
+    flex:1 1 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content:flex-start;
+    align-items:stretch;
+    /*background-color: #0c628d;
+    color:white;*/
+    /*font-weight:bold;*/
+    overflow-y: hidden;
+    overflow-x:hidden;
+}
+    main > article > nav {
+        flex:0 0 3.6rem;
+        max-height:3.6rem;
+        display: flex;
+        flex-direction: row;
+        justify-content:space-between;
+        align-items:center;
+        background: white; /*#d7dce4;*/
+        position:relative;
+        z-index:auto;
+    }
+
+@media all and (max-width:800px) {
+    #agenda-selected-content {
+        /*border: 0.06rem solid red;*/
+        flex-direction: column;
+        justify-content: flex-start;
+    }
+    #agenda-selected-info {
+        /*border: 0.06rem solid blue;*/
+        flex: 0 0 auto;
+    }
+    #agenda-selected-chart {
+        flex: 0 0 auto;
+    }
+}
+
+.agenda-content-full {
+    /*border: 0.06rem solid red;*/
+    flex:1 1 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content:flex-start;
+    align-items:stretch;
+    overflow-y: auto;
+    overflow-x: hidden;
+
+}
+    .agenda-content-full > object {
+        flex:1 1 auto;
+    }
+.agenda-content-full .agenda-content-date-info {
+    /*border: 0.06rem solid red;*/
+    flex:0 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items:stretch;
+    justify-content:flex-start;
+}
+    .agenda-content-date-info > span {
+        height: 1.5rem;
+        max-height: 2.5rem;
+        padding: 0.3rem 0;
+        color: #fff;
+        font-size: 1rem;
+        box-shadow: inset 0px 2px 5px rgba(0,0,0,0.3);
+        background: #939eb0;
+        overflow: hidden;
+        text-align: center;
+    }
+.agenda-content-type-info {
+    /*border: 0.06rem solid red;*/
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+    .agenda-content-type-info > span {
+        height: 1.5rem;
+        max-height: 2.5rem;
+        padding: 0.3rem 0;
+        font-size: 1rem;
+        color: #414141;
+        background: #cbd0d8;
+        overflow: hidden;
+        text-align: center;
+    }
+.question-content {
+    /*border: 0.06rem solid red;*/
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    color: #242629;
+    background: #fff;
+}
+    .question-content > .question-info {
+        flex: 0 0 auto;
+        display: flex;
+        flex-direction: row;
+        align-items: stretch;
+    }
+.content-info {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+.q-name {
+    align-self:stretch;
+    text-align:center;
+    padding:.3rem;    
+}
+.q-i {
+    padding:.3rem;    
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+}
+.q-i-rcell {
+    padding:.3rem;    
+    flex: 1 1 auto;
+    text-align:center;
+}
+.cellcont {
+    flex: 1 1 auto;
+    display:flex;
+    flex-direction: row; 
+    justify-content:flex-start;
+    align-items:center;
+    overflow-x:hidden;
+}
+    .cellcont div {
+        /*border: 0.06rem solid red;*/
+    }
+    .cellcont > :first-child {
+        flex: 0 0 auto;
+        font-family:FontAwesome;
+        font-size:2rem;
+        margin:.3rem;
+        border-style: none;
+        /*width:2rem;*/
+        height:2rem;
+    }
+    .cellcont > .cellcont-tb {
+        flex: 1 1 auto;
+        flex-direction: column; 
+        justify-content:flex-start;
+        align-items: stretch;
+        text-align:left;
+        
+    }
+.cellcont-tb div:nth-child(even) {
+    font-size:.9em;
+}
+.q-i-ccell {
+    padding:.3rem;    
+    flex: 0 0 auto;
+    text-align:center;
+    font-size:0.9rem;
+}
+.q-h {
+    background: #ffe599;
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items:center;
+    width:12rem;
+    overflow:hidden;
+    color:black;
+    /*min-height:10rem;*/
+}
+.q-type {
+
+    padding:.1rem;    
+    font-size:0.8rem;
+    color:red;
+}
+.q-number{
+    padding:.1rem;    
+}
+.q-to{
+    padding:.1rem;    
+}
+.q-rel{
+    padding:.1rem;    
+}
+.q-rating{
+    padding:.1rem; 
+    color: red;   
+}
+
+.q-f {
+    background: #e8eaed;
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content:center;
+    width:12rem;
+    color:black;
+    /*min-height:10rem;*/
+}
+
+    .question-content > .question-docs {
+        flex: 0 0 auto;
+		padding: 0.5rem;
+        background: #f6f6f7;
+        min-height:2rem;
+    }
+/* ------------------ /main ------------------ */
+.display-none {
+    display: none;
+}
+small, sub, sup { font-size: .83em }
+sub             { vertical-align: sub }
+sup             { vertical-align: super }
+/* ------------------ модальне вікно ------------------ */
+.modal::before {
+    content: "";
+    display: none;
+    background: rgba(0, 0, 0, 0.3);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 10;
+}
+
+.modal:target::before {
+    display: block;
+}
+
+.modal:target > div {
+    transform: translate(0, 0);
+    /*top: 0; відступ вікна зверху*/
+}
+
+
+.modal-dialog {
+    display: flex;
+    flex-direction: column;
+    /*background: #fefefe;
+    border: #333333 solid 1px;*/
+    background: white;
+
+    padding: 1.25rem 1.875rem;
+    border-top-left-radius: 1.25rem;
+    border-top-right-radius: 1.25rem;
+    border: 1px solid #dbdbdb;
+    color: #808080;
+
+    position: fixed;
+    padding: 0px;
+    left: 22%;
+    top: 20%;
+    height: 60%;
+    z-index: 11;
+    width: 56%;
+    overflow: hidden;
+    transform: translate(0, -500%);
+    transition: transform 0.3s ease-out; /*0.3 - очікування перед початком анімації; ease-out-Анимация починається швидко, до кінця уповільнюється*/
+}
+
+.weqwe {
+    position: fixed;
+    left: calc(50% - 11rem);
+    padding:.4rem;
+    top: 45%;
+    width:23rem;
+    height:50%;
+    z-index: 11;
+    overflow: hidden;
+    /*background:white;*/
+    color:white;
+    text-align:center;
+    border-radius: 2.3em 2.3em 2.3em 2.3em;
+    transform: translate(0, -500%);
+    transition: transform 0.3s ease-out; 
+}
+#iworking > div > div {
+    margin:.3rem;
+}
+#iworking > div > div > progress {
+    width:50%;
+}
+.modal-header
+{
+    display: flex;
+    align-items:center;
+    flex: none;
+    overflow: hidden;
+    background: #55b0ed;
+    padding: 0.5em;
+    color: rgba(0,0,0,0.6);
+    font-size: 1.1em;
+}
+.modal-footer {
+    display: flex;
+    justify-content:flex-end;
+    flex: none;
+    overflow: hidden;
+    background: #f3f5f8;
+    color: rgba(0,0,0,0.6);
+    font-size: 1.1em;
+    padding:0.5rem;
+}
+    .modal-footer > a {
+        margin: 0.5em;
+    }
+.head {
+    flex: auto;
+    /*font-weight: bolder;*/
+    color: #fff;
+}
+.btn-blue {
+    padding: .5rem 1rem;
+    color: #fff;
+    background: #55b0ed;
+    border-radius: .5rem;
+    margin: auto auto auto 0px;
+    cursor: pointer;
+    text-decoration:none;
+	display:inline-block;
+}
+    .btn-blue:active {
+        transform: scale(0.94);
+    }
+
+.btn {
+    padding: 0.625rem 1.25rem;
+    color: black;
+    background: #b4b4b4;
+    border-radius: 0.625rem;
+    margin: auto auto auto 0px;
+    margin-right: 0.62rem;
+    text-decoration:none;
+}
+.btn-blue:hover {
+    box-shadow: inset 0px 0px 10px rgba(0,0,0,0.2);
+}
+.btn:hover {
+    box-shadow: inset 0px 0px 10px rgba(0,0,0,0.2);
+}
+
+.modal-header > a {
+    background: red;
+    padding: 0 0.3rem 0 0.3rem;
+    font-size: 1.3rem;
+    line-height:1.5rem;
+    text-decoration:none;
+}
+    .modal-header > a:active {
+        transform: scale(0.94);
+    }
+    .modal-header > a::before {
+        color:white;
+        font-family:FontAwesome;
+        font-size: 1rem;
+        content:"\f00d";
+    }
+.modal-body {
+    border-top: thin solid SteelBlue;
+    flex: auto;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding: 10px 25px;
+    text-align: justify;
+    margin-right: 1px;
+}
+/* ------------------ /модальне вікно ------------------ */
+
+/* ------------------ @media ------------------ */
+@media all and (min-width:100px) {
+    html {
+        font-size: 10px;
+    }
+}
+
+@media all and (min-width:300px) {
+    html {
+        font-size: 12px;
+    }
+}
+
+@media all and (min-width:810px) {
+    html {
+        font-size: 12px;
+    }
+}
+@media all and (min-width:900px) {
+    html {
+        font-size: 13px;
+    }
+
+}
+
+@media all and (min-width:1000px) {
+    html {
+        font-size: 14px;
+    }
+}
+
+@media all and (min-width:1200px) {
+    html {
+        font-size: 15px;
+    }
+}
+@media all and (min-width:1400px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+@media all and (min-width:1650px) {
+    html {
+        font-size: 18px;
+    }
+}
+
+@media all and (min-width:1900px) {
+    html {
+        font-size: 20px;
+    }
+}
+
+@media all and (min-width:2100px) {
+    html {
+        font-size: 22px;
+    }
+}
+
+@media all and (min-width:2300px) {
+    html {
+        font-size: 24px;
+    }
+}
+
+@media all and (min-width:2700px) {
+    html {
+        font-size: 30px;
+    }
+}
+
+
+@media all and (min-width:3100px) {
+    html {
+        font-size: 34px;
+    }
+}
+
+@media all and (min-width:3800px) {
+    html {
+        font-size: 40px;
+    }
+}
+
+@media all and (min-width:4200px) {
+    html {
+        font-size: 48px;
+    }
+}
+@media all and (min-width:4500px) {
+    html {
+        font-size: 52px;
+    }
+}
+@media all and (min-width:5000px) {
+    html {
+        font-size: 54px;
+    }
+}
+
+@media all and (min-width:6000px) {
+    html {
+        font-size: 64px;
+    }
+}
+@media all and (min-width:7000px) {
+    html {
+        font-size: 74px;
+    }
+}
+/* ------------------ /@media ------------------ */
