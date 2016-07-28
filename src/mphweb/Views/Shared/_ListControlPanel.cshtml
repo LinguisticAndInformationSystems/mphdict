@@ -10,12 +10,18 @@
 
 
         <input type="number" name="@nameof(Model.incp.currentPage)" value="@(Model.incp.currentPage+1)" />
-        <input type="hidden" asp-for="@Model.incp.wordSearch" />
-        <input type="hidden" asp-for="@Model.incp.id" />
-        <input type="hidden" asp-for="@Model.f.isStrFiltering" />
-        <input type="hidden" asp-for="@Model.f.isInverse" />
-        <input type="hidden" asp-for="@Model.f.str" />
-        <input type="hidden" asp-for="@Model.f.fetchType" />
+        @*<input type="hidden" asp-for="@Model.incp.wordSearch" />*@
+        <input type="hidden" name="@nameof(Model.incp.wordSearch)" value="@(Model.incp.wordSearch)" />
+        @*<input type="hidden" asp-for="@Model.incp.id" />*@
+        <input type="hidden" name="@nameof(Model.incp.id)" value="@(Model.incp.id)" />
+        @*<input type="hidden" asp-for="@Model.f.isStrFiltering" />*@
+        <input type="hidden" name="@nameof(Model.f.isStrFiltering)" value="@(Model.f.isStrFiltering)" />
+        @*<input type="hidden" asp-for="@Model.f.isInverse" />*@
+        <input type="hidden" name="@nameof(Model.f.isInverse)" value="@(Model.f.isInverse)" />
+        @*<input type="hidden" asp-for="@Model.f.str" />*@
+        <input type="hidden" name="@nameof(Model.f.str)" value="@(Model.f.str)" />
+        @*<input type="hidden" asp-for="@Model.f.fetchType" />*@
+        <input type="hidden" name="@nameof(Model.f.fetchType)" value="@(Model.f.fetchType)" />
         <div id="page-number">&nbsp;з&nbsp;</div>
         <a id="last-page" asp-action="Index" asp-controller="inflection"
            asp-route-id="@Model.incp.id" asp-route-currentPage="@(Model.maxpage-1)" asp-route-wordSearch="@Model.incp.wordSearch"

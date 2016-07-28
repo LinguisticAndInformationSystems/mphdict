@@ -22,47 +22,40 @@ namespace mphweb.Controllers
             this.db.Logger = Logger;
 
         }
-        // GET: /<controller>/
-        public async Task<IActionResult> Index(incParams p, filter fl)
+        private async Task<dictParams> prepaireData(incParams p, filter fl)
         {
             dictParams dp = new dictParams() { incp = p, f = fl };
             dp.count = await db.CountWords(fl);
             dp.maxpage = (dp.count / 100);
             if (dp.incp.currentPage < 0) dp.incp.currentPage = 0;
             if (dp.incp.currentPage > dp.maxpage) dp.incp.currentPage = dp.maxpage;
+            return dp;
+        }
+        // GET: /<controller>/
+        public async Task<IActionResult> Index(incParams p, filter fl)
+        {
+            var dp = await prepaireData(p, fl);
             ViewBag.dp = dp;
             return View(dp);
         }
         public async Task<IActionResult> toPrev(incParams p, filter fl)
         {
             p.currentPage = p.currentPage - 1;
-            var dp = new dictParams() { incp = p, f = fl };
-            dp.count = await db.CountWords(fl);
-            dp.maxpage = (dp.count / 100);
-            if (dp.incp.currentPage < 0) dp.incp.currentPage = 0;
-            if (dp.incp.currentPage > dp.maxpage) dp.incp.currentPage = dp.maxpage;
+            var dp = await prepaireData(p, fl);
             ViewBag.dp = dp;
             return View("Index", dp);
         }
         public async Task<IActionResult> toNext(incParams p, filter fl)
         {
             p.currentPage = p.currentPage + 1;
-            var dp = new dictParams() { incp = p, f = fl };
-            dp.count = await db.CountWords(fl);
-            dp.maxpage = (dp.count / 100);
-            if (dp.incp.currentPage < 0) dp.incp.currentPage = 0;
-            if (dp.incp.currentPage > dp.maxpage) dp.incp.currentPage = dp.maxpage;
+            var dp = await prepaireData(p, fl);
             ViewBag.dp = dp;
             return View("Index", dp);
         }
         public async Task<IActionResult> toPage(incParams p, filter fl)
         {
             p.currentPage = p.currentPage - 1;
-            var dp = new dictParams() { incp = p, f = fl };
-            dp.count = await db.CountWords(fl);
-            dp.maxpage = (dp.count / 100);
-            if (dp.incp.currentPage < 0) dp.incp.currentPage = 0;
-            if (dp.incp.currentPage > dp.maxpage) dp.incp.currentPage = dp.maxpage;
+            var dp = await prepaireData(p, fl);
             ViewBag.dp = dp;
             return View("Index", dp);
         }

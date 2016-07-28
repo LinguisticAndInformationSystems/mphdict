@@ -6,9 +6,13 @@
         @*<input asp-for="@Model.incp.wordSearch" placeholder="введіть слово для пошуку..." />*@
         <input type="text" name="@nameof(Model.incp.wordSearch)" value="@(Model.incp.wordSearch)" placeholder="введіть слово для пошуку..." />
         <button class="btn"></button>
-        <input type="hidden" asp-for="@Model.f.isStrFiltering" />
-        <input type="hidden" asp-for="@Model.f.isInverse" />
-        <input type="hidden" asp-for="@Model.f.str" />
-        <input type="hidden" asp-for="@Model.f.fetchType" />
+        @*<input type="hidden" asp-for="@Model.f.isStrFiltering" />*@
+        <input type="hidden" name="@nameof(Model.f.isStrFiltering)" value="@(Model.f.isStrFiltering)" />
+        @*<input type="hidden" asp-for="@Model.f.isInverse" />*@
+        <input type="hidden" name="@nameof(Model.f.isInverse)" value="@(Model.f.isInverse)" />
+        @*<input type="hidden" asp-for="@Model.f.str" />*@
+        <input type="hidden" name="@nameof(Model.f.str)" value="@(Model.f.str)" />
+        @*<input type="hidden" asp-for="@Model.f.fetchType" />*@
+        <input type="hidden" name="@nameof(Model.f.fetchType)" value="@(Model.f.fetchType)" />
     </div>
 </form>
