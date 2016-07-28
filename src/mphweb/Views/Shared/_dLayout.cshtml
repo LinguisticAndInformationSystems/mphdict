@@ -39,7 +39,11 @@
         <section id="main-control"></section>
         <main>
             <nav>
-                @await Component.InvokeAsync(nameof(mphweb.ViewComponents.wordsList), new { dp = (mphweb.Models.dictParams)ViewBag.dp})
+                @{var d = (mphweb.Models.dictParams)ViewBag.dp;}
+                @{await Html.RenderPartialAsync("_SearchPanel", d);}
+                @{await Html.RenderPartialAsync("_TabListEntryPanel", d);}
+                @await Component.InvokeAsync(nameof(mphweb.ViewComponents.wordsList), new { dp = d })
+                @{await Html.RenderPartialAsync("_ListControlPanel", d);}
             </nav>
             <article>
                 <header></header>

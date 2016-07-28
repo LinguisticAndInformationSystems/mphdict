@@ -64,5 +64,9 @@ namespace mphdict.Models.morph
         public bool? isproblem { get; set; }
         public short? accent { get; set; }
         public bool? suppl_accent { get; set; }
+        [NotMapped]
+        public int wordsPageNumber { get; set; }
+        [NotMapped]
+        public int CountOfWords { get; set; }
     }
 }

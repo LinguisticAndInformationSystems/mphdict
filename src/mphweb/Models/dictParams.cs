@@ -12,6 +12,7 @@ namespace mphweb.Models
         public filter f { get; set; }
         public incParams incp { get; set; }
         public word_param[] page { get; set; }
+        //public word_param_base SearchedWord { get; set; }
         public int maxpage { get; set; }
         public int count { get; set; }
     }

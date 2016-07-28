@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace mphdict
@@ -13,6 +14,33 @@ namespace mphdict
     {
         private mphContext db;
         public ILogger Logger { get; set; }
+        private static object o = new object();
+        static private alphadigit[] _talpha=null;
+        private alphadigit[] talpha
+        {
+            get
+            {
+                try
+                {
+                    if (_talpha == null)
+                    {
+                        lock (o)
+                        {
+                            _talpha = (from c in db.alphadigits orderby c.digit, c.ls select c).ToArray();
+                        }
+                    }
+                    return _talpha;
+                }
+                catch (Exception ex)
+                {
+                    if (Logger != null)
+                        Logger.LogError(new EventId(0), ex, ex.Message);
+                    else
+                        throw ex;
+                    return null;
+                }
+            }
+        }
         public mphObj(mphContext db)
         {
             this.db = db;
@@ -24,23 +52,20 @@ namespace mphdict
                 db = null;
             }
         }
-        public async Task<word_param[]> getList()
+        // перетворення рядка в код (якщо не потрібно враховувати \', то askip=true)
+        public string atod(string a, bool askip = true)
         {
-            try
+            if (a == null) return "";
+            StringBuilder d = new StringBuilder("");
+            for (int i = 0; i < a.Length; i++)
             {
-                return await (from c in db.words_list.AsNoTracking() orderby c.digit, c.field2 select c).Take(100).ToArrayAsync();
+                if ((askip) && ((a[i] == '\'') || (a[i] == ' '))) continue;
+                alphadigit rs = talpha.FirstOrDefault(t => t.alpha == a[i].ToString());
+                if (rs != null) d.Append(rs.digit);
             }
-            catch (Exception ex)
-            {
-                if(Logger!=null)
-                    //Logger.Log(LogLevel.Error, 0, ex.Message, ex, null);
-                    Logger.LogError(new EventId(0), ex, ex.Message);
-                return null;
-            }
-            finally
-            {
-            }
+            return d.ToString();
         }
+
         private IQueryable<word_param> setWordListQueryFilter(filter f, IQueryable<word_param> q)
         {
             if ((f.isStrFiltering) && (!string.IsNullOrEmpty(f.str)))
@@ -105,6 +130,51 @@ namespace mphdict
             {
             }
         }
+        public async Task<word_param_base> searchWord(filter f, string word)
+        {
+            try
+            {
+                string w = f.isInverse==true? atod(new string(word.Reverse().ToArray())) : atod(word);
+                int start = 0;
+                var q = (from c in db.words_list select c);
+
+                q = setWordListQueryFilter(f, q);
+
+                if (f.isInverse)
+                {
+                    q = q.OrderBy(c => c.reverse).ThenBy(c => c.field2);
+                    start = await (from c in q where w.CompareTo(c.reverse) > 0 select c).CountAsync();
+                }
+                else
+                {
+                    q = q.OrderBy(c => c.digit).ThenBy(c => c.field2);
+                    start = await (from c in q where w.CompareTo(c.digit) > 0 select c).CountAsync();
+                }
+
+                int pagenumber = start / 100;
+                int count = q.Count();
+
+                if (count <= start)
+                {
+                    q = q.Skip((start - 1)).Take(1);
+                }
+                else {
+                    q = q.Skip(start).Take(1);
+                }
+                return await (from c in q select new word_param_base() { CountOfWords = count, wordsPageNumber = pagenumber, accent = c.accent, digit = c.digit, field2 = c.field2, field5 = c.field5, field6 = c.field6, field7 = c.field7, isdel = c.isdel, isproblem = c.isproblem, nom_old = c.nom_old, own = c.own, part = c.part, reestr = c.reestr, reverse = c.reverse, suppl_accent = c.suppl_accent, type = c.type }).FirstOrDefaultAsync();
+
+            }
+            catch (Exception ex)
+            {
+                if (Logger != null)
+                {
+                    Logger.LogError(new EventId(0), ex, ex.Message);
+                    return null;
+                }
+                else throw ex;
+            }
+        }
+
     }
     public enum FetchType
     {
