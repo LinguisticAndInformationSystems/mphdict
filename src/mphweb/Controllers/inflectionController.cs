@@ -22,54 +22,54 @@ namespace mphweb.Controllers
             this.db.Logger = Logger;
 
         }
-        private async Task<dictParams> prepaireData(incParams p, filter fl)
+        private async Task<dictParams> prepaireData(incParams incp, filter f)
         {
-            dictParams dp = new dictParams() { incp = p, f = fl };
-            dp.count = await db.CountWords(fl);
+            dictParams dp = new dictParams() { incp = incp, f = f };
+            dp.count = await db.CountWords(f);
             dp.maxpage = (dp.count / 100);
             if (dp.incp.currentPage < 0) dp.incp.currentPage = 0;
             if (dp.incp.currentPage > dp.maxpage) dp.incp.currentPage = dp.maxpage;
             return dp;
         }
         // GET: /<controller>/
-        public async Task<IActionResult> Index(incParams p, filter fl)
+        public async Task<IActionResult> Index(incParams incp, filter f)
         {
-            var dp = await prepaireData(p, fl);
+            var dp = await prepaireData(incp, f);
             ViewBag.dp = dp;
             return View(dp);
         }
-        public async Task<IActionResult> toPrev(incParams p, filter fl)
+        public async Task<IActionResult> toPrev(incParams incp, filter f)
         {
-            p.currentPage = p.currentPage - 1;
-            var dp = await prepaireData(p, fl);
+            incp.currentPage = incp.currentPage - 1;
+            var dp = await prepaireData(incp, f);
             ViewBag.dp = dp;
             return View("Index", dp);
         }
-        public async Task<IActionResult> toNext(incParams p, filter fl)
+        public async Task<IActionResult> toNext(incParams incp, filter f)
         {
-            p.currentPage = p.currentPage + 1;
-            var dp = await prepaireData(p, fl);
+            incp.currentPage = incp.currentPage + 1;
+            var dp = await prepaireData(incp, f);
             ViewBag.dp = dp;
             return View("Index", dp);
         }
-        public async Task<IActionResult> toPage(incParams p, filter fl)
+        public async Task<IActionResult> toPage(incParams incp, filter f)
         {
-            p.currentPage = p.currentPage - 1;
-            var dp = await prepaireData(p, fl);
+            incp.currentPage = incp.currentPage - 1;
+            var dp = await prepaireData(incp, f);
             ViewBag.dp = dp;
             return View("Index", dp);
         }
-        public async Task<ActionResult> Search(incParams p, filter fl)
+        public async Task<ActionResult> Search(incParams incp, filter f)
         {
-            var w = await db.searchWord(fl, p.wordSearch);
-            p.currentPage = w.wordsPageNumber;
-            p.id = w.nom_old;
-            var dp = new dictParams() { incp = p, f = fl};
+            var w = await db.searchWord(f, incp.wordSearch);
+            incp.currentPage = w.wordsPageNumber;
+            incp.id = w.nom_old;
+            var dp = new dictParams() { incp = incp, f = f};
             dp.count = w.CountOfWords;
             dp.maxpage = (dp.count / 100);
             ViewBag.dp = dp;
             return Redirect(Url.Action("SearchWord", "inflection", 
-                new { isStrFiltering= fl.isStrFiltering, str=fl.str, fetchType=fl.fetchType, isInverse = fl.isInverse, currentPage=p.currentPage, wordSearch=p.wordSearch, id=p.id, count= dp.count, maxpage = dp.maxpage }, null, null, $"wid-{p.id}"));
+                new { isStrFiltering= f.isStrFiltering, str=f.str, fetchType=f.fetchType, isInverse = f.isInverse, currentPage= incp.currentPage, wordSearch= incp.wordSearch, id= incp.id, count= dp.count, maxpage = dp.maxpage }, null, null, $"wid-{incp.id}"));
             //return RedirectToAction("Index", routeValues: setParams(p, fl));
 
         }

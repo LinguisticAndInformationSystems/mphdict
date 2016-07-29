@@ -174,7 +174,33 @@ namespace mphdict
                 else throw ex;
             }
         }
-
+        public async Task<word_param> getEntry(int id)
+        {
+            try
+            {
+                var word_param = await (from c in db.words_list.AsNoTracking() where c.nom_old==id select c).FirstOrDefaultAsync();
+                indents indent= await (from c in db.indents.AsNoTracking() where c.type==word_param.type select c).FirstOrDefaultAsync();
+                flexes[] flex = await (from c in db.flexes.AsNoTracking() where (c.type==word_param.type && (c.field2>0)) orderby c.field2, c.id select c).ToArrayAsync();
+                accents_class aclass = await (from c in db.accents_class.AsNoTracking() select c).FirstOrDefaultAsync();
+                accent[] acnt = await (from c in db.accent.AsNoTracking() select c).ToArrayAsync();
+                minor_acc macc = await (from c in db.minor_acc.AsNoTracking() where c.nom_old == id select c).FirstOrDefaultAsync();
+                word_param.indents = indent;
+                word_param.indents.flexes = flex;
+                word_param.accents_class = aclass;
+                word_param.accents_class.accents = acnt;
+                word_param.minor_acc = macc;
+                return word_param;
+            }
+            catch (Exception ex)
+            {
+                if (Logger != null)
+                {
+                    Logger.LogError(new EventId(0), ex, ex.Message);
+                    return null;
+                }
+                else throw ex;
+            }
+        }
     }
     public enum FetchType
     {
