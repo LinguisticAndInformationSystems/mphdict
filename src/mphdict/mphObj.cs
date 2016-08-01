@@ -41,6 +41,32 @@ namespace mphdict
                 }
             }
         }
+
+        private static langid _lid;
+        public langid lid {
+            get {
+                try
+                {
+                    if (_lid == null)
+                    {
+                        lock (o)
+                        {
+                            _lid = (from c in db.lang select c).FirstOrDefault();
+                        }
+                    }
+                    return _lid;
+                }
+                catch (Exception ex)
+                {
+                    if (Logger != null)
+                    {
+                        Logger.LogError(new EventId(0), ex, ex.Message);
+                        return null;
+                    }
+                    else throw ex;
+                }
+            }
+        }
         public mphObj(mphContext db)
         {
             this.db = db;
@@ -132,6 +158,7 @@ namespace mphdict
         }
         public async Task<word_param_base> searchWord(filter f, string word)
         {
+            //System.Runtime.CompilerServices.StrongBox <T>
             try
             {
                 string w = f.isInverse==true? atod(new string(word.Reverse().ToArray())) : atod(word);
@@ -180,10 +207,12 @@ namespace mphdict
             {
                 var word_param = await (from c in db.words_list.AsNoTracking() where c.nom_old==id select c).FirstOrDefaultAsync();
                 indents indent= await (from c in db.indents.AsNoTracking() where c.type==word_param.type select c).FirstOrDefaultAsync();
-                flexes[] flex = await (from c in db.flexes.AsNoTracking() where (c.type==word_param.type && (c.field2>0)) orderby c.field2, c.id select c).ToArrayAsync();
+                List<flexes> flex = await (from c in db.flexes.AsNoTracking() where (c.type==word_param.type && (c.field2>0)) orderby c.field2, c.id select c).ToListAsync();
                 accents_class aclass = await (from c in db.accents_class.AsNoTracking() select c).FirstOrDefaultAsync();
                 accent[] acnt = await (from c in db.accent.AsNoTracking() select c).ToArrayAsync();
                 minor_acc macc = await (from c in db.minor_acc.AsNoTracking() where c.nom_old == id select c).FirstOrDefaultAsync();
+                parts part= await (from c in db.parts.AsNoTracking() where c.id == word_param.part select c).FirstOrDefaultAsync();
+                word_param.parts = part;
                 word_param.indents = indent;
                 word_param.indents.flexes = flex;
                 word_param.accents_class = aclass;

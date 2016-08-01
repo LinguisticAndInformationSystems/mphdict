@@ -15,5 +15,7 @@ namespace mphweb.Models
         //public word_param_base SearchedWord { get; set; }
         public int maxpage { get; set; }
         public int count { get; set; }
+        public int id_lang { get; set; }
+        public word_param entry { get; set; }
     }
 }

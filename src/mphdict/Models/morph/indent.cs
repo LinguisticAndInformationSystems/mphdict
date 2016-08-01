@@ -17,7 +17,7 @@ namespace mphdict.Models.morph
         [JsonIgnore]
         public virtual ICollection<word_param> words_list { get; set; }
         [JsonIgnore]
-        public virtual ICollection<flexes> flexes { get; set; }
+        public virtual List<flexes> flexes { get; set; }
         [InverseProperty("indents")]
         [ForeignKey("gr_id")]
         [JsonIgnore]

@@ -1,15 +1,29 @@
 ﻿using mphdict.Models.morph;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace mphweb.Models
 {
-    public class mphEntry
+    static public class mphEntry
     {
+        static private string loadTempl(string name)
+        {
+            var assembly = Assembly.GetEntryAssembly();
+            var resourceStream = assembly.GetManifestResourceStream($"mphweb.Resources.{name}.txt");
+
+            using (var reader = new StreamReader(resourceStream, Encoding.UTF32))
+            {
+                return reader.ReadToEnd();
+            }
+        }
+    static public HashSet<char> vowel { get; } = new HashSet<char>("АЕЄИІЇОУЮЯЁЫЭаеєиіїоуюяёыэ");
         // формування незмінної частини мови
-        private string formConst(word_param item)
+        static private string formConst(word_param item)
         {
             string formstr = "<div align=\"center\"><span class=\"word_style\">" + item.reestr.Replace("\"", "\x0301");
             if (item.field2 != 0) formstr += (" " + item.field2.ToString());
@@ -25,7 +39,7 @@ namespace mphweb.Models
             formstr += "</div><p class=\"comm_end_style\"></p>";
             return formstr;
         }
-        public string formEntry(word_param item)
+        static public string formEntry(word_param item, int langid)
         {
             if (item == null) return null;
             string word = item.reestr.Replace("\"", "");
@@ -73,11 +87,12 @@ namespace mphweb.Models
                     str += item.field6.Replace("<", "&#60;").Replace(">", "&#62;");
                 str += "<br>"; 
                 str += pcomm;
-                // ------------------templ += phverbHtml(item);
+                string rdv=string.Empty;
+                templ += generateTempl(item, out rdv, langid);
 
                 templ = templ.Replace("[WORD]", unchangeable);
                 templ = templ.Replace("[gram]", item.parts.com);
-                // ------------str = str.Replace("$", rodv);
+                str = str.Replace("$", rdv);
                 templ = templ.Replace("*[text]", str);
                 if (item.field5 != null)
                     templ = templ.Replace("[(sem comment)]", item.field5.Replace("<", "&#60;").Replace(">", "&#62;"));
@@ -85,83 +100,291 @@ namespace mphweb.Models
             }
                 return templ;
         }
-        private string generateTempl(word_param item)
+        static private string generateTempl(word_param item, out string rdv, int langid=1058)
         {
-            int langid = 1058;
             int n = 0;
             string templ="";
             switch (item.parts.gr_id)
             {
                 case 1:
                 case 16://іменник
-                    if (langid == 1058) templ += Resources.infltab.ua_i;
-                    if (langid == 1049) templ += Resources.infltab.ru_i;
+                    templ += (langid == 1058) ? templ += loadTempl("ua_i") : (langid == 1049) ? templ += loadTempl("ru_i") : "";
                     n = 24; break;
                 case 14:    //прізвище
-                    if (langid == 1058) templ += Resources.infltab.ua_f1;
-                    if (langid == 1049) templ += Resources.infltab.ru_f1;
+                    templ += (langid == 1058) ? templ += loadTempl("ua_f1") : (langid == 1049) ? templ += loadTempl("ru_f1") : "";
                     n = 21; break;
                 case 15:    //прізвище
-                    if (langid == 1058) templ += Resources.infltab.ua_f2;
-                    if (langid == 1049) templ += Resources.infltab.ru_f2;
+                    templ += (langid == 1058) ? templ += loadTempl("ua_f2") : (langid == 1049) ? templ += loadTempl("ru_f2") : "";
                     n = 21; break;
                 case 2: //прізвище
-                    if (langid == 1058) templ += Resources.infltab.ua_f;
-                    if (langid == 1049) templ += Resources.infltab.ru_f;
+                    templ += (langid == 1058) ? templ += loadTempl("ua_f") : (langid == 1049) ? templ += loadTempl("ru_f") : "";
                     n = 21; break;
                 case 3://прикм.
-                    if (langid == 1058) templ += Resources.infltab.ua_p;
-                    if (langid == 1049) templ += Resources.infltab.ru_p;
+                    templ += (langid == 1058) ? templ += loadTempl("ua_p") : (langid == 1049) ? templ += loadTempl("ru_p") : "";
                     n = 34; break;
                 case 4://займ.
-                    if (langid == 1058) templ += Resources.infltab.ua_z;
-                    if (langid == 1049) templ += Resources.infltab.ru_z;
+                    templ += (langid == 1058) ? templ += loadTempl("ua_z") : (langid == 1049) ? templ += loadTempl("ru_z") : "";
                     n = 16; break;
                 case 5: //прикм. займ.
-                    if (langid == 1058) templ += Resources.infltab.ua_zp;
-                    if (langid == 1049) templ += Resources.infltab.ru_zp;
+                    templ += (langid == 1058) ? templ += loadTempl("ua_zp") : (langid == 1049) ? templ += loadTempl("ru_zp") : "";
                     n = 34; break;
                 case 6: //diesl nedok.
-                    if (langid == 1058) templ += Resources.infltab.ua_vn;
-                    if (langid == 1049) templ += Resources.infltab.ru_vn;
+                    templ += (langid == 1058) ? templ += loadTempl("ua_vn") : (langid == 1049) ? templ += loadTempl("ru_vn") : "";
                     n = 49; break;
                 case 7://дієприкм
-                    if (langid == 1058) templ += Resources.infltab.ua_d;
-                    if (langid == 1049) templ += Resources.infltab.ru_d;
+                    templ += (langid == 1058) ? templ += loadTempl("ua_d") : (langid == 1049) ? templ += loadTempl("ru_d") : "";
                     n = 34; break;
                 case 8: //дієсл. док.
-                    if (langid == 1058) templ += Resources.infltab.ua_vd;
-                    if (langid == 1049) templ += Resources.infltab.ru_vd;
+                    templ += (langid == 1058) ? templ += loadTempl("ua_vd") : (langid == 1049) ? templ += loadTempl("ru_vd") : "";
                     n = 49; break;
                 case 9: //кільк. числ.
-                    if (langid == 1058) templ += Resources.infltab.ua_ck;
-                    if (langid == 1049) templ += Resources.infltab.ru_ck;
+                    templ += (langid == 1058) ? templ += loadTempl("ua_ck") : (langid == 1049) ? templ += loadTempl("ru_ck") : "";
                     n = 16; break;
                 case 10:    //пор. числ.
-                    if (langid == 1058) templ += Resources.infltab.ua_cp;
-                    if (langid == 1049) templ += Resources.infltab.ru_cp;
-                    n = 24; break;
-                case 12:    //числ.2
-                    if (langid == 1058) templ += Resources.infltab.ua_c2;
-                    if (langid == 1049) templ += Resources.infltab.ru_c2;
+                    templ += (langid == 1058) ? templ += loadTempl("ua_cp") : (langid == 1049) ? templ += loadTempl("ru_cp") : "";
                     n = 24; break;
                 case 11:    //числ.1
-                    if (langid == 1058) templ += Resources.infltab.ua_c1;
-                    if (langid == 1049) templ += Resources.infltab.ru_c1;
+                    templ += (langid == 1058) ? templ += loadTempl("ua_c1") : (langid == 1049) ? templ += loadTempl("ru_c1") : "";
+                    n = 24; break;
+                case 12:    //числ.2
+                    templ += (langid == 1058) ? templ += loadTempl("ua_c2") : (langid == 1049) ? templ += loadTempl("ru_c2") : "";
                     n = 24; break;
                 case 13:    //дієсл. недок. док.
-                    if (langid == 1058) templ += Resources.infltab.ua_vnd;
-                    if (langid == 1049) templ += Resources.infltab.ru_vnd;
+                    templ += (langid == 1058) ? templ += loadTempl("ua_vnd") : (langid == 1049) ? templ += loadTempl("ru_vnd") : "";
                     n = 49; break;
                 default: break;
             }
-            //------------bool err = formInflexion(ref blank, part, trscr, gramData);
+           rdv = formInflexion(ref templ, item, langid);
             templ = templ.Replace("#", "");
 
             // убираем все словоформы, которых у данного слова нет:
             for (int i = n; i >= 1; i--)
                 templ = templ.Replace("Field__" + i.ToString() + "_", "&nbsp;");
             return templ;
+        }
+        static private string formInflexion(ref string templ, word_param item, int langid)
+        {
+            string unchangeable;
+            string rdv = unchangeable = string.Empty;
+            sbyte[] maccs = new sbyte[7];
+            int[] ac = new int[4], ac_fl = new int[4];
+            ac[0] = ac[1] = ac[2] = ac[3] = 0;
+
+            // заповнюємо позиції наголосів для вихідної форми:
+            for (int j = 0; j < 4; j++)
+            {
+                if (j == 0) ac[0] = item.reestr.IndexOf("\"");
+                else ac[j] = item.reestr.IndexOf("\"", ac[j - 1] + 1);
+                if (ac[j] == -1) { ac[j] = 0; break; }
+            }
+
+            string original_form = item.reestr.Replace("\"", "");
+            for (int j = 0; j < 4; j++) ac_fl[j] = ac[j];
+            // якщо наголосу в слові немає - шукаємо голосну
+            if (ac[0] == 0)
+            {
+                for (int j = 0; j < original_form.Length; j++)
+                {
+                    if (vowel.Contains(original_form[j]))
+                    {
+                        ac[0] = j + 1; break;
+                    }
+                }
+            }
+            // отримуємо основу original_form та незм. частину флексії unchangeable:
+            //if ((item.indents.field3 != 0) && (item.indents.field4 != 0))
+            //    unchangeable = original_form.Substring(original_form.Length - (int)item.indents.indent + (int)item.indents.field3 - 1, (int)item.indents.field4);
+            //else unchangeable = "";
+            unchangeable = "";
+            original_form = original_form.Substring(0, original_form.Length - (int)item.indents.indent);
+
+            int i = 0;
+            string tmp, tmp3;
+            while (i < item.indents.flexes.Count)  // цикл по флексіях:
+            {
+                var frow = item.indents.flexes[i];   // поточний рядок табл. флексій
+                int nflex = (int)frow.field2, flx = nflex;
+                tmp = "";
+                if (item.parts.gr_id == 8)  // для доконаних дієслів
+                {
+                    if (langid == 1058)
+                        switch (flx)
+                        {
+                            case 5: flx = 11; break;
+                            case 6: flx = 12; break;
+                            case 7: flx = 13; break;
+                            case 8: flx = 14; break;
+                            case 9: flx = 15; break;
+                            case 10: flx = 16; break;
+                            case 11: flx = 19; break;
+                            case 12: flx = 20; break;
+                            case 13: flx = 21; break;
+                            case 14: flx = 22; break;
+                            case 15: flx = 23; break;
+                            case 16: flx = 24; break;
+                            case 17: flx = 25; break;
+                            case 18: flx = 26; break;
+                        }
+                    if (langid == 1049)
+                        switch (flx)
+                        {
+                            case 14: flx = 15; break;
+                            case 15: flx = 18; break;
+                            case 16: flx = 19; break;
+                            case 18: flx = 28; break;
+                            case 19: flx = 29; break;
+                            case 20: flx = 30; break;
+                            case 21: flx = 31; break;
+                            case 22: flx = 32; break;
+                            case 23: flx = 33; break;
+                            case 24: flx = 34; break;
+                            case 25: flx = 35; break;
+                            case 26: flx = 36; break;
+                            case 27: flx = 37; break;
+                            case 28: flx = 38; break;
+                            case 29: flx = 39; break;
+                            case 30: flx = 41; break;
+                            case 31: flx = 43; break;
+                        }
+                }
+                int ia = 0;
+                while (frow.field2 == nflex) // цикл по грам. категорії:
+                {
+                    tmp3 = original_form;
+                    if (!string.IsNullOrEmpty(frow.flex)) tmp3 += frow.flex;
+                    //tmp3 = tmp3.Replace("#", unchangeable);    // поточна словоформа
+
+                    // обробляємо наголоси
+                    for (int j = 0; j < 4; j++) ac_fl[j] = ac[j];
+                    if ((item.accent != null) && (item.accent != 0))
+                    {
+                        // шукаємо клас по таблиці та додаємо значення зсувів до початковим позиціям
+                        accent[] arow = item.accents_class.accents.Where(c => c.gram == flx).ToArray();
+                        if (arow.Length > 0)
+                        {
+                            if (tmp != "") ia++;
+                            if (ia == arow.Length) ia--;
+                            if (arow[ia].indent1 != null)
+                            {
+                                ac_fl[0] += (short)arow[ia].indent1;
+                                if ((short)arow[ia].indent1 == 255) ac_fl[0] = 0;
+                            }
+                            if (arow[ia].indent2 != null)
+                            {
+                                if (ac_fl[1] != 0) ac_fl[1] += (short)arow[ia].indent2;
+                                else ac_fl[1] = ac[0] + (short)arow[ia].indent2 + 1;
+                                if ((short)arow[ia].indent2 == 255) ac_fl[1] = 0;
+                            }
+                            if (arow[ia].indent3 != null)
+                            {
+                                if (ac_fl[2] != 0) ac_fl[2] += (short)arow[ia].indent3;
+                                else if (ac[1] != 0) ac_fl[2] = ac[1] + (short)arow[ia].indent3 + 1;
+                                else ac_fl[2] = ac[0] + (short)arow[ia].indent3 + 2;
+                                if ((short)arow[ia].indent3 == 255) ac_fl[2] = 0;
+                            }
+                            if (arow[ia].indent4 != null)
+                            {
+                                if (ac_fl[3] != 0) ac_fl[3] += (short)arow[ia].indent4;
+                                else if (ac[2] != 0) ac_fl[3] = ac[2] + (short)arow[ia].indent4 + 1;
+                                else ac_fl[3] = ac[1] + (short)arow[ia].indent4 + 2;
+                                if ((short)arow[ia].indent4 == 255) ac_fl[3] = 0;
+                            }
+                        }
+                    }
+                    // вставляємо наголос з урахуванням отриманих позицій
+                    if (item.accent != null)
+                        for (int j = 0; j < 4; j++)
+                            if ((ac_fl[j] > 0) && (ac_fl[j] <= tmp3.Length))
+                                tmp3 = tmp3.Insert(ac_fl[j], "\x301");
+                            //else 
+                            //if ((ac_fl[j] != 0) && (ac_fl[j] != ac[j]))
+                            //    err = true;
+                    // в потрібних словоформах додаємо прийм.
+                    if (langid == 1058)
+                    {
+                        if (tmp == "")
+                        {
+                            switch (item.parts.gr_id)
+                            {
+                                case 1:
+                                case 16://імен.
+                                    if ((nflex == 6) || (nflex == 13))
+                                        if (!vowel.Contains(tmp3[0])) tmp3 = "на/у " + tmp3;
+                                        else tmp3 = "на/в " + tmp3;
+                                    break;
+                                case 3: 
+                                case 4:
+                                case 5:
+                                case 7:
+                                case 9:
+                                case 10:
+                                case 11:
+                                case 12:
+                                    if ((nflex == 6) || (nflex == 12) || (nflex == 18) || (nflex == 24))
+                                        if (!vowel.Contains(tmp3[0])) tmp3 = "на/у " + tmp3;
+                                        else tmp3 = "на/в " + tmp3;
+                                    break;
+                                case 2:
+                                case 14:
+                                case 15: // прізв.
+                                    if ((nflex == 6) || (nflex == 13) || (nflex == 20) || (nflex == 27))
+                                        tmp3 = "при " + tmp3;
+                                    break;
+                            }
+                        }
+                        // обробляємо спец. позначки словоформ
+                        if (tmp3.IndexOf("%") != -1)
+                        {
+                            tmp3 = "по " + tmp3; tmp3 = tmp3.Replace("%", "");
+                        }
+                        if (tmp3.IndexOf("$") != -1)
+                        {
+                            tmp3 = "на " + tmp3; tmp3 = tmp3.Replace("$", "");
+                        }
+                        if (tmp3.IndexOf("@") != -1)
+                        {
+                            tmp3 = "до " + tmp3; tmp3 = tmp3.Replace("@", "");
+                        }
+                        if (tmp3.IndexOf("&") != -1)
+                        {
+                            if (!vowel.Contains(tmp3[0])) tmp3 = "у " + tmp3;
+                            else tmp3 = "в " + tmp3;
+                            tmp3 = tmp3.Replace("&", "");
+                        }
+                    }
+
+                    if (tmp3.IndexOf("^") == -1)
+                    {
+                        //if (trscr)  // якщо транскрипція
+                        //{
+                        //    if (maccrow != null)
+                        //    {
+                        //        if (maccrow.occur1 != null) maccs[0] = (sbyte)maccrow.occur1;
+                        //        if (maccrow.occur2 != null) maccs[1] = (sbyte)maccrow.occur2;
+                        //        if (maccrow.occur3 != null) maccs[2] = (sbyte)maccrow.occur3;
+                        //        if (maccrow.double1 != null) maccs[3] = (sbyte)maccrow.double1;
+                        //        if (maccrow.double2 != null) maccs[4] = (sbyte)maccrow.double2;
+                        //    }
+                        //    else maccs = null;
+                        //    utranscr.Transcribe(tmp3, out transcr, maccs);
+                        //    tmp += (", " + transcr);
+                        //    if (nflex == 2) rdv += (", " + tmp3);
+                        //}
+                        //else
+                        tmp += (", " + tmp3);
+                    }
+                    if (tmp.StartsWith(", ")) tmp = tmp.Remove(0, 2);
+                    // змінна для ком. до род. відмінку
+                    if (rdv.StartsWith(", ")) rdv = rdv.Remove(0, 2);
+                    i++;
+                    if (i >= item.indents.flexes.Count) break;
+                    else frow = item.indents.flexes[i];
+                }
+                // підставляємо в шаблон отриману словоформу
+                templ = templ.Replace("Field__" + nflex.ToString() + "_", tmp);
+                if ((nflex == 2) /*&& (!trscr)*/) rdv = tmp;
+            }
+            return rdv;
         }
 
     }

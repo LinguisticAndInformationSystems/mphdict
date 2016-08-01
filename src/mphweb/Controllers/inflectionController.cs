@@ -8,6 +8,8 @@ using mphdict;
 using mphweb.Models;
 using Microsoft.AspNetCore.Routing;
 using mphdict.Models.morph;
+using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Hosting;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -22,9 +24,16 @@ namespace mphweb.Controllers
             this.db.Logger = Logger;
 
         }
+        private string getStartWordId()
+        {
+            //var env = HttpContext.RequestServices.GetService(typeof(IHostingEnvironment));
+            IConfiguration conf = (IConfiguration)HttpContext.RequestServices.GetService(typeof(IConfiguration));
+            return conf.GetValue<string>("start_ua_word");
+        }
         private async Task<dictParams> prepaireData(incParams incp, filter f)
         {
-            dictParams dp = new dictParams() { incp = incp, f = f };
+            dictParams dp = new dictParams() { incp = incp, f = f, id_lang = db.lid.id_lang };
+            if (incp.id != 0) dp.entry = await db.getEntry(incp.id);
             dp.count = await db.CountWords(f);
             dp.maxpage = (dp.count / 100);
             if (dp.incp.currentPage < 0) dp.incp.currentPage = 0;
@@ -34,6 +43,11 @@ namespace mphweb.Controllers
         // GET: /<controller>/
         public async Task<IActionResult> Index(incParams incp, filter f)
         {
+            if (incp.id == 0)
+            {
+                incp.wordSearch = getStartWordId();
+                return RedirectToAction("Search", routeValues: setParams(incp, f));
+            }
             var dp = await prepaireData(incp, f);
             ViewBag.dp = dp;
             return View(dp);
@@ -70,14 +84,14 @@ namespace mphweb.Controllers
             ViewBag.dp = dp;
             return Redirect(Url.Action("SearchWord", "inflection", 
                 new { isStrFiltering= f.isStrFiltering, str=f.str, fetchType=f.fetchType, isInverse = f.isInverse, currentPage= incp.currentPage, wordSearch= incp.wordSearch, id= incp.id, count= dp.count, maxpage = dp.maxpage }, null, null, $"wid-{incp.id}"));
-            //return RedirectToAction("Index", routeValues: setParams(p, fl));
 
         }
-        public ActionResult SearchWord(incParams p, filter fl, int count, int maxpage)
+        public async Task<ActionResult> SearchWord(incParams incp, filter f, int count, int maxpage)
         {
-            var dp = new dictParams() { incp = p, f = fl };
+            var dp = new dictParams() { incp = incp, f = f, id_lang = db.lid.id_lang };
             dp.count=count;
             dp.maxpage = maxpage;
+            dp.entry = await db.getEntry(incp.id);
             ViewBag.dp = dp;
             return View("Index", dp);
         }

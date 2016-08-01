@@ -18,6 +18,8 @@ namespace mphweb
 {
     public class Startup
     {
+        public static string ContentRootPath; 
+
         public Startup(IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder()
@@ -27,7 +29,7 @@ namespace mphweb
                 .AddEnvironmentVariables();
             builder.AddInMemoryCollection(new Dictionary<string, string>
             {
-                {"sid", "dcore0001"},
+                {"start_ua_word", "вітання"},
             });
 
             Configuration = builder.Build();
@@ -38,7 +40,7 @@ namespace mphweb
                 //.WriteTo.RollingFile(new Serilog.Formatting.Json.JsonFormatter(), logFile)
                 .WriteTo.RollingFile(logFile, outputTemplate: "{Timestamp:dd-MM-yyyy HH:mm:ss.fff zzz} [{Level}] {Message}{NewLine}{Exception}")
                 .CreateLogger();
-
+            ContentRootPath = env.ContentRootPath;
         }
 
         public IConfigurationRoot Configuration { get; }
@@ -47,9 +49,11 @@ namespace mphweb
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddTransient<mphObj>();
+            services.AddSingleton<IConfiguration>(Configuration);
             services.AddEntityFramework()
                 .AddEntityFrameworkSqlite()
-                .AddDbContext<mphContext>(options => options.UseSqlite($"Filename={Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).FullName, $"data/{Configuration.GetConnectionString("sqlitedb")}")}"));
+                //.AddDbContext<mphContext>(options => options.UseSqlite($"Filename={Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).FullName, $"data/{Configuration.GetConnectionString("sqlitedb")}")}"));
+                .AddDbContext<mphContext>(options => options.UseSqlite($"Filename={Path.Combine(Directory.GetParent(Startup.ContentRootPath).FullName, $"data/{Configuration.GetConnectionString("sqlitedb")}")}"));
             services.AddMvc();
         }
 

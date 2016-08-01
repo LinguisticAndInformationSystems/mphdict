@@ -44,7 +44,9 @@
 
   "buildOptions": {
     "emitEntryPoint": true,
-    "preserveCompilationContext": true
+    "preserveCompilationContext": true,
+    "embed": [ "Resources/*.txt" ]
+
   },
 
   "runtimeOptions": {
@@ -62,7 +64,7 @@
       "web.config"
     ]
   },
-
+  
   "scripts": {
     "prepublish": [ "bower install", "dotnet bundle" ],
     "postpublish": [ "dotnet publish-iis --publish-folder %publish:OutputPath% --framework %publish:FullTargetFramework%" ]
