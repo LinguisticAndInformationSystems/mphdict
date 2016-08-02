@@ -259,7 +259,7 @@ namespace mphweb.Models
                     if ((item.accent != null) && (item.accent != 0))
                     {
                         // шукаємо клас по таблиці та додаємо значення зсувів до початковим позиціям
-                        accent[] arow = item.accents_class.accents.Where(c => c.gram == flx).ToArray();
+                        accent[] arow = item.accents_class.accents.Where(c => c.gram == flx).OrderBy(c=>c.gram).ThenBy(c=>c.id).ToArray();
                         if (arow.Length > 0)
                         {
                             if (tmp != "") ia++;

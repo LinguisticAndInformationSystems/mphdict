@@ -341,7 +341,7 @@ main > nav {
 #list-control > button::before {
     content:'\f021';
 }
-main article {
+main > article {
     /*border: 0.06rem solid red;*/
     flex:1 1 auto;
     display: flex;
@@ -365,7 +365,9 @@ main article {
         position:relative;
         z-index:auto;
     }
-
+    main > article > section {
+        overflow-y:auto;
+    }
 @media all and (max-width:800px) {
     #agenda-selected-content {
         /*border: 0.06rem solid red;*/
@@ -810,7 +812,9 @@ sup             { vertical-align: super }
     .gd-entry hr {
         border: 1px solid #DCDCDC;
     }
-
+    .gd-entry > div {
+        text-align: center;
+    }
 table {
   font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
   background: white;
@@ -826,6 +830,8 @@ th {
   color: #039;
   border-bottom: 2px solid #6678b1;
   padding: 10px 8px;
+  vertical-align:middle;
+
 }
 td {
   color: #669;
@@ -844,6 +850,12 @@ td {
 }
 
 table .td_style {
-    text-align:center;
     vertical-align:middle;
+    text-align:center;
+}
+.td_inner_style {
+    vertical-align:middle;
+}
+.td_inner_center_style {
+    text-align:center;
 }

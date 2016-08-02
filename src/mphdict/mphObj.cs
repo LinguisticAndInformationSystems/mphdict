@@ -209,15 +209,15 @@ namespace mphdict
                 indents indent= await (from c in db.indents.AsNoTracking() where c.type==word_param.type select c).FirstOrDefaultAsync();
                 List<flexes> flex = await (from c in db.flexes.AsNoTracking() where (c.type==word_param.type && (c.field2>0)) orderby c.field2, c.id select c).ToListAsync();
                 accents_class aclass = await (from c in db.accents_class.AsNoTracking() select c).FirstOrDefaultAsync();
-                accent[] acnt = await (from c in db.accent.AsNoTracking() select c).ToArrayAsync();
-                minor_acc macc = await (from c in db.minor_acc.AsNoTracking() where c.nom_old == id select c).FirstOrDefaultAsync();
+                accent[] acnt = await (from c in db.accent.AsNoTracking() where c.accent_type== word_param.accent select c).ToArrayAsync();
+                //minor_acc macc = await (from c in db.minor_acc.AsNoTracking() where c.nom_old == id select c).FirstOrDefaultAsync();
                 parts part= await (from c in db.parts.AsNoTracking() where c.id == word_param.part select c).FirstOrDefaultAsync();
                 word_param.parts = part;
                 word_param.indents = indent;
                 word_param.indents.flexes = flex;
                 word_param.accents_class = aclass;
                 word_param.accents_class.accents = acnt;
-                word_param.minor_acc = macc;
+                //word_param.minor_acc = macc;
                 return word_param;
             }
             catch (Exception ex)
