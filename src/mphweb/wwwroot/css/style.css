@@ -859,3 +859,17 @@ table .td_style {
 .td_inner_center_style {
     text-align:center;
 }
+
+.word_style {
+    color: #039;
+    font-weight:bold;
+}
+.gram_style {
+    color: #669;
+}
+.comment_style {
+    color: black;
+}
+.comm_end_style {
+    color: black;
+}
