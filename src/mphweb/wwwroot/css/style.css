@@ -274,6 +274,9 @@ main > nav {
         white-space:nowrap;
         text-decoration:none;
     }
+#words-list > a:hover{
+  color: #6699ff;
+}
 .selected-word {
     color:white !important;
     background-color:lightgray; /*burlywood*/
