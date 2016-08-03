@@ -21,7 +21,16 @@ namespace mphweb.Models
                 return reader.ReadToEnd();
             }
         }
-    static public HashSet<char> vowel { get; } = new HashSet<char>("АЕЄИІЇОУЮЯЁЫЭаеєиіїоуюяёыэ");
+        static public HashSet<char> vowel { get; } = new HashSet<char>("АЕЄИІЇОУЮЯЁЫЭаеєиіїоуюяёыэ");
+        static public bool isSetAccent(this string s)
+        {
+            int c = 0;
+            for (int i = 0; i < s.Length; i++) {
+                if (vowel.Contains(s[i])) c++;
+                if (c == 2) return true;
+            }
+            return false;
+        }
         // формування незмінної частини мови
         static private string formConst(word_param item)
         {
@@ -199,7 +208,7 @@ namespace mphweb.Models
             original_form = original_form.Substring(0, original_form.Length - (int)item.indents.indent);
 
             int i = 0;
-            string tmp, tmp3;
+            string tmp, current_wform;
             while (i < item.indents.flexes.Count)  // цикл по флексіях:
             {
                 var frow = item.indents.flexes[i];   // поточний рядок табл. флексій
@@ -250,55 +259,61 @@ namespace mphweb.Models
                 int ia = 0;
                 while (frow.field2 == nflex) // цикл по грам. категорії:
                 {
-                    tmp3 = original_form;
-                    if (!string.IsNullOrEmpty(frow.flex)) tmp3 += frow.flex;
-                    //tmp3 = tmp3.Replace("#", unchangeable);    // поточна словоформа
-
-                    // обробляємо наголоси
-                    for (int j = 0; j < 4; j++) ac_fl[j] = ac[j];
-                    if ((item.accent != null) && (item.accent != 0))
+                    current_wform = original_form;
+                    if (!string.IsNullOrEmpty(frow.flex)) current_wform += frow.flex;
+                    //current_wform = current_wform.Replace("#", unchangeable);    // поточна словоформа
+                    if (current_wform.isSetAccent())
                     {
-                        // шукаємо клас по таблиці та додаємо значення зсувів до початковим позиціям
-                        accent[] arow = item.accents_class.accents.Where(c => c.gram == flx).OrderBy(c=>c.gram).ThenBy(c=>c.id).ToArray();
-                        if (arow.Length > 0)
+                        // обробляємо наголоси
+                        for (int j = 0; j < 4; j++) ac_fl[j] = ac[j];
+                        if ((item.accent != null) && (item.accent != 0))
                         {
-                            if (tmp != "") ia++;
-                            if (ia == arow.Length) ia--;
-                            if (arow[ia].indent1 != null)
+                            // шукаємо клас по таблиці та додаємо значення зсувів до початковим позиціям
+                            accent[] arow = item.accents_class.accents.Where(c => c.gram == flx).OrderBy(c => c.gram).ThenBy(c => c.id).ToArray();
+                            if (arow.Length > 0)
                             {
-                                ac_fl[0] += (short)arow[ia].indent1;
-                                if ((short)arow[ia].indent1 == 255) ac_fl[0] = 0;
+                                if (tmp != "") ia++;
+                                if (ia == arow.Length) ia--;
+                                if (arow[ia].indent1 != null)
+                                {
+                                    ac_fl[0] += (short)arow[ia].indent1;
+                                    if ((short)arow[ia].indent1 == 255) ac_fl[0] = 0;
+                                }
+                                if (arow[ia].indent2 != null)
+                                {
+                                    if (ac_fl[1] != 0) ac_fl[1] += (short)arow[ia].indent2;
+                                    else ac_fl[1] = ac[0] + (short)arow[ia].indent2 + 1;
+                                    if ((short)arow[ia].indent2 == 255) ac_fl[1] = 0;
+                                }
+                                if (arow[ia].indent3 != null)
+                                {
+                                    if (ac_fl[2] != 0) ac_fl[2] += (short)arow[ia].indent3;
+                                    else if (ac[1] != 0) ac_fl[2] = ac[1] + (short)arow[ia].indent3 + 1;
+                                    else ac_fl[2] = ac[0] + (short)arow[ia].indent3 + 2;
+                                    if ((short)arow[ia].indent3 == 255) ac_fl[2] = 0;
+                                }
+                                if (arow[ia].indent4 != null)
+                                {
+                                    if (ac_fl[3] != 0) ac_fl[3] += (short)arow[ia].indent4;
+                                    else if (ac[2] != 0) ac_fl[3] = ac[2] + (short)arow[ia].indent4 + 1;
+                                    else ac_fl[3] = ac[1] + (short)arow[ia].indent4 + 2;
+                                    if ((short)arow[ia].indent4 == 255) ac_fl[3] = 0;
+                                }
                             }
-                            if (arow[ia].indent2 != null)
+                        }
+                        // вставляємо наголос з урахуванням отриманих позицій
+                        if (item.accent != null)
+                        {
+                            for (int j = 0; j < 4; j++)
                             {
-                                if (ac_fl[1] != 0) ac_fl[1] += (short)arow[ia].indent2;
-                                else ac_fl[1] = ac[0] + (short)arow[ia].indent2 + 1;
-                                if ((short)arow[ia].indent2 == 255) ac_fl[1] = 0;
-                            }
-                            if (arow[ia].indent3 != null)
-                            {
-                                if (ac_fl[2] != 0) ac_fl[2] += (short)arow[ia].indent3;
-                                else if (ac[1] != 0) ac_fl[2] = ac[1] + (short)arow[ia].indent3 + 1;
-                                else ac_fl[2] = ac[0] + (short)arow[ia].indent3 + 2;
-                                if ((short)arow[ia].indent3 == 255) ac_fl[2] = 0;
-                            }
-                            if (arow[ia].indent4 != null)
-                            {
-                                if (ac_fl[3] != 0) ac_fl[3] += (short)arow[ia].indent4;
-                                else if (ac[2] != 0) ac_fl[3] = ac[2] + (short)arow[ia].indent4 + 1;
-                                else ac_fl[3] = ac[1] + (short)arow[ia].indent4 + 2;
-                                if ((short)arow[ia].indent4 == 255) ac_fl[3] = 0;
+                                if ((ac_fl[j] > 0) && (ac_fl[j] <= current_wform.Length))
+                                    current_wform = current_wform.Insert(ac_fl[j], "\x301");
+                                //else 
+                                //if ((ac_fl[j] != 0) && (ac_fl[j] != ac[j]))
+                                //    err = true;
                             }
                         }
                     }
-                    // вставляємо наголос з урахуванням отриманих позицій
-                    if (item.accent != null)
-                        for (int j = 0; j < 4; j++)
-                            if ((ac_fl[j] > 0) && (ac_fl[j] <= tmp3.Length))
-                                tmp3 = tmp3.Insert(ac_fl[j], "\x301");
-                            //else 
-                            //if ((ac_fl[j] != 0) && (ac_fl[j] != ac[j]))
-                            //    err = true;
                     // в потрібних словоформах додаємо прийм.
                     if (langid == 1058)
                     {
@@ -309,8 +324,8 @@ namespace mphweb.Models
                                 case 1:
                                 case 16://імен.
                                     if ((nflex == 6) || (nflex == 13))
-                                        if (!vowel.Contains(tmp3[0])) tmp3 = "на/у " + tmp3;
-                                        else tmp3 = "на/в " + tmp3;
+                                        if (!vowel.Contains(current_wform[0])) current_wform = "на/у " + current_wform;
+                                        else current_wform = "на/в " + current_wform;
                                     break;
                                 case 3: 
                                 case 4:
@@ -321,39 +336,39 @@ namespace mphweb.Models
                                 case 11:
                                 case 12:
                                     if ((nflex == 6) || (nflex == 12) || (nflex == 18) || (nflex == 24))
-                                        if (!vowel.Contains(tmp3[0])) tmp3 = "на/у " + tmp3;
-                                        else tmp3 = "на/в " + tmp3;
+                                        if (!vowel.Contains(current_wform[0])) current_wform = "на/у " + current_wform;
+                                        else current_wform = "на/в " + current_wform;
                                     break;
                                 case 2:
                                 case 14:
                                 case 15: // прізв.
                                     if ((nflex == 6) || (nflex == 13) || (nflex == 20) || (nflex == 27))
-                                        tmp3 = "при " + tmp3;
+                                        current_wform = "при " + current_wform;
                                     break;
                             }
                         }
                         // обробляємо спец. позначки словоформ
-                        if (tmp3.IndexOf("%") != -1)
+                        if (current_wform.IndexOf("%") != -1)
                         {
-                            tmp3 = "по " + tmp3; tmp3 = tmp3.Replace("%", "");
+                            current_wform = "по " + current_wform; current_wform = current_wform.Replace("%", "");
                         }
-                        if (tmp3.IndexOf("$") != -1)
+                        if (current_wform.IndexOf("$") != -1)
                         {
-                            tmp3 = "на " + tmp3; tmp3 = tmp3.Replace("$", "");
+                            current_wform = "на " + current_wform; current_wform = current_wform.Replace("$", "");
                         }
-                        if (tmp3.IndexOf("@") != -1)
+                        if (current_wform.IndexOf("@") != -1)
                         {
-                            tmp3 = "до " + tmp3; tmp3 = tmp3.Replace("@", "");
+                            current_wform = "до " + current_wform; current_wform = current_wform.Replace("@", "");
                         }
-                        if (tmp3.IndexOf("&") != -1)
+                        if (current_wform.IndexOf("&") != -1)
                         {
-                            if (!vowel.Contains(tmp3[0])) tmp3 = "у " + tmp3;
-                            else tmp3 = "в " + tmp3;
-                            tmp3 = tmp3.Replace("&", "");
+                            if (!vowel.Contains(current_wform[0])) current_wform = "у " + current_wform;
+                            else current_wform = "в " + current_wform;
+                            current_wform = current_wform.Replace("&", "");
                         }
                     }
 
-                    if (tmp3.IndexOf("^") == -1)
+                    if (current_wform.IndexOf("^") == -1)
                     {
                         //if (trscr)  // якщо транскрипція
                         //{
@@ -366,12 +381,12 @@ namespace mphweb.Models
                         //        if (maccrow.double2 != null) maccs[4] = (sbyte)maccrow.double2;
                         //    }
                         //    else maccs = null;
-                        //    utranscr.Transcribe(tmp3, out transcr, maccs);
+                        //    utranscr.Transcribe(current_wform, out transcr, maccs);
                         //    tmp += (", " + transcr);
-                        //    if (nflex == 2) rdv += (", " + tmp3);
+                        //    if (nflex == 2) rdv += (", " + current_wform);
                         //}
                         //else
-                        tmp += (", " + tmp3);
+                        tmp += (", " + current_wform);
                     }
                     if (tmp.StartsWith(", ")) tmp = tmp.Remove(0, 2);
                     // змінна для ком. до род. відмінку
