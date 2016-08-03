@@ -34,8 +34,8 @@ namespace mphweb.Models
         // формування незмінної частини мови
         static private string formConst(word_param item)
         {
-            string formstr = "<div align=\"center\"><span class=\"word_style\">" + item.reestr.Replace("\"", "\x0301");
-            if (item.field2 != 0) formstr += (" " + item.field2.ToString());
+            string output_word = $"{item.reestr.Replace("\"", "\x301")}<sup>{((item.field2 > 0) ? (item.field2.ToString()) : string.Empty)}</sup>";
+            string formstr = "<div align=\"center\"><span class=\"word_style\">" + output_word;
             formstr += "</span><span class=\"gram_style\"> - ";
             formstr += item.parts.com;    // частина мови
             formstr += "</span></div><br><div align=\"center\" class=\"comment_style\">";
@@ -52,6 +52,7 @@ namespace mphweb.Models
         {
             if (item == null) return null;
             string word = item.reestr.Replace("\"", "");
+            string output_word= $"{item.reestr.Replace("\"", "\x301")}<sup>{((item.field2 > 0) ? (item.field2.ToString()) : string.Empty)}</sup>";
             string id = item.nom_old.ToString();
             
             string pcomm = "";
@@ -78,8 +79,8 @@ namespace mphweb.Models
             else unchangeable = word;	
 
                 // додаємо індекс омонімії
-            byte homon = item.field2;
-            if (homon != 0) unchangeable += (" " + homon.ToString());
+            //byte homon = item.field2;
+            //if (homon != 0) unchangeable += (" " + homon.ToString());
 
             string templ = "", str = "";
             if ((item.part >= 70) || (item.part == 0))
@@ -99,7 +100,7 @@ namespace mphweb.Models
                 string rdv=string.Empty;
                 templ += generateTempl(item, out rdv, langid);
 
-                templ = templ.Replace("[WORD]", unchangeable);
+                templ = templ.Replace("[WORD]", output_word);
                 templ = templ.Replace("[gram]", item.parts.com);
                 str = str.Replace("$", rdv);
                 templ = templ.Replace("*[text]", str);
