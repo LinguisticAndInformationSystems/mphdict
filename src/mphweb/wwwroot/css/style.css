@@ -37,7 +37,9 @@ html, body{
     font-weight:normal;
 }
 
-
+/*input:invalid {
+    border: 1px solid red;
+}*/
 .clear {
 	clear: both;
 }
@@ -47,7 +49,7 @@ sup             { vertical-align: super }
 input {
     border: 1px solid #DCDCDC;
     margin: 0 .2rem;
-    min-width:4rem;
+    min-width:1rem;
 }
 .btn {
     border: 1px solid #DCDCDC;
@@ -168,6 +170,150 @@ input {
         margin:0px !important;
     }
 /* ------------------ /footer ------------------ */
+/* -----------------main-control----------------- */
+#main-tab {
+    flex: 0 0 auto;
+    display: flex;
+    border:1px #d4d4d4 solid;
+    border-bottom:none;
+    border-top:none;
+    border-right:none;
+    margin:.3rem .3rem 0 .3rem;
+}
+.tab-item {
+    flex: 0 0 auto;
+    border:1px #d4d4d4 solid;
+    border-bottom:none;
+    padding:.5rem;
+}
+    .tab-item:first-child {
+        border-left:none;
+    }
+.tab-bottom-line {
+    flex: 1 1 auto;
+    border-bottom:1px #d4d4d4 solid;
+}
+#main-control {
+    display: flex;
+    flex: 0 0 auto;
+    overflow: hidden;
+    flex-direction: row;
+    justify-content:flex-start;
+    align-items:stretch;
+    height:4.5rem;
+    max-height:4.5rem;
+    font-size: 0.9em;
+    border:1px #d4d4d4 solid;
+    border-top:none;
+    margin:0 .3rem .3rem .3rem;
+    padding:0 0 0 0;
+    /*background-color:SeaShell;*/
+}
+    #main-control > button {
+        background: white;
+        font-size: 1.3rem;
+        align-self:center;
+        display:none;
+    }
+#left-control {
+    border-bottom-left-radius: 50%;
+    border-top-left-radius: 50%;
+}
+#right-control {
+    border-bottom-right-radius: 50%;
+    border-top-right-radius: 50%;
+}
+#main-control button:focus { outline: 0; }
+
+/*legend{
+    color:darkslateblue;
+}*/
+#menu-container {
+    /*border:1px #d4d4d4 solid;*/
+    display: flex;
+    flex: 0 1 auto;
+    overflow: hidden;
+    flex-direction: row;
+    justify-content:flex-start;
+    align-items:stretch;
+    box-sizing: border-box;
+}
+
+.menu-group {
+    border-right:1px #d4d4d4 dotted;
+    flex: 0 1 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items:stretch;
+}
+.menu-group-content {
+    flex: 1 1 auto;
+    display: flex;
+    padding: 0 .2rem 0 .2rem;
+}
+.menu-group-name {
+    /*border:1px solid #DCDCDC;*/
+    flex: 0 0 auto;
+    background-color:#eeeeee;
+    text-align: center;
+    color: #0c628d;
+}
+/*fieldset:first-child {
+    margin-left:.3rem;
+}
+fieldset{
+    height:100%;
+    border: thin solid #ccc;
+    box-sizing: border-box;
+    padding: .3rem 4px;
+}*/
+/*#fieldset-block {
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: row;
+        justify-content:flex-start;
+        align-items:center;
+        padding: 1px 4px; 
+        font-size: 0.9em;
+}*/
+#query-control {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items:center;
+}
+#query-param {
+        flex: 0 0 auto; 
+        display: flex;
+        flex-direction: column;
+        justify-content:flex-start;
+}
+    #query-param > input {
+        flex: 1 1 auto;
+        margin:0px;
+        padding:0px;
+        margin-top:0.3rem;
+    }
+#query-param-val {
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: stretch;
+}
+#query-param-val > select {
+    flex: 1 1 auto;
+}
+#filter {
+    padding: .5rem .3rem .5rem .3rem;
+    /*align-self: flex-end;*/
+}
+#filter::before {
+    font-family: FontAwesome;
+    content:'\f021';
+}
 /* ------------------ main ------------------ */
 main {
     /*border: 0.06rem solid red;*/
@@ -281,16 +427,24 @@ main > nav {
     color:white !important;
     background-color:lightgray; /*burlywood*/
 }
-/*#paging-control {
-    flex:0 0 auto;
+#paging-control {
+    /*flex:0 0 auto;
     display:flex;
     flex-direction: row;
     justify-content:space-around;
     align-items:stretch;
     overflow:hidden;
     padding:0;
-    margin:0;
-}*/
+    margin:0;*/
+    /*background-color:SeaShell;*/
+    padding:.5rem 0 1rem 0;
+    border-top:1px solid #DCDCDC;
+}
+#word-count {
+    font-size:.8em;
+    padding: 0 .3rem .5rem;
+    color: #0c628d;
+}
 #list-control {
     flex:1 1 auto;
     display:flex;
@@ -298,8 +452,6 @@ main > nav {
     justify-content:space-around;
     align-items:stretch;
     overflow-x:hidden;
-    padding:1rem 0;
-    border-top:1px solid #DCDCDC;
 }
     #list-control > a {
         font-size: 1.3rem;

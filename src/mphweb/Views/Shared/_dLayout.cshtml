@@ -23,6 +23,7 @@
     </environment>
 </head>
 <body>
+    @{var d = (mphweb.Models.dictParams)ViewBag.dp;}
     <div id="wrapper">
         <header>
             <div id="goto_main">
@@ -40,10 +41,11 @@
                 <a href="#iworking" title="Вихід"></a>
             </div>
         </header>
-        <section id="main-control"></section>
+        
+       @{await Html.RenderPartialAsync("_MainControlPanel", d);}
+        
         <main>
             <nav>
-                @{var d = (mphweb.Models.dictParams)ViewBag.dp;}
                 @{await Html.RenderPartialAsync("_SearchPanel", d);}
                 @{await Html.RenderPartialAsync("_TabListEntryPanel", d);}
                 @await Component.InvokeAsync(nameof(mphweb.ViewComponents.wordsList), new { dp = d })

@@ -1,0 +1,36 @@
+﻿@using mphdict.Models.morph
+@model mphweb.Models.dictParams
+<div id="main-tab">
+    <div class="tab-item">Словник</div>
+    <div class="tab-bottom-line"></div>
+</div>
+<section id="main-control">
+    <button id="left-control" class="btn">‹</button>
+    <div id="menu-container">
+        <div class="menu-group">
+            <div class="menu-group-content">
+                <form id="query-control" asp-action="Index" asp-controller="inflection" method="get">
+                    <div id="query-param">
+                        <div id="query-param-val">
+                            <input asp-for="@Model.f.isStrFiltering" />
+                            @*<input id="is-word-filter" name="is-word-filter" type="checkbox" value="@Model.f.isStrFiltering.ToString()" />*@
+                            @*<input name="is-word-filter" type="hidden" value="false" />*@
+                            <select asp-for="@Model.f.fetchType">
+                                <option value="0">Починається з</option>
+                                <option value="1">Містить</option>
+                                <option value="2">Закінчується на</option>
+                            </select>
+                        </div>
+                        <input asp-for="@Model.f.str" pattern="[A-za-zА-Яа-я\sЇїЁёЄєІі]+" required />
+                    </div>
+                    <button id="filter" title="Оновити" class="btn"></button>
+                    <input type="hidden" asp-for="@Model.f.isInverse" />
+                </form>
+            </div>
+            <div class="menu-group-name">
+                Робота з реєстром
+            </div>
+        </div>
+    </div>
+    <button id="right-control" class="btn">›</button>
+</section>

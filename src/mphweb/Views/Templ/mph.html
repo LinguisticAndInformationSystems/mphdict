@@ -15,7 +15,7 @@
             </div>
             <div id="main-name">
                 <div>Лексикографічне надбання України</div>
-                <div><a href="https://github.com/LinguisticAndInformationSystems/mphdict" target="_blank">Словник словозміни української мови</a></div>
+                <div><a href="https://github.com/LinguisticAndInformationSystems/mphdict" target="_blank">Граматичний словник української мови</a></div>
             </div>
             <div id="main-info">
                 <div>Copyright © 2016 <a href="mailto:uSofTrod@outlook.com">uSofTrod</a> </div>
@@ -26,8 +26,56 @@
                 <a href="#iworking" title="Вихід"></a>
             </div>
         </header>
+        <div id="main-tab">
+            <div class="tab-item">Словник</div>
+            <div class="tab-bottom-line"></div>
+        </div>
         <section id="main-control">
+            <button id="left-control" class="btn">‹</button>
+            <div id="menu-container">
+                <div class="menu-group">
+                    <div class="menu-group-content">
+                        <form id="query-control">
+                            <div id="query-param">
+                                <div id="query-param-val">
+                                    <input id="is-word-filter" name="is-word-filter" type="checkbox" value="true" />
+                                    <input name="is-word-filter" type="hidden" value="false" />
+                                    <select>
+                                        <option selected="selected" value="0">Починається з</option>
+                                        <option value="1">Містить</option>
+                                        <option value="2">Закінчується на</option>
+                                    </select>
+                                </div>
+                                <input id="word-flt" name="word-flt" pattern="[A-za-zА-Яа-я\sЇїЁёЄєІі]+" type="text" value="" />
+                            </div>
+                            <button id="filter" title="Оновити" class="btn"></button>
+                        </form>
+                    </div>
+                    <div class="menu-group-name">
+                        Робота з реєстром
+                    </div>
 
+                </div>
+                <!--<fieldset>
+                    <legend>Відбір слів з реєстру</legend>
+                        <form id="query-control">
+                            <div id="query-param">
+                                <div id="query-param-val">
+                                    <input id="is-word-filter" name="is-word-filter" type="checkbox" value="true" />
+                                    <input name="is-word-filter" type="hidden" value="false" />
+                                    <select>
+                                        <option selected="selected" value="0">Починається з</option>
+                                        <option value="1">Містить</option>
+                                        <option value="2">Закінчується на</option>
+                                    </select>
+                                </div>
+                                <input id="word-flt" name="word-flt" pattern="[A-za-zА-Яа-я\sЇїЁёЄєІі]+" type="text" value="" />
+                            </div>
+                            <button id="filter" title="Оновити" class="btn"></button>
+                        </form>
+                </fieldset>-->
+            </div>
+            <button id="right-control" class="btn">›</button>
         </section>
         <main>
             <nav>
@@ -64,6 +112,7 @@
                     <a>Слово 18 дуже довге слово дуже довге слово дуже довге слово</a>
                 </div>
                 <form id="paging-control">
+                    <div id="word-count">Кількість слів - 261500</div>
                     <div id="list-control">
                         <a class="btn">‹</a>
                         <div id="page-number">1 з&nbsp;</div>

@@ -35,15 +35,16 @@ namespace mphweb.Controllers
             dictParams dp = new dictParams() { incp = incp, f = f, id_lang = db.lid.id_lang };
             if (incp.id != 0) dp.entry = await db.getEntry(incp.id);
             dp.count = await db.CountWords(f);
-            dp.maxpage = (dp.count / 100);
+            int count_plus = dp.count % 100;
+            dp.maxpage = count_plus>0? (dp.count / 100)+1: (dp.count / 100);
             if (dp.incp.currentPage < 0) dp.incp.currentPage = 0;
-            if (dp.incp.currentPage > dp.maxpage) dp.incp.currentPage = dp.maxpage;
+            if (dp.incp.currentPage >= dp.maxpage) dp.incp.currentPage = dp.maxpage-1;
             return dp;
         }
         // GET: /<controller>/
         public async Task<IActionResult> Index(incParams incp, filter f)
         {
-            if (incp.id == 0)
+            if ((incp.id == 0)&&(f.isStrFiltering==false))
             {
                 incp.wordSearch = getStartWordId();
                 return RedirectToAction("Search", routeValues: setParams(incp, f));
@@ -54,7 +55,7 @@ namespace mphweb.Controllers
         }
         public async Task<IActionResult> toPrev(incParams incp, filter f)
         {
-            incp.currentPage = incp.currentPage - 1;
+            incp.currentPage = incp.currentPage-1;
             var dp = await prepaireData(incp, f);
             ViewBag.dp = dp;
             return View("Index", dp);
@@ -68,7 +69,7 @@ namespace mphweb.Controllers
         }
         public async Task<IActionResult> toPage(incParams incp, filter f)
         {
-            incp.currentPage = incp.currentPage - 1;
+            incp.currentPage = incp.currentPage-1;
             var dp = await prepaireData(incp, f);
             ViewBag.dp = dp;
             return View("Index", dp);
