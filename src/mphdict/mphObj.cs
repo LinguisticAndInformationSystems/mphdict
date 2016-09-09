@@ -99,13 +99,13 @@ namespace mphdict
                 switch (f.fetchType)
                 {
                     case FetchType.StartsWith:
-                        q = q.Where(c => c.reestr.StartsWith(f.str));
+                        q = q.Where(c => c.reestr.Replace("\"","").StartsWith(f.str));
                         break;
                     case FetchType.EndsWith:
-                        q = q.Where(c => c.reestr.EndsWith(f.str));
+                        q = q.Where(c => c.reestr.Replace("\"", "").EndsWith(f.str));
                         break;
                     case FetchType.Contains:
-                        q = q.Where(c => c.reestr.Contains(f.str));
+                        q = q.Where(c => c.reestr.Replace("\"", "").Contains(f.str));
                         break;
                 }
             }

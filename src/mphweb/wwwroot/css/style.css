@@ -189,10 +189,13 @@ input {
     .tab-item:first-child {
         border-left:none;
     }
-.tab-bottom-line {
+.group-not-active-tab {
     flex: 1 1 auto;
     border-bottom:1px #d4d4d4 solid;
 }
+    .group-not-active-tab > .tab-item {
+        border:none;
+    }
 #main-control {
     display: flex;
     flex: 0 0 auto;
