@@ -94,19 +94,18 @@ namespace mphdict
 
         private IQueryable<word_param> setWordListQueryFilter(filter f, IQueryable<word_param> q)
         {
-            string s = atod(f.str);
             if ((f.isStrFiltering) && (!string.IsNullOrEmpty(f.str)))
             {
                 switch (f.fetchType)
                 {
                     case FetchType.StartsWith:
-                        q = q.Where(c => c.digit.StartsWith(s));
+                        q = q.Where(c => c.reestr.Replace("\"","").StartsWith(f.str));
                         break;
                     case FetchType.EndsWith:
-                        q = q.Where(c => c.digit.EndsWith(s));
+                        q = q.Where(c => c.reestr.Replace("\"", "").EndsWith(f.str));
                         break;
                     case FetchType.Contains:
-                        q = q.Where(c => c.digit.Contains(s));
+                        q = q.Where(c => c.reestr.Replace("\"", "").Contains(f.str));
                         break;
                 }
             }
