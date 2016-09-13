@@ -16,6 +16,7 @@ namespace mphdict
         public ILogger Logger { get; set; }
         private static object o = new object();
         static private alphadigit[] _talpha=null;
+
         private alphadigit[] talpha
         {
             get
@@ -30,6 +31,33 @@ namespace mphdict
                         }
                     }
                     return _talpha;
+                }
+                catch (Exception ex)
+                {
+                    if (Logger != null)
+                        Logger.LogError(new EventId(0), ex, ex.Message);
+                    else
+                        throw ex;
+                    return null;
+                }
+            }
+        }
+
+        static private short[] _pclass = null;
+        public short[] pclass
+        {
+            get
+            {
+                try
+                {
+                    if (_pclass == null)
+                    {
+                        lock (o)
+                        {
+                            _pclass = (from c in db.indents orderby c.type select c.type).ToArray();
+                        }
+                    }
+                    return _pclass;
                 }
                 catch (Exception ex)
                 {
@@ -248,6 +276,8 @@ namespace mphdict
         //[RegularExpression(@"^([A-za-zА-Яа-я\sЇїЁёЄєІі]+)$", ErrorMessage = "Invalid characters")]
         public string str { get; set; }
         public bool isStrFiltering { get; set; }
-        public bool isInverse { get; set; } 
+        public bool isInverse { get; set; }
+        public short pclass { get; set; }
+
     }
 }

@@ -4,6 +4,10 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.PlatformAbstractions;
+using mphdict.Models.morph;
+using mphdict;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace mphweb
 {
@@ -19,6 +23,20 @@ namespace mphweb
                 .Build();
 
             host.Run();
+        }
+    }
+    public static class variables
+    {
+        private static SelectList _pclass;
+        public static SelectList pclass
+        {
+            get {
+                if (_pclass == null)
+                {
+                    _pclass= new SelectList(((mphObj)ApplicationVariables.services.GetService(typeof(mphObj))).pclass);
+                }
+                return _pclass;
+            }
         }
     }
 }

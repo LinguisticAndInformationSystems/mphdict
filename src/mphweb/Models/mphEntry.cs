@@ -42,7 +42,7 @@ namespace mphweb.Models
             formstr += item.field5;   // коментар
             formstr += "</div><hr><div align=\"center\" class=\"gram_style\">";
             //if (langid == 1049)
-            //    formstr += "неизменяемая словарная единица";
+            //    formstr += "незмінна словникова одиниця";
             //else
             formstr += "незмінювана словникова одиниця";
             formstr += "</div><p class=\"comm_end_style\"></p>";
@@ -87,7 +87,7 @@ namespace mphweb.Models
             {
                 templ = formConst(item);
             }
-            else // иначе - для изм. ч.р.:
+            else // інакше - для змінної. ч.м.:
             {
                 // заповнюємо поля коментарів та викликаємо побудову
                 if (item.field7 != null)
@@ -167,7 +167,7 @@ namespace mphweb.Models
            rdv = formInflexion(ref templ, item, langid);
             templ = templ.Replace("#", "");
 
-            // убираем все словоформы, которых у данного слова нет:
+            // прибираємо всі словоформи, якіх у цього слова відсутні:
             for (int i = n; i >= 1; i--)
                 templ = templ.Replace("Field__" + i.ToString() + "_", "&nbsp;");
             return templ;

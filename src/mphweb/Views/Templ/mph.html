@@ -36,23 +36,59 @@
             <button id="left-control" class="btn">‹</button>
             <div id="menu-container">
                 <div class="menu-group">
-                    <div class="menu-group-content">
-                        <form id="query-control">
-                            <div id="query-param">
-                                <div id="query-param-val">
+                    <form id="query-control">
+                        <div class="menu-group-content">
+                            <div id="query-param" class="query-param">
+                                <div id="query-param-val" class="query-param-val">
                                     <input id="is-word-filter" name="is-word-filter" type="checkbox" value="true" />
-                                    <input name="is-word-filter" type="hidden" value="false" />
+                                    <!--<input name="is-word-filter" type="hidden" value="false" />-->
                                     <select>
                                         <option selected="selected" value="0">Починається з</option>
                                         <option value="1">Містить</option>
                                         <option value="2">Закінчується на</option>
                                     </select>
                                 </div>
-                                <input id="word-flt" name="word-flt" pattern="[A-za-zА-Яа-я\sЇїЁёЄєІі]+" type="text" value="" />
+                                <div class="query-param-val">
+                                    <input id="word-flt" name="word-flt" pattern="[A-za-zА-Яа-я\sЇїЁёЄєІі]+" type="text" value="" />
+                                </div>
                             </div>
+                        </div>
+                        <div class="menu-group-content">
+                            <div class="query-param">
+                                <div class="query-param-val">
+                                    <input id="is-reverse" name="is-reverse" type="checkbox" value="false" />
+                                    <label for="is-reverse">&nbsp;зворотний реєстр</label>
+                                </div>
+                                <div class="query-param-val">
+                                    <input id="is-parclass" name="is-parclass" type="checkbox" value="false" />
+                                    <label for="is-parclass">&nbsp;пар. клас:&nbsp;</label>
+                                    <select>
+                                        <option selected="selected" value="0">1</option>
+                                        <option value="1">2</option>
+                                        <option value="2">3</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="menu-group-content">
+                            <div class="query-param">
+                                <div class="query-param-val">
+                                    &nbsp;
+                                </div>
+                                <div class="query-param-val">
+                                    <input id="is-wordpart" name="is-wordpart" type="checkbox" value="false" />
+                                    <select>
+                                        <option selected="selected" value="0">іменник</option>
+                                        <option value="1">прикметник</option>
+                                        <option value="2">дієслово</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="menu-group-content">
                             <button id="filter" title="Оновити" class="btn"></button>
-                        </form>
-                    </div>
+                        </div>
+                    </form>
                     <div class="menu-group-name">
                         Робота з реєстром
                     </div>

@@ -18,7 +18,7 @@ namespace mphweb
 {
     public class Startup
     {
-        public static string ContentRootPath; 
+        public static string ContentRootPath;
 
         public Startup(IHostingEnvironment env)
         {
@@ -60,6 +60,7 @@ namespace mphweb
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            ApplicationVariables.services=app.ApplicationServices;
             //loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             //loggerFactory.AddDebug();
             loggerFactory.AddSerilog();
@@ -90,5 +91,8 @@ namespace mphweb
         public static ILoggerFactory LoggerFactory { get; set; } /*= new LoggerFactory();*/
         public static Microsoft.Extensions.Logging.ILogger CreateLogger<T>() => LoggerFactory.CreateLogger<T>();
     }
-
+    public static class ApplicationVariables
+    {
+        public static IServiceProvider services { get; set; }
+    }
 }

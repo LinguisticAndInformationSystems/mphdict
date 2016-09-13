@@ -253,7 +253,11 @@ input {
 .menu-group-content {
     flex: 1 1 auto;
     display: flex;
-    padding: 0 .2rem 0 .2rem;
+    padding: 0 .4rem 0 .4rem;
+    align-items:center;
+}
+.menu-group-content:not(:last-child) {
+    border-right:1px #d4d4d4 dotted;
 }
 .menu-group-name {
     /*border:1px solid #DCDCDC;*/
@@ -287,28 +291,37 @@ fieldset{
     justify-content: flex-start;
     align-items:center;
 }
-#query-param {
+.query-param {
         flex: 0 0 auto; 
         display: flex;
         flex-direction: column;
         justify-content:flex-start;
 }
-    #query-param > input {
+    /*.query-param > input {
         flex: 1 1 auto;
         margin:0px;
         padding:0px;
-        margin-top:0.3rem;
-    }
-#query-param-val {
+    }*/
+.query-param-val {
     flex: 0 0 auto;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    align-items: stretch;
+    align-items: center;
 }
-#query-param-val > select {
+    .query-param-val > * {
+        margin:0;
+    }
+    .query-param-val:not(:first-child) {
+        margin-top: 0.3rem;
+    }
+    .query-param-val input[type="checkbox"] + * {
+        margin-left: .2rem;
+    }
+.query-param-val > select {
     flex: 1 1 auto;
 }
+
 #filter {
     padding: .5rem .3rem .5rem .3rem;
     /*align-self: flex-end;*/
