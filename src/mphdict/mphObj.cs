@@ -70,6 +70,36 @@ namespace mphdict
             }
         }
 
+        static private List<ps> _pofs = null;
+        public List<ps> pofs
+        {
+            get
+            {
+                try
+                {
+                    if (_pofs == null)
+                    {
+                        lock (o)
+                        {
+                            var db_a = (from c in db.parts orderby c.com select c).ToArray();
+                            var a = (from c in db_a select new ps() { id = c.id, name = c.com }).ToList();
+                            _pofs = a.Where(c => c.id <= 70).OrderBy(c => c.name).ToList();
+                            _pofs.AddRange(a.Where(c => c.id > 70).OrderBy(c => c.name));
+                        }
+                    }
+                    return _pofs;
+                }
+                catch (Exception ex)
+                {
+                    if (Logger != null)
+                        Logger.LogError(new EventId(0), ex, ex.Message);
+                    else
+                        throw ex;
+                    return null;
+                }
+            }
+        }
+
         private static langid _lid;
         public langid lid {
             get {
@@ -282,6 +312,13 @@ namespace mphdict
         public bool isInverse { get; set; }
         public bool ispclass { get; set; }
         public short pclass { get; set; }
-
+        public bool ispofs { get; set; }
+        public byte pofs { get; set; }
     }
+    public struct ps
+    {
+        public short id { get; set; }
+        public string name { get; set; }
+    }
+
 }

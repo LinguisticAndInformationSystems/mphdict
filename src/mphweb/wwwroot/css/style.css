@@ -325,7 +325,9 @@ fieldset{
 .query-param-val > input[type="checkbox"] + label {
     flex:1 1 auto;
 }
-
+#f_pofs {
+    max-width:7rem;
+}
 #filter {
     padding: .5rem .3rem .5rem .3rem;
     /*align-self: flex-end;*/

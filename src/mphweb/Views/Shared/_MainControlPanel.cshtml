@@ -30,15 +30,12 @@
                     <div class="query-param">
                         <div class="query-param-val">
                             <input asp-for="@Model.f.isInverse" />
-                            <label for="f_isInverse">&nbsp;зворотний реєстр</label>
+                            <label for="f_isInverse">інверсний реєстр</label>
                         </div>
                         <div class="query-param-val">
                             <input asp-for="@Model.f.ispclass" />
-                            <label for="f_ispclass">&nbsp;пар. клас:&nbsp;</label>
+                            <label for="f_ispclass">пар. клас:&nbsp;</label>
                             <select asp-for="@Model.f.pclass" asp-items="@variables.pclass">
-                                <option selected="selected" value="0">1</option>
-                                <option value="1">2</option>
-                                <option value="2">3</option>
                             </select>
                         </div>
                     </div>
@@ -49,12 +46,8 @@
                             &nbsp;
                         </div>
                         <div class="query-param-val">
-                            <input id="is-wordpart" name="is-wordpart" type="checkbox" value="false" />
-                            <select>
-                                <option selected="selected" value="0">іменник</option>
-                                <option value="1">прикметник</option>
-                                <option value="2">дієслово</option>
-                            </select>
+                            <input asp-for="@Model.f.ispofs" />
+                            <select asp-for="@Model.f.pofs" asp-items="@variables.pofs"></select>
                         </div>
                     </div>
                 </div>
