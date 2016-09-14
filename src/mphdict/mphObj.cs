@@ -137,6 +137,9 @@ namespace mphdict
                         break;
                 }
             }
+            if (f.ispclass) {
+                q = q.Where(c => c.type == f.pclass);
+            }
             return q;
         }
         public async Task<int> CountWords(filter f)
@@ -277,6 +280,7 @@ namespace mphdict
         public string str { get; set; }
         public bool isStrFiltering { get; set; }
         public bool isInverse { get; set; }
+        public bool ispclass { get; set; }
         public short pclass { get; set; }
 
     }

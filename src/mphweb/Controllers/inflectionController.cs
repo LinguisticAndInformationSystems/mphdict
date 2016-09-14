@@ -44,7 +44,7 @@ namespace mphweb.Controllers
         // GET: /<controller>/
         public async Task<IActionResult> Index(incParams incp, filter f)
         {
-            if ((incp.id == 0)&&(f.isStrFiltering==false))
+            if ((incp.id == 0)&&(f.isStrFiltering==false)&&(f.ispclass == false))
             {
                 incp.wordSearch = getStartWordId();
                 return RedirectToAction("Search", routeValues: setParams(incp, f));
@@ -81,10 +81,14 @@ namespace mphweb.Controllers
             incp.id = w.nom_old;
             var dp = new dictParams() { incp = incp, f = f};
             dp.count = w.CountOfWords;
-            dp.maxpage = (dp.count / 100);
+            int count_plus = dp.count % 100;
+            dp.maxpage = count_plus > 0 ? (dp.count / 100) + 1 : (dp.count / 100);
+            if (dp.incp.currentPage >= dp.maxpage) dp.incp.currentPage = dp.maxpage - 1;
+            if (dp.incp.currentPage < 0) dp.incp.currentPage = 0;
+
             ViewBag.dp = dp;
             return Redirect(Url.Action("SearchWord", "inflection", 
-                new { isStrFiltering= f.isStrFiltering, str=f.str, fetchType=f.fetchType, isInverse = f.isInverse, currentPage= incp.currentPage, wordSearch= incp.wordSearch, id= incp.id, count= dp.count, maxpage = dp.maxpage }, null, null, $"wid-{incp.id}"));
+                new { isStrFiltering= f.isStrFiltering, str=f.str, fetchType=f.fetchType, isInverse = f.isInverse, ispclass=f.ispclass, pclass=f.pclass, currentPage= incp.currentPage, wordSearch= incp.wordSearch, id= incp.id, count= dp.count, maxpage = dp.maxpage }, null, null, $"wid-{incp.id}"));
 
         }
         public async Task<ActionResult> SearchWord(incParams incp, filter f, int count, int maxpage)
@@ -106,6 +110,8 @@ namespace mphweb.Controllers
             d.Add(nameof(p.currentPage), p.currentPage);
             d.Add(nameof(p.wordSearch), p.wordSearch);
             d.Add(nameof(p.id), p.id);
+            d.Add(nameof(f.ispclass), f.ispclass);
+            d.Add(nameof(f.pclass), f.pclass);
             return d;
         }
 

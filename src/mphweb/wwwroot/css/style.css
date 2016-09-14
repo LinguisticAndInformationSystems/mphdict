@@ -322,6 +322,10 @@ fieldset{
     flex: 1 1 auto;
 }
 
+.query-param-val > input[type="checkbox"] + label {
+    flex:1 1 auto;
+}
+
 #filter {
     padding: .5rem .3rem .5rem .3rem;
     /*align-self: flex-end;*/
