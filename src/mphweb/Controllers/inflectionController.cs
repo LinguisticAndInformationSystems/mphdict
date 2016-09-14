@@ -37,8 +37,8 @@ namespace mphweb.Controllers
             dp.count = await db.CountWords(f);
             int count_plus = dp.count % 100;
             dp.maxpage = count_plus>0? (dp.count / 100)+1: (dp.count / 100);
-            if (dp.incp.currentPage < 0) dp.incp.currentPage = 0;
             if (dp.incp.currentPage >= dp.maxpage) dp.incp.currentPage = dp.maxpage-1;
+            if (dp.incp.currentPage < 0) dp.incp.currentPage = 0;
             return dp;
         }
         // GET: /<controller>/

@@ -2,9 +2,9 @@
 @model mphweb.Models.dictParams
 
 <div id="words-list">
-    @if (Model.page != null)
-    {
-    foreach (var item in Model.page)
+    @*@if (Model.page != null)
+    {*@
+    @foreach (var item in Model.page)
     {
         <a asp-action="Index" asp-controller="inflection"
            asp-route-id="@item.nom_old" asp-route-currentPage="@Model.incp.currentPage" asp-route-wordSearch="@Model.incp.wordSearch"
@@ -18,5 +18,5 @@
             }
         </a>
     }
-    }
+    @*}*@
 </div>
