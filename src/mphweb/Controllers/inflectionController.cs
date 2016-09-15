@@ -44,7 +44,7 @@ namespace mphweb.Controllers
         // GET: /<controller>/
         public async Task<IActionResult> Index(incParams incp, filter f)
         {
-            if ((incp.id == 0)&&(f.isStrFiltering==false)&&(f.ispclass == false))
+            if ((incp.id == 0)&&(f.isStrFiltering==false)&&(f.ispclass == false) && (f.ispofs == false))
             {
                 incp.wordSearch = getStartWordId();
                 return RedirectToAction("Search", routeValues: setParams(incp, f));
@@ -88,7 +88,7 @@ namespace mphweb.Controllers
 
             ViewBag.dp = dp;
             return Redirect(Url.Action("SearchWord", "inflection", 
-                new { isStrFiltering= f.isStrFiltering, str=f.str, fetchType=f.fetchType, isInverse = f.isInverse, ispclass=f.ispclass, pclass=f.pclass, currentPage= incp.currentPage, wordSearch= incp.wordSearch, id= incp.id, count= dp.count, maxpage = dp.maxpage }, null, null, $"wid-{incp.id}"));
+                new { isStrFiltering= f.isStrFiltering, str=f.str, fetchType=f.fetchType, isInverse = f.isInverse, ispclass=f.ispclass, pclass=f.pclass, ispofs = f.ispofs, pofs = f.pofs, currentPage= incp.currentPage, wordSearch= incp.wordSearch, id= incp.id, count= dp.count, maxpage = dp.maxpage }, null, null, $"wid-{incp.id}"));
 
         }
         public async Task<ActionResult> SearchWord(incParams incp, filter f, int count, int maxpage)
@@ -112,6 +112,8 @@ namespace mphweb.Controllers
             d.Add(nameof(p.id), p.id);
             d.Add(nameof(f.ispclass), f.ispclass);
             d.Add(nameof(f.pclass), f.pclass);
+            d.Add(nameof(f.ispofs), f.ispclass);
+            d.Add(nameof(f.pofs), f.pclass);
             return d;
         }
 

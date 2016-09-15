@@ -240,6 +240,39 @@ namespace mphdict
                 if ((db == null) && (context != null)) context.Dispose();
             }
         }
+        // forming of the numerical representation of words
+        public void forming_nrw()
+        {
+            var context = getContext();
+            mphObj mo = new mphObj(context);
+            try
+            {
+                int q = 0, cp=0;
+                var a = context.words_list.ToArray();
+                for (int i=0;i<a.Length;i++) {
+                    a[i].digit = mo.atod(a[i].reestr);
+                    a[i].reverse = new string(mo.atod(a[i].reestr).ToArray().Reverse().ToArray());
+                    //context.SaveChanges();
+                    q++;
+                    if (q == 4000) {
+                        q=0;
+                        context.SaveChanges();
+                        Console.WriteLine($"prepared next 4000 rows - {i}...");
+                    }
+                    cp++;
+                }
+                context.SaveChanges();
+                Console.WriteLine($"finished ({cp})");
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(new EventId(0), ex, ex.Message);
+            }
+            finally
+            {
+                if ((db == null) && (context != null)) context.Dispose();
+            }
+        }
     }
     public class mphODInfo
     {

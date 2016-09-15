@@ -81,10 +81,10 @@ namespace mphdict
                     {
                         lock (o)
                         {
-                            var db_a = (from c in db.parts orderby c.com select c).ToArray();
-                            var a = (from c in db_a select new ps() { id = c.id, name = c.com }).ToList();
-                            _pofs = a.Where(c => c.id <= 70).OrderBy(c => c.name).ToList();
-                            _pofs.AddRange(a.Where(c => c.id > 70).OrderBy(c => c.name));
+                            var gc_gr = (from c in db.grs where !string.IsNullOrEmpty(c.part_of_speech) orderby c.part_of_speech select c).ToArray();
+                            var gc_parts = (from c in db.parts where ((!string.IsNullOrEmpty(c.com))&&(c.id>70)) orderby c.com select c).ToArray();
+                            _pofs = (from c in gc_gr select new ps() { id = c.id, name = c.part_of_speech }).ToList();
+                            _pofs.AddRange(gc_parts.Select(c=> new  ps() { id = c.id, name = c.com }));
                         }
                     }
                     return _pofs;
@@ -143,7 +143,7 @@ namespace mphdict
             StringBuilder d = new StringBuilder("");
             for (int i = 0; i < a.Length; i++)
             {
-                if ((askip) && ((a[i] == '\'') || (a[i] == ' '))) continue;
+                if ((askip) && ((a[i] == '\'') || (a[i] == ' ')||(a[i] == '-'))) continue;
                 alphadigit rs = talpha.FirstOrDefault(t => t.alpha == a[i].ToString());
                 if (rs != null) d.Append(rs.digit);
             }
@@ -154,21 +154,34 @@ namespace mphdict
         {
             if ((f.isStrFiltering) && (!string.IsNullOrEmpty(f.str)))
             {
+                string s = atod(f.str);
                 switch (f.fetchType)
                 {
                     case FetchType.StartsWith:
-                        q = q.Where(c => c.reestr.Replace("\"","").StartsWith(f.str));
+                        q = q.Where(c => c.digit.StartsWith(s));
+                        //q = q.Where(c => c.reestr.Replace("\"","").StartsWith(f.str));
                         break;
                     case FetchType.EndsWith:
-                        q = q.Where(c => c.reestr.Replace("\"", "").EndsWith(f.str));
+                        q = q.Where(c => c.digit.EndsWith(s));
+                        //q = q.Where(c => c.reestr.Replace("\"", "").EndsWith(f.str));
                         break;
                     case FetchType.Contains:
-                        q = q.Where(c => c.reestr.Replace("\"", "").Contains(f.str));
+                        q = q.Where(c => c.digit.Contains(s));
+                        //q = q.Where(c => c.reestr.Replace("\"", "").Contains(f.str));
                         break;
                 }
             }
             if (f.ispclass) {
                 q = q.Where(c => c.type == f.pclass);
+            }
+            if (f.ispofs) {
+                if (f.pofs > 70)
+                {
+                    q = q.Where(c => c.part == f.pofs);
+                }
+                else {
+                    q = q.Where(c => c.parts.gr_id == f.pofs);
+                }
             }
             return q;
         }
@@ -249,7 +262,13 @@ namespace mphdict
                 else {
                     q = q.Skip(start).Take(1);
                 }
-                return await (from c in q select new word_param_base() { CountOfWords = count, wordsPageNumber = pagenumber, accent = c.accent, digit = c.digit, field2 = c.field2, field5 = c.field5, field6 = c.field6, field7 = c.field7, isdel = c.isdel, isproblem = c.isproblem, nom_old = c.nom_old, own = c.own, part = c.part, reestr = c.reestr, reverse = c.reverse, suppl_accent = c.suppl_accent, type = c.type }).FirstOrDefaultAsync();
+                word_param wp = await q.FirstOrDefaultAsync();
+                word_param_base r = null;
+                if (wp != null)
+                {
+                    r = (new word_param_base() { CountOfWords = count, wordsPageNumber = pagenumber, accent = wp.accent, digit = wp.digit, field2 = wp.field2, field5 = wp.field5, field6 = wp.field6, field7 = wp.field7, isdel = wp.isdel, isproblem = wp.isproblem, nom_old = wp.nom_old, own = wp.own, part = wp.part, reestr = wp.reestr, reverse = wp.reverse, suppl_accent = wp.suppl_accent, type = wp.type });
+                }
+                return r;
 
             }
             catch (Exception ex)

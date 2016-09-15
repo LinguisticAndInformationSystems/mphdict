@@ -35,7 +35,8 @@ namespace mphcon
             p = new Program();
             p.InitializeServices();
 
-            switch (args[0]) {
+            switch (args[0])
+            {
                 case "json":
                     generateJson();
                     break;
@@ -43,7 +44,7 @@ namespace mphcon
                     Console.WriteLine("Unknown parameters");
                     break;
             }
-            
+            //forming_nrw();
             //copyContext();
             //copyFromJson();
             //testAdd();
@@ -51,11 +52,17 @@ namespace mphcon
             //viewWords();
         }
 
+        static void forming_nrw()
+        {
+            DbContextOptionsBuilder<mphContext> DbContextOptions = new DbContextOptionsBuilder<mphContext>().UseSqlServer(Configuration.GetConnectionString("gramSqlDb"));
+            mphDb sourceContext = new mphDb(DbContextOptions, "dbo", ApplicationLogging.LoggerFactory);
+            sourceContext.forming_nrw();
+        }
         static void removeData()
         {
             p.container.GetService<mphDb>().removeData();
         }
-
+        
         static void viewWords()
         {
             mphContext context = p.container.GetService<mphDb>().getContext();

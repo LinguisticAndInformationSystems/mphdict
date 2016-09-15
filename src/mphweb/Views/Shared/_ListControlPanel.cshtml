@@ -6,7 +6,7 @@
     <div id="list-control">
         <a asp-action="toPrev" asp-controller="inflection"
            asp-route-id="@Model.incp.id" asp-route-currentPage="@Model.incp.currentPage" asp-route-wordSearch="@Model.incp.wordSearch"
-           asp-route-fetchType="@Model.f.fetchType" asp-route-str="@Model.f.str" asp-route-isStrFiltering="@Model.f.isStrFiltering" asp-route-isInverse="@Model.f.isInverse" asp-route-ispclass="@Model.f.ispclass" asp-route-pclass="@Model.f.pclass"
+           asp-route-fetchType="@Model.f.fetchType" asp-route-str="@Model.f.str" asp-route-isStrFiltering="@Model.f.isStrFiltering" asp-route-isInverse="@Model.f.isInverse" asp-route-ispclass="@Model.f.ispclass" asp-route-pclass="@Model.f.pclass" asp-route-ispofs="@Model.f.ispofs" asp-route-pofs="@Model.f.pofs"
            class="btn @(Model.incp.currentPage==0?"disable-nav":"")">‹</a>
 
         @*<input type="number" asp-for="@Model.incp.currentPage" />*@
@@ -19,16 +19,18 @@
         <input type="hidden" asp-for="@Model.f.fetchType" />
         <input type="hidden" asp-for="@Model.f.ispclass" />
         <input type="hidden" asp-for="@Model.f.pclass" />
+        <input type="hidden" asp-for="@Model.f.ispofs" />
+        <input type="hidden" asp-for="@Model.f.pofs" />
 
         <div id="page-number">&nbsp;з&nbsp;</div>
         <a id="last-page" asp-action="Index" asp-controller="inflection"
            asp-route-id="@Model.incp.id" asp-route-currentPage="@(Model.maxpage-1)" asp-route-wordSearch="@Model.incp.wordSearch"
-           asp-route-fetchType="@Model.f.fetchType" asp-route-str="@Model.f.str" asp-route-isStrFiltering="@Model.f.isStrFiltering" asp-route-isInverse="@Model.f.isInverse" asp-route-ispclass="@Model.f.ispclass" asp-route-pclass="@Model.f.pclass">@(Model.maxpage)</a>
+           asp-route-fetchType="@Model.f.fetchType" asp-route-str="@Model.f.str" asp-route-isStrFiltering="@Model.f.isStrFiltering" asp-route-isInverse="@Model.f.isInverse" asp-route-ispclass="@Model.f.ispclass" asp-route-pclass="@Model.f.pclass"  asp-route-ispofs="@Model.f.ispofs" asp-route-pofs="@Model.f.pofs">@(Model.maxpage)</a>
         <button class="btn"></button>
 
         <a asp-action="toNext" asp-controller="inflection"
            asp-route-id="@Model.incp.id" asp-route-currentPage="@Model.incp.currentPage" asp-route-wordSearch="@Model.incp.wordSearch"
-           asp-route-fetchType="@Model.f.fetchType" asp-route-str="@Model.f.str" asp-route-isStrFiltering="@Model.f.isStrFiltering" asp-route-isInverse="@Model.f.isInverse" asp-route-ispclass="@Model.f.ispclass" asp-route-pclass="@Model.f.pclass"
+           asp-route-fetchType="@Model.f.fetchType" asp-route-str="@Model.f.str" asp-route-isStrFiltering="@Model.f.isStrFiltering" asp-route-isInverse="@Model.f.isInverse" asp-route-ispclass="@Model.f.ispclass" asp-route-pclass="@Model.f.pclass" asp-route-ispofs="@Model.f.ispofs" asp-route-pofs="@Model.f.pofs"
            class="btn @(Model.incp.currentPage==Model.maxpage?"disable-nav":"")">›</a>
     </div>
 </form>
