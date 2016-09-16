@@ -70,8 +70,8 @@ namespace mphdict
             }
         }
 
-        static private List<ps> _pofs = null;
-        public List<ps> pofs
+        static private List<ps[]> _pofs = null;
+        public List<ps[]> pofs
         {
             get
             {
@@ -81,16 +81,18 @@ namespace mphdict
                     {
                         lock (o)
                         {
+                            _pofs = new List<ps[]>();
                             var gc_gr = (from c in db.grs where !string.IsNullOrEmpty(c.part_of_speech) orderby c.part_of_speech select c).ToArray();
                             var gc_parts = (from c in db.parts where ((!string.IsNullOrEmpty(c.com))&&(c.id>70)) orderby c.com select c).ToArray();
-                            _pofs = (from c in gc_gr select new ps() { id = c.id, name = c.part_of_speech }).ToList();
-                            _pofs.AddRange(gc_parts.Select(c=> new  ps() { id = c.id, name = c.com }));
+                            _pofs.Add((from c in gc_gr select new ps() { id = c.id, name = c.part_of_speech, category = "Змінні" }).ToArray());
+                            _pofs.Add(gc_parts.Select(c=> new  ps() { id = c.id, name = c.com, category = "Незмінні" }).ToArray());
                         }
                     }
                     return _pofs;
                 }
                 catch (Exception ex)
                 {
+                    _pofs = null;
                     if (Logger != null)
                         Logger.LogError(new EventId(0), ex, ex.Message);
                     else
@@ -338,6 +340,7 @@ namespace mphdict
     {
         public short id { get; set; }
         public string name { get; set; }
+        public string category { get; set; }
     }
 
 }

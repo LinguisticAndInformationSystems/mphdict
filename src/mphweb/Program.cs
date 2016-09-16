@@ -38,14 +38,25 @@ namespace mphweb
                 return _pclass;
             }
         }
-        private static SelectList _pofs=null;
-        public static SelectList pofs
+        private static /*List<ps[]>*/SelectList _pofs =null;
+        public static /*List<ps[]>*/SelectList pofs
         {
             get
             {
                 if (_pofs == null)
                 {
-                    _pofs = new SelectList(((mphObj)ApplicationVariables.services.GetService(typeof(mphObj))).pofs, "id", "name");
+                    try
+                    {
+                        var t = ((mphObj)ApplicationVariables.services.GetService(typeof(mphObj))).pofs;
+                        //_pofs = t;
+                        var tpofs = new ps[t[0].Length + t[1].Length];
+                        t[0].CopyTo(tpofs, 0);
+                        t[1].CopyTo(tpofs, t[0].Length);
+                        _pofs = new SelectList(tpofs, "id", "name", null, "category");
+                    }
+                    catch (Exception ex) {
+                        _pofs = null;
+                    }
                 }
                 return _pofs;
             }
