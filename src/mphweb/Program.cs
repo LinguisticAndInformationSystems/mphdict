@@ -38,8 +38,8 @@ namespace mphweb
                 return _pclass;
             }
         }
-        private static /*List<ps[]>*/SelectList _pofs =null;
-        public static /*List<ps[]>*/SelectList pofs
+        private static SelectList _pofs =null;
+        public static SelectList pofs
         {
             get
             {
@@ -48,7 +48,6 @@ namespace mphweb
                     try
                     {
                         var t = ((mphObj)ApplicationVariables.services.GetService(typeof(mphObj))).pofs;
-                        //_pofs = t;
                         var tpofs = new ps[t[0].Length + t[1].Length];
                         t[0].CopyTo(tpofs, 0);
                         t[1].CopyTo(tpofs, t[0].Length);
