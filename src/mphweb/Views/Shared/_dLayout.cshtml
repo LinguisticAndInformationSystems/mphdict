@@ -37,10 +37,15 @@
         
         <main>
             <nav>
-                @{await Html.RenderPartialAsync("_SearchPanel", d);}
-                @{await Html.RenderPartialAsync("_TabListEntryPanel", d);}
-                @await Component.InvokeAsync(nameof(mphweb.ViewComponents.wordsList), new { dp = d })
-                @{await Html.RenderPartialAsync("_ListControlPanel", d);}
+                @switch ((viewtype)ViewBag.vtype) {
+                    case viewtype.dict:
+                        await Html.RenderPartialAsync("_navDictionary", d);
+                        break;
+                    case viewtype.pclass:
+                        await Html.RenderPartialAsync("_navPClass", (mphdict.Models.morph.indents_base[])ViewBag.indents);
+                        break;
+
+                }
             </nav>
             <article>
                 <header></header>

@@ -7,7 +7,7 @@ namespace mphweb.Models
 {
     public class incParams
     {
-        public int id { get; set; }
+        public int wid { get; set; }
         public int currentPage { get; set; }
         public string wordSearch { get; set; }
     }

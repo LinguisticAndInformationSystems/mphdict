@@ -22,7 +22,6 @@ namespace mphweb.Controllers
         public inflectionController(mphObj db) {
             this.db = db;
             this.db.Logger = Logger;
-
         }
         private string getStartWordId()
         {
@@ -33,7 +32,7 @@ namespace mphweb.Controllers
         private async Task<dictParams> prepaireData(incParams incp, filter f)
         {
             dictParams dp = new dictParams() { incp = incp, f = f, id_lang = db.lid.id_lang };
-            if (incp.id != 0) dp.entry = await db.getEntry(incp.id);
+            if (incp.wid != 0) dp.entry = await db.getEntry(incp.wid);
             dp.count = await db.CountWords(f);
             int count_plus = dp.count % 100;
             dp.maxpage = count_plus>0? (dp.count / 100)+1: (dp.count / 100);
@@ -44,13 +43,14 @@ namespace mphweb.Controllers
         // GET: /<controller>/
         public async Task<IActionResult> Index(incParams incp, filter f)
         {
-            if ((incp.id == 0)&&(f.isStrFiltering==false)&&(f.ispclass == false) && (f.ispofs == false))
+            if ((incp.wid == 0)&&(f.isStrFiltering==false)&&(f.ispclass == false) && (f.ispofs == false))
             {
                 incp.wordSearch = getStartWordId();
                 return RedirectToAction("Search", routeValues: setParams(incp, f));
             }
             var dp = await prepaireData(incp, f);
             ViewBag.dp = dp;
+            ViewBag.vtype = viewtype.dict;
             return View(dp);
         }
         public async Task<IActionResult> toPrev(incParams incp, filter f)
@@ -58,6 +58,7 @@ namespace mphweb.Controllers
             incp.currentPage = incp.currentPage-1;
             var dp = await prepaireData(incp, f);
             ViewBag.dp = dp;
+            ViewBag.vtype = viewtype.dict;
             return View("Index", dp);
         }
         public async Task<IActionResult> toNext(incParams incp, filter f)
@@ -65,6 +66,7 @@ namespace mphweb.Controllers
             incp.currentPage = incp.currentPage + 1;
             var dp = await prepaireData(incp, f);
             ViewBag.dp = dp;
+            ViewBag.vtype = viewtype.dict;
             return View("Index", dp);
         }
         public async Task<IActionResult> toPage(incParams incp, filter f)
@@ -72,13 +74,14 @@ namespace mphweb.Controllers
             incp.currentPage = incp.currentPage-1;
             var dp = await prepaireData(incp, f);
             ViewBag.dp = dp;
+            ViewBag.vtype = viewtype.dict;
             return View("Index", dp);
         }
         public async Task<ActionResult> Search(incParams incp, filter f)
         {
             var w = await db.searchWord(f, incp.wordSearch);
             incp.currentPage = w.wordsPageNumber;
-            incp.id = w.nom_old;
+            incp.wid = w.nom_old;
             var dp = new dictParams() { incp = incp, f = f};
             dp.count = w.CountOfWords;
             int count_plus = dp.count % 100;
@@ -88,7 +91,7 @@ namespace mphweb.Controllers
 
             ViewBag.dp = dp;
             return Redirect(Url.Action("SearchWord", "inflection", 
-                new { isStrFiltering= f.isStrFiltering, str=f.str, fetchType=f.fetchType, isInverse = f.isInverse, ispclass=f.ispclass, pclass=f.pclass, ispofs = f.ispofs, pofs = f.pofs, currentPage= incp.currentPage, wordSearch= incp.wordSearch, id= incp.id, count= dp.count, maxpage = dp.maxpage }, null, null, $"wid-{incp.id}"));
+                new { isStrFiltering= f.isStrFiltering, str=f.str, fetchType=f.fetchType, isInverse = f.isInverse, ispclass=f.ispclass, pclass=f.pclass, ispofs = f.ispofs, pofs = f.pofs, currentPage= incp.currentPage, wordSearch= incp.wordSearch, wid= incp.wid, count= dp.count, maxpage = dp.maxpage }, null, null, $"wid-{incp.wid}"));
 
         }
         public async Task<ActionResult> SearchWord(incParams incp, filter f, int count, int maxpage)
@@ -96,8 +99,9 @@ namespace mphweb.Controllers
             var dp = new dictParams() { incp = incp, f = f, id_lang = db.lid.id_lang };
             dp.count=count;
             dp.maxpage = maxpage;
-            dp.entry = await db.getEntry(incp.id);
+            dp.entry = await db.getEntry(incp.wid);
             ViewBag.dp = dp;
+            ViewBag.vtype = viewtype.dict;
             return View("Index", dp);
         }
         private RouteValueDictionary setParams(incParams p, filter f)
@@ -109,7 +113,7 @@ namespace mphweb.Controllers
             d.Add(nameof(f.isInverse), f.isInverse);
             d.Add(nameof(p.currentPage), p.currentPage);
             d.Add(nameof(p.wordSearch), p.wordSearch);
-            d.Add(nameof(p.id), p.id);
+            d.Add(nameof(p.wid), p.wid);
             d.Add(nameof(f.ispclass), f.ispclass);
             d.Add(nameof(f.pclass), f.pclass);
             d.Add(nameof(f.ispofs), f.ispclass);

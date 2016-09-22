@@ -102,6 +102,32 @@ namespace mphdict
             }
         }
 
+        static private indents_base[] _indents = null;
+        public indents_base[] indents
+        {
+            get
+            {
+                try
+                {
+                    if (_indents == null)
+                    {
+                        lock (o)
+                        {
+                            _indents = (from c in db.indents orderby c.type select new indents_base() { CountOfWords = c.words_list.Count(), comment=c.comment, type=c.type, field3=c.field3, field4=c.field4, gr_id=c.gr_id, grName=c.gr.part_of_speech, indent=c.indent }).ToArray();
+                        }
+                    }
+                    return _indents;
+                }
+                catch (Exception ex)
+                {
+                    if (Logger != null)
+                        Logger.LogError(new EventId(0), ex, ex.Message);
+                    else
+                        throw ex;
+                    return null;
+                }
+            }
+        }
         private static langid _lid;
         public langid lid {
             get {

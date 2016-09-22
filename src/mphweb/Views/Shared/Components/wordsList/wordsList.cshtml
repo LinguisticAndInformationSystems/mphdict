@@ -1,16 +1,16 @@
 ﻿@using mphdict.Models.morph
 @model mphweb.Models.dictParams
 
-<div id="words-list">
+<div id="words-list" class="words-list">
     @*@if (Model.page != null)
     {*@
     @foreach (var item in Model.page)
     {
         <a asp-action="Index" asp-controller="inflection"
-           asp-route-id="@item.nom_old" asp-route-currentPage="@Model.incp.currentPage" asp-route-wordSearch="@Model.incp.wordSearch"
+           asp-route-wid="@item.nom_old" asp-route-currentPage="@Model.incp.currentPage" asp-route-wordSearch="@Model.incp.wordSearch"
            asp-route-fetchType="@Model.f.fetchType" asp-route-str="@Model.f.str" asp-route-isStrFiltering="@Model.f.isStrFiltering" asp-route-isInverse="@Model.f.isInverse" asp-route-ispclass="@Model.f.ispclass" asp-route-pclass="@Model.f.pclass" asp-route-ispofs="@Model.f.ispofs" asp-route-pofs="@Model.f.pofs"
            asp-fragment="@($"wid-{item.nom_old}")"
-           class="@(item.nom_old == Model.incp.id ? "selected-word" : "")" id="@($"wid-{item.nom_old}")">
+           class="@(item.nom_old == Model.incp.wid ? "selected-word" : "")" id="@($"wid-{item.nom_old}")">
             @item.reestr.Replace('\"', '\x301')
             @if (item.field2 > 0)
             {

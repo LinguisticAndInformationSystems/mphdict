@@ -35,15 +35,15 @@ namespace mphcon
             p = new Program();
             p.InitializeServices();
 
-            switch (args[0])
-            {
-                case "json":
-                    generateJson();
-                    break;
-                default:
-                    Console.WriteLine("Unknown parameters");
-                    break;
-            }
+            //switch (args[0])
+            //{
+            //    case "json":
+            //        generateJson();
+            //        break;
+            //    default:
+            //        Console.WriteLine("Unknown parameters");
+            //        break;
+            //}
             //forming_nrw();
             //copyContext();
             //copyFromJson();

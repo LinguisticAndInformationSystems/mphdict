@@ -31,10 +31,8 @@ namespace mphdict.Models.morph
         public int? field2 { get; set; }
         [StringLength(255)]
         public string xmpl { get; set; }
-        public int? field4 { get; set; }
         public short type { get; set; }
         [StringLength(255)]
         public string digit { get; set; }
-        public int? ord { get; set; }
     }
 }

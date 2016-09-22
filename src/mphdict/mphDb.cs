@@ -219,7 +219,6 @@ namespace mphdict
                 var data = (from c in context.words_list.AsNoTracking() where c.isdel == false orderby c.digit, c.field2, c.reestr select c);
                 dataObj.words_list = data./*Take(5).*/ToArray();
                 dataObj.types = (from c in context.indents.AsNoTracking() orderby c.type select c).ToArray(); // context.Local(context.indents).OrderBy(x => x.type).ToArray();
-                dataObj.flexes = (from c in context.flexes.AsNoTracking() orderby c.type, c.ord select c)/*.Take(5)*/.ToArray(); // context.Local(context.flexes).OrderBy(x => x.type).ThenBy(y=>y.ord).ToArray();
                 dataObj.grs = (from c in context.grs.AsNoTracking() orderby c.id select c).ToArray(); // context.Local(context.grs).OrderBy(x => x.id).ToArray();
                 dataObj.accents = (from c in context.accent.AsNoTracking() orderby c.accent_type, c.gram select c)./*Take(5).*/ToArray(); // context.Local(context.accent).OrderBy(x => x.accent_type).ThenBy(y=>y.gram).ToArray();
                 dataObj.parts = (from c in context.parts.AsNoTracking() orderby c.id select c).ToArray(); // context.Local(context.parts).OrderBy(x => x.id).ToArray();
@@ -248,21 +247,38 @@ namespace mphdict
             try
             {
                 int q = 0, cp=0;
-                var a = context.words_list.ToArray();
-                for (int i=0;i<a.Length;i++) {
-                    a[i].digit = mo.atod(a[i].reestr);
-                    a[i].reverse = new string(mo.atod(a[i].reestr).ToArray().Reverse().ToArray());
-                    //context.SaveChanges();
+                //var a = context.words_list.ToArray();
+                //for (int i=0;i<a.Length;i++) {
+                //    a[i].digit = mo.atod(a[i].reestr);
+                //    a[i].reverse = new string(mo.atod(a[i].reestr).ToArray().Reverse().ToArray());
+                //    q++;
+                //    if (q == 4000) {
+                //        q=0;
+                //        context.SaveChanges();
+                //        Console.WriteLine($"prepared next 4000 rows - {i}...");
+                //    }
+                //    cp++;
+                //}
+                //context.SaveChanges();
+                //Console.WriteLine($"words list finished ({cp})");
+
+                q = cp = 0;
+                var af = context.flexes.ToArray();
+                for (int i = 0; i < af.Length; i++)
+                {
+                    af[i].digit = mo.atod(af[i].flex, false);
                     q++;
-                    if (q == 4000) {
-                        q=0;
+                    if (q == 4000)
+                    {
+                        q = 0;
                         context.SaveChanges();
                         Console.WriteLine($"prepared next 4000 rows - {i}...");
                     }
                     cp++;
                 }
                 context.SaveChanges();
-                Console.WriteLine($"finished ({cp})");
+                Console.WriteLine($"flexes finished ({cp})");
+
             }
             catch (Exception ex)
             {

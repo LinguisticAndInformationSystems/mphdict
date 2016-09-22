@@ -35,5 +35,11 @@ namespace mphdict.Models.morph
         [StringLength(255)]
         public string comment { get; set; }
         public byte gr_id { get; set; }
+        [JsonIgnore]
+        [NotMapped]
+        public int CountOfWords { get; set; }
+        [JsonIgnore]
+        [NotMapped]
+        public string grName { get; set; }
     }
 }
