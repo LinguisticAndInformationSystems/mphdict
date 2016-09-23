@@ -4,10 +4,10 @@
 @*@{await Html.RenderPartialAsync("_SearchPanel", Model);}*@
 <div class="pclass-name">
     <div class="col-name pclass-id">№</div>
-    <div class="col-name pclass-gr">категорія</div>
     <div class="col-name pclass-qty">кільк.</div>
     <div class="col-name pclass-indent">-</div>
-    <div class="col-name pclass-com">інфо</div>
+    <div class="col-name pclass-gr">категорія</div>
+    @*<div class="col-name pclass-com">інфо</div>*@
 </div>
 <div id="pclass-list" class="words-list">
     @{dictParams dp = ViewBag.dp; }
@@ -16,14 +16,14 @@
         <a asp-action="Index" asp-controller="flexes"
            asp-route-wid="@dp.incp.wid" asp-route-currentPage="@dp.incp.currentPage" asp-route-wordSearch="@dp.incp.wordSearch"
            asp-route-fetchType="@dp.f.fetchType" asp-route-str="@dp.f.str" asp-route-isStrFiltering="@dp.f.isStrFiltering" asp-route-isInverse="@dp.f.isInverse" asp-route-ispclass="@dp.f.ispclass" asp-route-pclass="@dp.f.pclass" asp-route-ispofs="@dp.f.ispofs" asp-route-pofs="@dp.f.pofs"
-           asp-route-ptype="@item.type"
+           asp-route-pclassPcls="@item.type" asp-route-ispofsPcls="@ViewBag.pclsf.ispofsPcls" asp-route-pofsPcls="@ViewBag.pclsf.pofsPcls"
            asp-fragment="@($"ptype-{item.type}")"
-           class="pclass-row @(item.type == ViewBag.ptype? "selected-word" : "")" id="@($"ptype-{item.type}")">
+           class="pclass-row @(item.type == ViewBag.pclsf.pclassPcls? "selected-word" : "")" id="@($"ptype-{item.type}")">
             <div class="pclass-id" title="@item.type">@item.type</div>
-            <div class="pclass-gr" title="@item.grName">@item.grName</div>
             <div class="pclass-qty" title="@item.CountOfWords">@item.CountOfWords</div>
-            <div class="indent" title="@item.indent">@item.indent</div>
-            <div class="pclass-com" title="@item.comment">@item.comment</div>
+            <div class="pclass-indent" title="@item.indent">@item.indent</div>
+            <div class="pclass-gr" title="@item.grName">@item.grName</div>
+            @*<div class="pclass-com" title="@item.comment">@item.comment</div>*@
         </a>
     }
     @*}*@

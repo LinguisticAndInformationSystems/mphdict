@@ -21,13 +21,18 @@ namespace mphweb.Controllers
             this.db.Logger = Logger;
 
         }
-        public IActionResult Index(incParams incp, filter f, short ptype)
+        public async Task<IActionResult> Index(incParams incp, filter f, pclsfilter pclsf)
         {
             ViewBag.dp = new dictParams() { f=f, incp=incp };
             ViewBag.vtype = viewtype.pclass;
             ViewBag.indents = db.indents;
-            ViewBag.ptype = ptype;
-            return View();
+            if (pclsf.ispofsPcls)
+            {
+                ViewBag.indents = (from c in db.indents where c.gr_id == pclsf.pofsPcls select c).ToArray();
+            }
+            ViewBag.pclsf = pclsf;
+            var pcls = await db.getPClass(pclsf.pclassPcls);
+            return View(pcls);
         }
     }
 }

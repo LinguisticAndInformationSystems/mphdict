@@ -36,17 +36,20 @@
        @{await Html.RenderPartialAsync("_MainControlPanel", d);}
         
         <main>
-            <nav>
-                @switch ((viewtype)ViewBag.vtype) {
+                @switch ((viewtype)ViewBag.vtype)
+                {
                     case viewtype.dict:
-                        await Html.RenderPartialAsync("_navDictionary", d);
+                        <nav>
+                            @{await Html.RenderPartialAsync("_navDictionary", d);}
+                        </nav>
                         break;
                     case viewtype.pclass:
-                        await Html.RenderPartialAsync("_navPClass", (mphdict.Models.morph.indents_base[])ViewBag.indents);
+                        <nav class="nav_pclass">
+                            @{await Html.RenderPartialAsync("_navPClass", (mphdict.Models.morph.indents_base[])ViewBag.indents);}
+                        </nav>
                         break;
 
                 }
-            </nav>
             <article>
                 <header></header>
                 <section>
@@ -60,20 +63,10 @@
     </div>
 
     <environment names="Development">
-        @*<script src="~/lib/jquery/dist/jquery.js"></script>
-        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
-        <script src="~/js/site.js" asp-append-version="true"></script>*@
+        <script src="~/js/site.js" asp-append-version="true"></script>
     </environment>
     <environment names="Staging,Production">
-        @*<script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"
-                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
-                asp-fallback-test="window.jQuery">
-        </script>
-        <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.6/bootstrap.min.js"
-                asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
-                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal">
-        </script>
-        <script src="~/js/site.min.js" asp-append-version="true"></script>*@
+        <script src="~/js/site.min.js" asp-append-version="true"></script>
     </environment>
 
     @RenderSection("scripts", required: false)

@@ -1,4 +1,51 @@
-﻿@using mphweb.Models
+﻿@using mphdict
+@model pclass_info
 @{
     ViewData["Title"] = "flexes";
+}
+@if ((Model != null) && (Model.cls != null && (Model.flexes != null)&&(Model.cls.type!=0)))
+{
+    <div class="gd-entry">
+        <div>
+            <span class="word_style">Словозмінний клас № @Model.cls.type </span> 
+            <span class="gram_style">(кількість слів в реєстрі – @Model.cls.CountOfWords)</span>
+        </div><br />
+        <div class="comment_style">
+            @Model.cls.grName
+        </div>
+        <hr>
+        <table>
+            <tr class="td_style">
+                <th>
+                    Квазіфлексія
+                </th>
+                <th>
+                    № грам. значення
+                </th>
+            </tr>
+            @foreach (var i in Model.flexes)
+            {
+                <tr>
+                    <td class="td_left_style">
+                        @i.flex
+                    </td>
+                    <td class="td_inner_style">
+                        @i.field2
+                    </td>
+                </tr>
+            }
+        </table>
+        <div style="font-size:.7em; text-align:left; margin:1rem;">
+            @if (!string.IsNullOrEmpty(Model.cls.comment))
+            {
+                <p class="comm_end_style">@Model.cls.comment</p>
+                <br />
+            }
+            <p class="comm_end_style">^ - ненормативна форма</p><br />
+            <p class="comm_end_style">@@ - (до ...)</p><br />
+            <p class="comm_end_style">$ - (на ...)</p><br />
+            <p class="comm_end_style">% - (по ...)</p><br />
+            <p class="comm_end_style">& - (у на/у ...)</p><br />
+        </div>
+    </div>
 }

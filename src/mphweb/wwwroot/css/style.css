@@ -294,7 +294,8 @@ fieldset{
         padding: 1px 4px; 
         font-size: 0.9em;
 }*/
-#query-control {
+
+.menu-group > form {
     flex: 1 1 auto;
     display: flex;
     flex-direction: row;
@@ -335,14 +336,20 @@ fieldset{
 .query-param-val > input[type="checkbox"] + label {
     flex:1 1 auto;
 }
-#f_pofs {
-    max-width:7rem;
+    /*.query-param-val > select{
+        max-width:7rem;
+    }*/
+#f_pofs, #pclsf_pofsPcls {
+    max-width:9rem;
 }
-#filter {
+.query-param-val-search-pcls {
+    max-width:9rem;
+}
+#filter, #filter_pcls {
     padding: .5rem .3rem .5rem .3rem;
     /*align-self: flex-end;*/
 }
-#filter::before {
+#filter::before, #filter_pcls::before {
     font-family: FontAwesome;
     content:'\f021';
 }
@@ -367,6 +374,9 @@ main > nav {
     overflow:hidden;
     width:20rem;
     border-right:1px solid #DCDCDC;
+}
+main > .nav_pclass {
+    width:27rem;
 }
 #search-block {
     /*border: 0.06rem solid red;*/
@@ -480,29 +490,29 @@ main > nav {
         padding: 0 .3rem 0 0 ;
     }
 .pclass-id {
-    flex:0 0 2.5rem;
-    font-weight:bold;
-    max-width:2.5rem;
-    min-width:2.5rem;
+    flex:0 0 3rem;
+    max-width:3rem;
+    min-width:3rem;
     overflow:hidden;
 }
 .pclass-gr {
-    flex:0 0 5.5rem;
-    max-width:5.5rem;
-    min-width:5.5rem;
+    flex:1 1 auto;
     overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    font-size:.7em;
 }
 .pclass-qty {
-    flex:0 0 4rem;
-    max-width:4rem;
-    min-width:4rem;
+    flex:0 0 5rem;
+    max-width:5rem;
+    min-width:5rem;
     overflow:hidden;
     text-align:center;
 }
 .pclass-indent {
-    flex:0 0 1.5rem;
-    max-width:1.5rem;
-    min-width:1.5rem;
+    flex:0 0 2rem;
+    max-width:2rem;
+    min-width:2rem;
     overflow:hidden;
     text-align:center;
 }
@@ -511,6 +521,7 @@ main > nav {
     overflow:hidden;
     text-overflow:ellipsis;
     white-space:nowrap;
+    font-size:.7em;
 }
 .pclass-name {
     flex:0 0 auto;
@@ -534,9 +545,11 @@ main > nav {
     }
 .col-name {
     text-transform:uppercase;
-    font-weight:bold;
-    border-top:1px solid #DCDCDC;
-    border-bottom:1px solid #DCDCDC;
+    border:none;
+    /*font-weight:bold;*/
+    /*border-top:1px solid #DCDCDC;
+    border-bottom:1px solid #DCDCDC;*/
+    font-size:.7rem;
 }
 #paging-control {
     /*flex:0 0 auto;

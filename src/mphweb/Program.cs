@@ -61,5 +61,25 @@ namespace mphweb
                 return _pofs;
             }
         }
+        private static SelectList _pofsPcls = null;
+        public static SelectList pofsPcls
+        {
+            get
+            {
+                if (_pofsPcls == null)
+                {
+                    try
+                    {
+                        var t = ((mphObj)ApplicationVariables.services.GetService(typeof(mphObj))).pofs;
+                        _pofsPcls = new SelectList(t[0], "id", "name");
+                    }
+                    catch (Exception ex)
+                    {
+                        _pofsPcls = null;
+                    }
+                }
+                return _pofsPcls;
+            }
+        }
     }
 }

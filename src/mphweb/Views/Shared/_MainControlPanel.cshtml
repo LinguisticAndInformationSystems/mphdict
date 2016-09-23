@@ -2,95 +2,146 @@
 @model mphweb.Models.dictParams
 <div id="main-tab">
 
-@if (ViewBag.vtype == viewtype.dict)
-{
-    <div class="tab-item">Словник</div>
-}
-else
-{
-    <a asp-action="Index" asp-controller="inflection"
-       asp-route-wid="@Model.incp.wid" asp-route-currentPage="@Model.incp.currentPage" asp-route-wordSearch="@Model.incp.wordSearch"
-       asp-route-fetchType="@Model.f.fetchType" asp-route-str="@Model.f.str" asp-route-isStrFiltering="@Model.f.isStrFiltering" asp-route-isInverse="@Model.f.isInverse" asp-route-ispclass="@Model.f.ispclass" asp-route-pclass="@Model.f.pclass" asp-route-ispofs="@Model.f.ispofs" asp-route-pofs="@Model.f.pofs"
-       class="tab-item group-not-active-tab">
-        Словник
-    </a>
-}
+    @if (ViewBag.vtype == viewtype.dict)
+    {
+        <div class="tab-item">Словник</div>
+    }
+    else
+    {
+        <a asp-action="Index" asp-controller="inflection"
+           asp-route-wid="@Model.incp.wid" asp-route-currentPage="@Model.incp.currentPage" asp-route-wordSearch="@Model.incp.wordSearch"
+           asp-route-fetchType="@Model.f.fetchType" asp-route-str="@Model.f.str" asp-route-isStrFiltering="@Model.f.isStrFiltering" asp-route-isInverse="@Model.f.isInverse" asp-route-ispclass="@Model.f.ispclass" asp-route-pclass="@Model.f.pclass" asp-route-ispofs="@Model.f.ispofs" asp-route-pofs="@Model.f.pofs"
+           class="tab-item group-not-active-tab">
+            Словник
+        </a>
+    }
 
-@if (ViewBag.vtype == viewtype.pclass)
-{
-    <div class="tab-item">Словозмінні класи</div>
-}
-else
-{
-    <a asp-action="Index" asp-controller="flexes"
-       asp-route-wid="@Model.incp.wid" asp-route-currentPage="@Model.incp.currentPage" asp-route-wordSearch="@Model.incp.wordSearch"
-       asp-route-fetchType="@Model.f.fetchType" asp-route-str="@Model.f.str" asp-route-isStrFiltering="@Model.f.isStrFiltering" asp-route-isInverse="@Model.f.isInverse" asp-route-ispclass="@Model.f.ispclass" asp-route-pclass="@Model.f.pclass" asp-route-ispofs="@Model.f.ispofs" asp-route-pofs="@Model.f.pofs"
-       class="tab-item group-not-active-tab">
-        Словозмінні класи
-    </a>
-}
+    @if (ViewBag.vtype == viewtype.pclass)
+    {
+        <div class="tab-item">Словозмінні класи</div>
+    }
+    else
+    {
+        <a asp-action="Index" asp-controller="flexes"
+           asp-route-wid="@Model.incp.wid" asp-route-currentPage="@Model.incp.currentPage" asp-route-wordSearch="@Model.incp.wordSearch"
+           asp-route-fetchType="@Model.f.fetchType" asp-route-str="@Model.f.str" asp-route-isStrFiltering="@Model.f.isStrFiltering" asp-route-isInverse="@Model.f.isInverse" asp-route-ispclass="@Model.f.ispclass" asp-route-pclass="@Model.f.pclass" asp-route-ispofs="@Model.f.ispofs" asp-route-pofs="@Model.f.pofs"
+           class="tab-item group-not-active-tab">
+            Словозмінні класи
+        </a>
+    }
     <div class="tab-item tab-item-empty"></div>
 </div>
 
 <section id="main-control">
     <button id="left-control" class="btn">‹</button>
     <div id="menu-container">
-        @if (ViewBag.vtype == viewtype.dict)
+        @switch ((viewtype)ViewBag.vtype)
         {
-        <div class="menu-group">
-            <form id="query-control" asp-action="Index" asp-controller="inflection" method="get">
-                <div class="menu-group-content">
-                    <div id="query-param" class="query-param">
-                        <div id="query-param-val" class="query-param-val">
-                            <input asp-for="@Model.f.isStrFiltering" />
-                            <select asp-for="@Model.f.fetchType">
-                                <option value="0">Починається з</option>
-                                <option value="1">Містить</option>
-                                <option value="2">Закінчується на</option>
-                            </select>
+            case viewtype.dict:
+                <div class="menu-group">
+                    <form id="query-control" asp-action="Index" asp-controller="inflection" method="get">
+                        <div class="menu-group-content">
+                            <div id="query-param" class="query-param">
+                                <div id="query-param-val" class="query-param-val">
+                                    <input asp-for="@Model.f.isStrFiltering" />
+                                    <select asp-for="@Model.f.fetchType">
+                                        <option value="0">Починається з</option>
+                                        <option value="1">Містить</option>
+                                        <option value="2">Закінчується на</option>
+                                    </select>
+                                </div>
+                                <div class="query-param-val">
+                                    <input asp-for="@Model.f.str" pattern="[A-za-zА-Яа-я\sЇїЁёЄєІі]+" />
+                                </div>
+                            </div>
                         </div>
-                        <div class="query-param-val">
-                            <input asp-for="@Model.f.str" pattern="[A-za-zА-Яа-я\sЇїЁёЄєІі]+" />
+                        <div class="menu-group-content">
+                            <div class="query-param">
+                                <div class="query-param-val">
+                                    <input asp-for="@Model.f.isInverse" />
+                                    <label for="f_isInverse">інверсний реєстр</label>
+                                </div>
+                                <div class="query-param-val">
+                                    <input asp-for="@Model.f.ispclass" />
+                                    <label for="f_ispclass">пар. клас:&nbsp;</label>
+                                    <select asp-for="@Model.f.pclass" asp-items="@variables.pclass"></select>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <div class="menu-group-content">
-                    <div class="query-param">
-                        <div class="query-param-val">
-                            <input asp-for="@Model.f.isInverse" />
-                            <label for="f_isInverse">інверсний реєстр</label>
+                        <div class="menu-group-content">
+                            <div class="query-param">
+                                <div class="query-param-val">
+                                    &nbsp;
+                                </div>
+                                <div class="query-param-val">
+                                    <input asp-for="@Model.f.ispofs" />
+                                    <select asp-for="@Model.f.pofs" asp-items="@variables.pofs"></select>
+                                </div>
+                            </div>
                         </div>
-                        <div class="query-param-val">
-                            <input asp-for="@Model.f.ispclass" />
-                            <label for="f_ispclass">пар. клас:&nbsp;</label>
-                            <select asp-for="@Model.f.pclass" asp-items="@variables.pclass">
-                            </select>
+                        <div class="menu-group-content">
+                            <button id="filter" title="Оновити" class="btn"></button>
                         </div>
-                    </div>
-                </div>
-                <div class="menu-group-content">
-                    <div class="query-param">
-                        <div class="query-param-val">
-                            &nbsp;
-                        </div>
-                        <div class="query-param-val">
-                            <input asp-for="@Model.f.ispofs" />
-                            <select asp-for="@Model.f.pofs" asp-items="@variables.pofs">
-                                <
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="menu-group-content">
-                    <button id="filter" title="Оновити" class="btn"></button>
-                </div>
-                <input asp-for="@Model.incp.wordSearch" type="hidden" />
-            </form>
+                        <input asp-for="@Model.incp.wordSearch" type="hidden" />
+                    </form>
 
-            <div class="menu-group-name">
-                Робота з реєстром
-            </div>
-        </div>
+                    <div class="menu-group-name">
+                        Робота з реєстром
+                    </div>
+                </div>
+                break;
+            case viewtype.pclass:
+                mphdict.pclsfilter pclsf = @ViewBag.pclsf;
+                <div class="menu-group">
+                    <div class="menu-group-content">
+                        <div class="query-param">
+                            <div class="query-param-val">
+                                &nbsp;
+                            </div>
+                            <div class="query-param-val query-param-val-search-pcls">
+                                <label for="f_isInverse">Клас:&nbsp;</label>
+                                <input id="search-pcls" type="number" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="menu-group-name">
+                        Робота зі списком
+                    </div>
+                </div>
+                <div class="menu-group">
+                    <form id="query-control-pcls" asp-action="Index" asp-controller="flexes" method="get">
+                        <div class="menu-group-content">
+                            <div class="query-param">
+                                <div class="query-param-val">
+                                    &nbsp;
+                                </div>
+                                <div class="query-param-val">
+                                    <input asp-for="@pclsf.ispofsPcls" />
+                                    <select asp-for="@pclsf.pofsPcls" asp-items="@variables.pofsPcls"></select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="menu-group-content">
+                            <button id="filter_pcls" title="Оновити" class="btn"></button>
+                        </div>
+                        <input type="hidden" asp-for="@Model.incp.wordSearch" />
+                        <input type="hidden" asp-for="@Model.incp.wid" />
+                        <input type="hidden" asp-for="@Model.incp.currentPage" />
+                        <input type="hidden" asp-for="@Model.f.isStrFiltering" />
+                        <input type="hidden" asp-for="@Model.f.isInverse" />
+                        <input type="hidden" asp-for="@Model.f.str" />
+                        <input type="hidden" asp-for="@Model.f.fetchType" />
+                        <input type="hidden" asp-for="@Model.f.ispclass" />
+                        <input type="hidden" asp-for="@Model.f.pclass" />
+                        <input type="hidden" asp-for="@Model.f.ispofs" />
+                        <input type="hidden" asp-for="@Model.f.pofs" />
+                    </form>
+                    <div class="menu-group-name">
+                        Відібрати
+                    </div>
+                </div>
+                break;
+
         }
     </div>
     <button id="right-control" class="btn">›</button>

@@ -338,6 +338,31 @@ namespace mphdict
                 else throw ex;
             }
         }
+        public async Task<pclass_info> getPClass(short id)
+        {
+            try
+            {
+                return new pclass_info()
+                {
+                    cls = (from c in indents where (c.type == id) select c).FirstOrDefault(),
+                    flexes = await (from c in db.flexes.AsNoTracking() where (c.type == id) orderby c.field2, c.id select c).ToArrayAsync()
+                };
+            }
+            catch (Exception ex)
+            {
+                if (Logger != null)
+                {
+                    Logger.LogError(new EventId(0), ex, ex.Message);
+                    return null;
+                }
+                else throw ex;
+            }
+        }
+    }
+
+    public class pclass_info {
+        public indents_base cls { get; set; }
+        public flexes_base[] flexes { get; set; }
     }
     public enum FetchType
     {
@@ -361,6 +386,12 @@ namespace mphdict
         public short pclass { get; set; }
         public bool ispofs { get; set; }
         public byte pofs { get; set; }
+    }
+    public class pclsfilter
+    {
+        public bool ispofsPcls { get; set; }
+        public byte pofsPcls { get; set; }
+        public short pclassPcls { get; set; }
     }
     public struct ps
     {
