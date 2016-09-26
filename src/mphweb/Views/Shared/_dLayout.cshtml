@@ -61,7 +61,10 @@
         </main>
         <footer id="mainfooter"></footer>
     </div>
-
+    @*<input type="hidden" id="pathjs" value="" />*@
+    <script type="text/javascript">
+    var pclsApiPath = '@(Url.Action("GetView", "api/pcls"))';
+    </script>
     <environment names="Development">
         <script src="~/js/site.js" asp-append-version="true"></script>
     </environment>

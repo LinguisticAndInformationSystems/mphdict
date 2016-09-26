@@ -13,6 +13,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using mphdict.Models.morph;
 using mphdict;
+using mphweb.FuncModule;
 
 namespace mphweb
 {
@@ -49,6 +50,7 @@ namespace mphweb
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddTransient<mphObj>();
+            services.AddScoped<ViewRender, ViewRender>();
             services.AddSingleton<IConfiguration>(Configuration);
             services.AddEntityFramework()
                 .AddEntityFrameworkSqlite()
