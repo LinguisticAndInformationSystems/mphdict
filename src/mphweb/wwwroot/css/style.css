@@ -494,13 +494,14 @@ main > .nav_pclass {
     max-width:3rem;
     min-width:3rem;
     overflow:hidden;
+    font-size:.8em;
 }
 .pclass-gr {
     flex:1 1 auto;
     overflow:hidden;
     text-overflow:ellipsis;
     white-space:nowrap;
-    font-size:.7em;
+    font-size:.9em;
 }
 .pclass-qty {
     flex:0 0 5rem;
@@ -508,6 +509,7 @@ main > .nav_pclass {
     min-width:5rem;
     overflow:hidden;
     text-align:center;
+    font-size:.9em;
 }
 .pclass-indent {
     flex:0 0 2rem;
@@ -515,13 +517,14 @@ main > .nav_pclass {
     min-width:2rem;
     overflow:hidden;
     text-align:center;
+    font-size:.9em;
 }
 .pclass-com {
     flex:1 1 auto;
     overflow:hidden;
     text-overflow:ellipsis;
     white-space:nowrap;
-    font-size:.7em;
+    font-size:.9em;
 }
 .pclass-name {
     flex:0 0 auto;

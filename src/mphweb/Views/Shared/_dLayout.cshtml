@@ -62,16 +62,14 @@
         <footer id="mainfooter"></footer>
     </div>
     @*<input type="hidden" id="pathjs" value="" />*@
-    <script type="text/javascript">
-    var pclsApiPath = '@(Url.Action("GetView", "api/pcls"))';
-    </script>
+    @RenderSection("scripts", required: false)
     <environment names="Development">
+        <script src="~/js/rls_pb.js" asp-append-version="true"></script>
         <script src="~/js/site.js" asp-append-version="true"></script>
     </environment>
     <environment names="Staging,Production">
         <script src="~/js/site.min.js" asp-append-version="true"></script>
     </environment>
 
-    @RenderSection("scripts", required: false)
 </body>
 </html>

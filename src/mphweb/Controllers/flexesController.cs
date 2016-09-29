@@ -30,7 +30,8 @@ namespace mphweb.Controllers
             {
                 ViewBag.indents = (from c in db.indents where c.gr_id == pclsf.pofsPcls select c).ToArray();
             }
-            var pcls = await db.getPClass(pclsf.pclassPcls);
+            pclass_info pcls = await db.getPClass(pclsf.pclassPcls);
+            ViewBag.pclsf = pclsf;
             return View(pcls);
         }
     }
