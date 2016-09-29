@@ -247,20 +247,22 @@ namespace mphdict
             try
             {
                 int q = 0, cp=0;
-                //var a = context.words_list.ToArray();
-                //for (int i=0;i<a.Length;i++) {
-                //    a[i].digit = mo.atod(a[i].reestr);
-                //    a[i].reverse = new string(mo.atod(a[i].reestr).ToArray().Reverse().ToArray());
-                //    q++;
-                //    if (q == 4000) {
-                //        q=0;
-                //        context.SaveChanges();
-                //        Console.WriteLine($"prepared next 4000 rows - {i}...");
-                //    }
-                //    cp++;
-                //}
-                //context.SaveChanges();
-                //Console.WriteLine($"words list finished ({cp})");
+                var a = context.words_list.ToArray();
+                for (int i = 0; i < a.Length; i++)
+                {
+                    a[i].digit = mo.atod(a[i].reestr);
+                    a[i].reverse = new string(mo.atod(a[i].reestr).ToArray().Reverse().ToArray());
+                    q++;
+                    if (q == 4000)
+                    {
+                        q = 0;
+                        context.SaveChanges();
+                        Console.WriteLine($"prepared next 4000 rows - {i}...");
+                    }
+                    cp++;
+                }
+                context.SaveChanges();
+                Console.WriteLine($"words list finished ({cp})");
 
                 q = cp = 0;
                 var af = context.flexes.ToArray();

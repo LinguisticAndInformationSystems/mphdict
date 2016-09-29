@@ -208,7 +208,7 @@ namespace mphdict
                     q = q.Where(c => c.part == f.pofs);
                 }
                 else {
-                    q = q.Where(c => c.parts.gr_id == f.pofs);
+                    q = q.Where(c => ((c.parts.gr_id == f.pofs)&&(c.part<70)));
                 }
             }
             return q;

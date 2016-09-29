@@ -90,9 +90,12 @@ namespace mphweb.Models
             else // інакше - для змінної. ч.м.:
             {
                 // заповнюємо поля коментарів та викликаємо побудову
-                if (item.field7 != null)
-                    str = item.field7.Replace("<", "&#60;").Replace(">", "&#62;");
-                str += "<br>";
+                if (langid == 1058)
+                {
+                    if (item.field7 != null)
+                        str = item.field7.Replace("<", "&#60;").Replace(">", "&#62;");
+                    str += "<br>";
+                }
                 if (item.field6 != null)
                     str += item.field6.Replace("<", "&#60;").Replace(">", "&#62;");
                 str += "<br>"; 
