@@ -31,6 +31,7 @@ namespace mphweb
             builder.AddInMemoryCollection(new Dictionary<string, string>
             {
                 {"start_ua_word", "вітання"},
+                {"start_ru_word", "привет"}
             });
 
             Configuration = builder.Build();

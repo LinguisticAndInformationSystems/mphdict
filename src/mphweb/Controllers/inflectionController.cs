@@ -27,7 +27,7 @@ namespace mphweb.Controllers
         {
             //var env = HttpContext.RequestServices.GetService(typeof(IHostingEnvironment));
             IConfiguration conf = (IConfiguration)HttpContext.RequestServices.GetService(typeof(IConfiguration));
-            return conf.GetValue<string>("start_ua_word");
+            return variables.lang.id_lang==1058?conf.GetValue<string>("start_ua_word"): conf.GetValue<string>("start_ru_word");
         }
         private async Task<dictParams> prepaireData(incParams incp, filter f)
         {

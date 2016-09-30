@@ -74,7 +74,7 @@ namespace mphweb.Models
                     return null;
                 }
 
-                if (item.indents.comment != null) pcomm = item.indents.comment.Replace("<", "&#3C;").Replace(">", "&#3E;");
+                if ((item.indents.comment != null)&&(variables.lang.id_lang==1058)) pcomm = item.indents.comment.Replace("<", "&#3C;").Replace(">", "&#3E;");
             }
             else unchangeable = word;	
 
@@ -124,13 +124,13 @@ namespace mphweb.Models
                     templ += (langid == 1058) ? templ += loadTempl("ua_i") : (langid == 1049) ? templ += loadTempl("ru_i") : "";
                     n = 24; break;
                 case 14:    //прізвище
-                    templ += (langid == 1058) ? templ += loadTempl("ua_f1") : (langid == 1049) ? templ += loadTempl("ru_f1") : "";
+                    templ += loadTempl("ua_f1"); // templ += (langid == 1058) ? templ += loadTempl("ua_f1") : (langid == 1049) ? templ += loadTempl("ru_f1") : "";
                     n = 21; break;
                 case 15:    //прізвище
-                    templ += (langid == 1058) ? templ += loadTempl("ua_f2") : (langid == 1049) ? templ += loadTempl("ru_f2") : "";
+                    templ += loadTempl("ua_f2"); // templ += (langid == 1058) ? templ += loadTempl("ua_f2") : (langid == 1049) ? templ += loadTempl("ru_f2") : "";
                     n = 21; break;
                 case 2: //прізвище
-                    templ += (langid == 1058) ? templ += loadTempl("ua_f") : (langid == 1049) ? templ += loadTempl("ru_f") : "";
+                    templ += loadTempl("ua_f"); // templ += (langid == 1058) ? templ += loadTempl("ua_f") : (langid == 1049) ? templ += loadTempl("ru_f") : "";
                     n = 21; break;
                 case 3://прикм.
                     templ += (langid == 1058) ? templ += loadTempl("ua_p") : (langid == 1049) ? templ += loadTempl("ru_p") : "";
@@ -163,7 +163,7 @@ namespace mphweb.Models
                     templ += (langid == 1058) ? templ += loadTempl("ua_c2") : (langid == 1049) ? templ += loadTempl("ru_c2") : "";
                     n = 24; break;
                 case 13:    //дієсл. недок. док.
-                    templ += (langid == 1058) ? templ += loadTempl("ua_vnd") : (langid == 1049) ? templ += loadTempl("ru_vnd") : "";
+                    templ += loadTempl("ua_vnd"); // templ += (langid == 1058) ? templ += loadTempl("ua_vnd") : (langid == 1049) ? templ += loadTempl("ru_vnd") : "";
                     n = 49; break;
                 default: break;
             }

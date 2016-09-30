@@ -32,6 +32,7 @@ namespace mphweb.Controllers
             }
             pclass_info pcls = await db.getPClass(pclsf.pclassPcls);
             ViewBag.pclsf = pclsf;
+            var a = Resources.idispl.bname_ua;
             return View(pcls);
         }
     }

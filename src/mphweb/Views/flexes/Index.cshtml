@@ -36,16 +36,19 @@
             }
         </table>
         <div style="font-size:.7em; text-align:left; margin:1rem;">
-            @if (!string.IsNullOrEmpty(Model.cls.comment))
+            @if ((!string.IsNullOrEmpty(Model.cls.comment))&&(variables.lang.id_lang==1058))
             {
                 <p class="comm_end_style">@Model.cls.comment</p>
                 <br />
             }
             <p class="comm_end_style">^ - ненормативна форма</p><br />
+            @if (variables.lang.id_lang == 1058)
+            {
             <p class="comm_end_style">@@ - (до ...)</p><br />
             <p class="comm_end_style">$ - (на ...)</p><br />
             <p class="comm_end_style">% - (по ...)</p><br />
             <p class="comm_end_style">& - (у на/у ...)</p><br />
+            }
         </div>
     </div>
 }

@@ -81,5 +81,24 @@ namespace mphweb
                 return _pofsPcls;
             }
         }
+        private static langid _lang = null;
+        public static langid lang
+        {
+            get
+            {
+                if (_lang == null)
+                {
+                    try
+                    {
+                        _lang = ((mphObj)ApplicationVariables.services.GetService(typeof(mphObj))).lid;
+                    }
+                    catch (Exception ex)
+                    {
+                        _lang = null;
+                    }
+                }
+                return _lang;
+            }
+        }
     }
 }
