@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using mphweb.Models;
 
 namespace mphweb.Controllers
 {
@@ -24,11 +25,6 @@ namespace mphweb.Controllers
         {
             ViewData["Message"] = "Your contact page.";
 
-            return View();
-        }
-
-        public IActionResult Error()
-        {
             return View();
         }
     }

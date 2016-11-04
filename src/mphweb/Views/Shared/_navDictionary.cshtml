@@ -1,6 +1,15 @@
 ﻿@model mphweb.Models.dictParams
 
-@{await Html.RenderPartialAsync("_SearchPanel", Model);}
+
+@*@{await Html.RenderPartialAsync("_SearchPanel", Model);}
 @{await Html.RenderPartialAsync("_TabListEntryPanel", Model);}
 @await Component.InvokeAsync(nameof(mphweb.ViewComponents.wordsList), new { dp = Model })
-@{await Html.RenderPartialAsync("_ListControlPanel", Model);}
+@{await Html.RenderPartialAsync("_ListControlPanel", Model);}*@
+
+@if (Model != null)
+{
+    await Html.RenderPartialAsync("_SearchPanel", Model);
+    await Html.RenderPartialAsync("_TabListEntryPanel", Model);
+    @await Component.InvokeAsync(nameof(mphweb.ViewComponents.wordsList), new { dp = Model })
+    await Html.RenderPartialAsync("_ListControlPanel", Model);
+}

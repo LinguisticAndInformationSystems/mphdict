@@ -15,7 +15,12 @@
     </environment>
 </head>
 <body>
-    @{var d = (mphweb.Models.dictParams)ViewBag.dp;}
+    @{
+        mphweb.Models.dictParams d = null;
+        if (ViewBag.dp != null) {
+            d = (mphweb.Models.dictParams)ViewBag.dp;
+        }
+    }
     <div id="wrapper">
         <header>
             <div id="goto_main">
@@ -69,7 +74,8 @@
                             @{await Html.RenderPartialAsync("_navPClass", (mphdict.Models.morph.indents_base[])ViewBag.indents);}
                         </nav>
                         break;
-
+                    default:
+                        break;
                 }
             <article>
                 <header></header>

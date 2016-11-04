@@ -43,6 +43,9 @@ namespace mphweb.Controllers
         // GET: /<controller>/
         public async Task<IActionResult> Index(incParams incp, filter f)
         {
+            int x = 0;
+            int y = 34;
+            Console.WriteLine($"sfdf {y/x}");
             if ((incp.wid == 0)&&(f.isStrFiltering==false)&&(f.ispclass == false) && (f.ispofs == false))
             {
                 incp.wordSearch = getStartWordId();

@@ -1,0 +1,16 @@
+﻿@using mphweb.Models
+@model ErrorInfo
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    //Layout = "dLayoutError";
+}
+<br />
+<h5>Помилка: @Model.id</h5>
+<br />
+<h5>@Model.verbalInfo</h5>
+<br />
+<a asp-action="Index" asp-controller="inflection">
+    Перейти на головну сторінку
+</a>

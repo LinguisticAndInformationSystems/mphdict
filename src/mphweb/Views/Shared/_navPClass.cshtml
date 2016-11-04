@@ -1,6 +1,8 @@
 ﻿@using mphweb.Models
 @model mphdict.Models.morph.indents_base[]
 
+@if (Model != null)
+{
 @*@{await Html.RenderPartialAsync("_SearchPanel", Model);}*@
 <div class="pclass-name">
     <div class="col-name pclass-id">№</div>
@@ -18,7 +20,7 @@
            asp-route-fetchType="@dp.f.fetchType" asp-route-str="@dp.f.str" asp-route-isStrFiltering="@dp.f.isStrFiltering" asp-route-isInverse="@dp.f.isInverse" asp-route-ispclass="@dp.f.ispclass" asp-route-pclass="@dp.f.pclass" asp-route-ispofs="@dp.f.ispofs" asp-route-pofs="@dp.f.pofs"
            asp-route-pclassPcls="@item.type" asp-route-ispofsPcls="@ViewBag.pclsf.ispofsPcls" asp-route-pofsPcls="@ViewBag.pclsf.pofsPcls"
            asp-fragment="@($"ptype-{item.type}")"
-           class="pclass-row @(item.type == ViewBag.pclsf.pclassPcls? "selected-word" : "")" id="@($"ptype-{item.type}")">
+           class="pclass-row @(item.type == ViewBag.pclsf.pclassPcls ? "selected-word" : "")" id="@($"ptype-{item.type}")">
             <div class="pclass-id" title="@item.type">@item.type</div>
             <div class="pclass-qty" title="@item.CountOfWords">@item.CountOfWords</div>
             <div class="pclass-indent" title="@item.indent">@item.indent</div>
@@ -28,3 +30,4 @@
     }
     @*}*@
 </div>
+}

@@ -76,8 +76,11 @@ namespace mphweb
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler("/Error/Info");
             }
+
+            // http error
+            app.UseStatusCodePagesWithReExecute("/error/statuscodeinfo/{0}");
 
             app.UseStaticFiles();
 

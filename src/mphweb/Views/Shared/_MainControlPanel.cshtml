@@ -1,33 +1,46 @@
 ﻿@using mphdict.Models.morph
 @model mphweb.Models.dictParams
 <div id="main-tab">
-
-    @if (ViewBag.vtype == viewtype.dict)
+    @if (ViewBag.vtype == viewtype.error)
     {
-        <div class="tab-item">Словник</div>
-    }
-    else
-    {
+        <div class="tab-item">Помилка</div>
         <a asp-action="Index" asp-controller="inflection"
-           asp-route-wid="@Model.incp.wid" asp-route-currentPage="@Model.incp.currentPage" asp-route-wordSearch="@Model.incp.wordSearch"
-           asp-route-fetchType="@Model.f.fetchType" asp-route-str="@Model.f.str" asp-route-isStrFiltering="@Model.f.isStrFiltering" asp-route-isInverse="@Model.f.isInverse" asp-route-ispclass="@Model.f.ispclass" asp-route-pclass="@Model.f.pclass" asp-route-ispofs="@Model.f.ispofs" asp-route-pofs="@Model.f.pofs"
            class="tab-item group-not-active-tab">
             Словник
         </a>
-    }
-
-    @if (ViewBag.vtype == viewtype.pclass)
-    {
-        <div class="tab-item">Словозмінні класи</div>
-    }
-    else
-    {
         <a asp-action="Index" asp-controller="flexes"
-           asp-route-wid="@Model.incp.wid" asp-route-currentPage="@Model.incp.currentPage" asp-route-wordSearch="@Model.incp.wordSearch"
-           asp-route-fetchType="@Model.f.fetchType" asp-route-str="@Model.f.str" asp-route-isStrFiltering="@Model.f.isStrFiltering" asp-route-isInverse="@Model.f.isInverse" asp-route-ispclass="@Model.f.ispclass" asp-route-pclass="@Model.f.pclass" asp-route-ispofs="@Model.f.ispofs" asp-route-pofs="@Model.f.pofs"
            class="tab-item group-not-active-tab">
             Словозмінні класи
         </a>
+    }
+    else
+    {
+        if (ViewBag.vtype == viewtype.dict)
+        {
+            <div class="tab-item">Словник</div>
+        }
+        else
+        {
+            <a asp-action="Index" asp-controller="inflection"
+               asp-route-wid="@Model.incp.wid" asp-route-currentPage="@Model.incp.currentPage" asp-route-wordSearch="@Model.incp.wordSearch"
+               asp-route-fetchType="@Model.f.fetchType" asp-route-str="@Model.f.str" asp-route-isStrFiltering="@Model.f.isStrFiltering" asp-route-isInverse="@Model.f.isInverse" asp-route-ispclass="@Model.f.ispclass" asp-route-pclass="@Model.f.pclass" asp-route-ispofs="@Model.f.ispofs" asp-route-pofs="@Model.f.pofs"
+               class="tab-item group-not-active-tab">
+                Словник
+            </a>
+        }
+        @if (ViewBag.vtype == viewtype.pclass)
+        {
+            <div class="tab-item">Словозмінні класи</div>
+        }
+        else
+        {
+            <a asp-action="Index" asp-controller="flexes"
+               asp-route-wid="@Model.incp.wid" asp-route-currentPage="@Model.incp.currentPage" asp-route-wordSearch="@Model.incp.wordSearch"
+               asp-route-fetchType="@Model.f.fetchType" asp-route-str="@Model.f.str" asp-route-isStrFiltering="@Model.f.isStrFiltering" asp-route-isInverse="@Model.f.isInverse" asp-route-ispclass="@Model.f.ispclass" asp-route-pclass="@Model.f.pclass" asp-route-ispofs="@Model.f.ispofs" asp-route-pofs="@Model.f.pofs"
+               class="tab-item group-not-active-tab">
+                Словозмінні класи
+            </a>
+        }
     }
     <div class="tab-item tab-item-empty"></div>
 </div>
@@ -38,6 +51,8 @@
         @switch ((viewtype)ViewBag.vtype)
         {
             case viewtype.dict:
+                @if (Model != null)
+                {
                 <div class="menu-group">
                     <form id="query-control" asp-action="Index" asp-controller="inflection" method="get">
                         <div class="menu-group-content">
@@ -89,9 +104,12 @@
                         Робота з реєстром
                     </div>
                 </div>
+                }
                 break;
             case viewtype.pclass:
-                mphdict.pclsfilter pclsf = @ViewBag.pclsf;
+                if (ViewBag.pclsf != null)
+                {
+                    mphdict.pclsfilter pclsf = ViewBag.pclsf;
                 <div class="menu-group">
                     <div class="menu-group-content">
                         <div class="query-param">
@@ -124,6 +142,8 @@
                         <div class="menu-group-content">
                             <button id="filter_pcls" title="Оновити" class="btn"></button>
                         </div>
+                        @if (Model != null)
+                        {
                         <input type="hidden" asp-for="@Model.incp.wordSearch" />
                         <input type="hidden" asp-for="@Model.incp.wid" />
                         <input type="hidden" asp-for="@Model.incp.currentPage" />
@@ -135,13 +155,16 @@
                         <input type="hidden" asp-for="@Model.f.pclass" />
                         <input type="hidden" asp-for="@Model.f.ispofs" />
                         <input type="hidden" asp-for="@Model.f.pofs" />
+                        }
                     </form>
                     <div class="menu-group-name">
                         Відібрати
                     </div>
                 </div>
+                }
                 break;
-
+            case viewtype.error:
+                break;
         }
     </div>
     <button id="right-control" class="btn">›</button>
