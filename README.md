@@ -31,16 +31,16 @@ License: http://opensource.org/licenses/MIT
 
 Required software
 
-.NET Core
+.NET Core 1.1
 
 https://github.com/dotnet/core/
 
-ASP.NET Core
+ASP.NET Core 1.1
 
 https://github.com/aspnet/home
 
 
 How to start
 
-https://www.microsoft.com/net/core
+https://www.microsoft.com/net/core/platform
 
