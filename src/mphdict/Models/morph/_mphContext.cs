@@ -8,10 +8,11 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using uSofTrod.generalTypes.Models;
 
 namespace mphdict.Models.morph
 {
-    public class mphContext: DbContext
+    public class mphContext : DbContext
     {
         private string _schema = string.Empty; // "ukgram";
 
@@ -27,8 +28,8 @@ namespace mphdict.Models.morph
         public DbSet<minor_acc> minor_acc { get; set; }
         //public DbSet<allang> allangs { get; set; }
         public DbSet<langid> lang { get; set; }
-        
-        public mphContext(DbContextOptions<mphContext> options) 
+
+        public mphContext(DbContextOptions<mphContext> options)
             : base(options)
         {
             //Configuration.LazyLoadingEnabled = false;
@@ -62,7 +63,7 @@ namespace mphdict.Models.morph
             modelBuilder.Entity<word_param>().HasIndex(b => b.reestr);
             modelBuilder.Entity<word_param>().HasIndex(b => b.type);
 
-            modelBuilder.Entity<langid>().ToTable("lang"); 
+            modelBuilder.Entity<langid>().ToTable("lang");
             modelBuilder.Entity<flexes>().HasIndex(b => b.type);
             modelBuilder.Entity<flexes>().HasIndex(b => b.flex);
             modelBuilder.Entity<indents>().HasIndex(b => b.gr_id);
@@ -71,11 +72,10 @@ namespace mphdict.Models.morph
             if (!string.IsNullOrEmpty(_schema))
             {
                 modelBuilder.HasDefaultSchema(_schema);
-                modelBuilder.Entity<allang>().ToTable("allang", "dbo");
                 modelBuilder.Entity<alphadigit>().ToTable("alphadigit", "dbo");
             }
             modelBuilder.Entity<alphadigit>()
-                .HasKey(c => new { c.lang, c.alpha, c.ls});
+                .HasKey(c => new { c.lang, c.alpha, c.ls });
 
             modelBuilder.HasChangeTrackingStrategy(Microsoft.EntityFrameworkCore.Metadata.ChangeTrackingStrategy.Snapshot);
 
@@ -113,6 +113,7 @@ namespace mphdict.Models.morph
             var conventionSet = coreConventionSetBuilder.CreateConventionSet();
             var builder = new ModelBuilder(conventionSet);
             builder.Entity<alphadigit>();
+            builder.Entity<langid>();
             builder.Entity<word_param>();
             builder.Entity<gr>();
             builder.Entity<indents>();
@@ -121,9 +122,9 @@ namespace mphdict.Models.morph
             builder.Entity<flexes>();
             builder.Entity<accents_class>();
             builder.Entity<minor_acc>();
-            builder.Entity<allang>();
             //Cal Manually OnModelCreating from base class to create model objects relatet di Asp.Net identity (not nice)
             (new mphContext(optionsBuilder.Options, schema)).OnModelCreating(builder);
+            builder.Entity<langid>().ToTable("lang", schema);
             //builder.Entity<Invoice>().ToTable("REGION", schema);
 
             return builder.Model;
@@ -145,7 +146,7 @@ public static class ModelBuilderExtensions
     {
         foreach (IMutableEntityType entity in modelBuilder.Model.GetEntityTypes())
         {
-            entity.Relational().TableName = entity.Name.Substring(entity.Name.LastIndexOf('.')+1);//.DisplayName();
+            entity.Relational().TableName = entity.Name.Substring(entity.Name.LastIndexOf('.') + 1);//.DisplayName();
         }
     }
 }

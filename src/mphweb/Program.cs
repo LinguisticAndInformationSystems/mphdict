@@ -8,6 +8,7 @@ using Microsoft.Extensions.PlatformAbstractions;
 using mphdict.Models.morph;
 using mphdict;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using uSofTrod.generalTypes.Models;
 
 namespace mphweb
 {
