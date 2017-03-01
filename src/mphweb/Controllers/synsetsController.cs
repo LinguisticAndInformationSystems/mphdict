@@ -15,13 +15,12 @@ using Microsoft.AspNetCore.Hosting;
 
 namespace mphweb.Controllers
 {
-    public class inflectionController : Controller
+    public class synsetsController : Controller
     {
         ILogger Logger { get; } = ApplicationLogging.CreateLogger<inflectionController>();
-        mphObj db;
-        public inflectionController(mphObj db) {
+        synsetsObj db;
+        public synsetsController(synsetsObj db) {
             this.db = db;
-            this.db.Logger = Logger;
         }
         private string getStartWordId()
         {
@@ -29,10 +28,10 @@ namespace mphweb.Controllers
             IConfiguration conf = (IConfiguration)HttpContext.RequestServices.GetService(typeof(IConfiguration));
             return variables.lang.id_lang==1058?conf.GetValue<string>("start_ua_word"): conf.GetValue<string>("start_ru_word");
         }
-        private async Task<grdictParams> prepaireData(incParams incp, filter f)
+        private async Task<syndictParams> prepaireData(synincParams incp, synsetsfilter f)
         {
-            grdictParams dp = new grdictParams() { incp = incp, f = f, id_lang = db.lid.id_lang };
-            if (incp.wid != 0) dp.entry = await db.getEntry(incp.wid);
+            syndictParams dp = new syndictParams() { incp = incp, f = f, id_lang = db.lid.id_lang };
+            if (incp.idset != 0) dp.entry = await db.getEntry(incp.idset);
             dp.count = await db.CountWords(f);
             int count_plus = dp.count % 100;
             dp.maxpage = count_plus>0? (dp.count / 100)+1: (dp.count / 100);
@@ -41,48 +40,48 @@ namespace mphweb.Controllers
             return dp;
         }
         // GET: /<controller>/
-        public async Task<IActionResult> Index(incParams incp, filter f)
+        public async Task<IActionResult> Index(synincParams incp, synsetsfilter f)
         {
-            if ((incp.wid == 0)&&(f.isStrFiltering==false)&&(f.ispclass == false) && (f.ispofs == false))
+            if ((incp.idset == 0)&&(f.isStrFiltering==false) && (f.ispofs == false))
             {
                 incp.wordSearch = getStartWordId();
                 return RedirectToAction("Search", routeValues: setParams(incp, f));
             }
             var dp = await prepaireData(incp, f);
             ViewBag.dp = dp;
-            ViewBag.vtype = viewtype.dict;
+            ViewBag.vtype = viewtype.synsets;
             return View(dp);
         }
-        public async Task<IActionResult> toPrev(incParams incp, filter f)
+        public async Task<IActionResult> toPrev(synincParams incp, synsetsfilter f)
         {
             incp.currentPage = incp.currentPage-1;
             var dp = await prepaireData(incp, f);
             ViewBag.dp = dp;
-            ViewBag.vtype = viewtype.dict;
+            ViewBag.vtype = viewtype.synsets;
             return View("Index", dp);
         }
-        public async Task<IActionResult> toNext(incParams incp, filter f)
+        public async Task<IActionResult> toNext(synincParams incp, synsetsfilter f)
         {
             incp.currentPage = incp.currentPage + 1;
             var dp = await prepaireData(incp, f);
             ViewBag.dp = dp;
-            ViewBag.vtype = viewtype.dict;
+            ViewBag.vtype = viewtype.synsets;
             return View("Index", dp);
         }
-        public async Task<IActionResult> toPage(incParams incp, filter f)
+        public async Task<IActionResult> toPage(synincParams incp, synsetsfilter f)
         {
             incp.currentPage = incp.currentPage-1;
             var dp = await prepaireData(incp, f);
             ViewBag.dp = dp;
-            ViewBag.vtype = viewtype.dict;
+            ViewBag.vtype = viewtype.synsets;
             return View("Index", dp);
         }
-        public async Task<ActionResult> Search(incParams incp, filter f)
+        public async Task<ActionResult> Search(synincParams incp, synsetsfilter f)
         {
             var w = await db.searchWord(f, incp.wordSearch);
             incp.currentPage = w.wordsPageNumber;
-            incp.wid = w.nom_old;
-            var dp = new grdictParams() { incp = incp, f = f};
+            incp.idset = w.id_set;
+            var dp = new syndictParams() { incp = incp, f = f};
             dp.count = w.CountOfWords;
             int count_plus = dp.count % 100;
             dp.maxpage = count_plus > 0 ? (dp.count / 100) + 1 : (dp.count / 100);
@@ -90,34 +89,31 @@ namespace mphweb.Controllers
             if (dp.incp.currentPage < 0) dp.incp.currentPage = 0;
 
             ViewBag.dp = dp;
-            return Redirect(Url.Action("SearchWord", "inflection", 
-                new { isStrFiltering= f.isStrFiltering, str=f.str, fetchType=f.fetchType, isInverse = f.isInverse, ispclass=f.ispclass, pclass=f.pclass, ispofs = f.ispofs, pofs = f.pofs, currentPage= incp.currentPage, wordSearch= incp.wordSearch, wid= incp.wid, count= dp.count, maxpage = dp.maxpage }, null, null, $"wid-{incp.wid}"));
-
+            return Redirect(Url.Action("SearchWord", "synsets", 
+                new { wid= incp.wid, isStrFiltering= f.isStrFiltering, str=f.str, fetchType=f.fetchType, ispofs = f.ispofs, pofs = f.pofs, currentPage= incp.currentPage, wordSearch= incp.wordSearch, idset= incp.idset, count= dp.count, maxpage = dp.maxpage }, null, null, $"wid-{incp.wid}"));
         }
-        public async Task<ActionResult> SearchWord(incParams incp, filter f, int count, int maxpage)
+        public async Task<ActionResult> SearchWord(synincParams incp, synsetsfilter f, int count, int maxpage)
         {
-            var dp = new grdictParams() { incp = incp, f = f, id_lang = db.lid.id_lang };
+            var dp = new syndictParams() { incp = incp, f = f, id_lang = db.lid.id_lang };
             dp.count=count;
             dp.maxpage = maxpage;
-            dp.entry = await db.getEntry(incp.wid);
+            dp.entry = await db.getEntry(incp.idset);
             ViewBag.dp = dp;
-            ViewBag.vtype = viewtype.dict;
+            ViewBag.vtype = viewtype.synsets;
             return View("Index", dp);
         }
-        private RouteValueDictionary setParams(incParams p, filter f)
+        private RouteValueDictionary setParams(synincParams p, synsetsfilter f)
         {
             RouteValueDictionary d = new RouteValueDictionary();
             d.Add(nameof(f.isStrFiltering), f.isStrFiltering);
             d.Add(nameof(f.str), f.str);
             d.Add(nameof(f.fetchType), (int)f.fetchType);
-            d.Add(nameof(f.isInverse), f.isInverse);
             d.Add(nameof(p.currentPage), p.currentPage);
             d.Add(nameof(p.wordSearch), p.wordSearch);
             d.Add(nameof(p.wid), p.wid);
-            d.Add(nameof(f.ispclass), f.ispclass);
-            d.Add(nameof(f.pclass), f.pclass);
-            d.Add(nameof(f.ispofs), f.ispclass);
-            d.Add(nameof(f.pofs), f.pclass);
+            d.Add(nameof(p.idset), p.idset);
+            d.Add(nameof(f.ispofs), f.ispofs);
+            d.Add(nameof(f.pofs), f.pofs);
             return d;
         }
 

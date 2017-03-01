@@ -11,4 +11,11 @@ namespace mphweb.Models
         public int currentPage { get; set; }
         public string wordSearch { get; set; }
     }
+    public class synincParams
+    {
+        public int idset { get; set; }
+        public int wid { get; set; }
+        public int currentPage { get; set; }
+        public string wordSearch { get; set; }
+    }
 }

@@ -37,6 +37,10 @@ namespace mphdict.Models.SynonymousSets
         public int? login { get; set; }
         public bool inactive { get; set; }
         public DateTime? timemarker { get; set; }
+        [JsonIgnore]
+        public int CountOfWords { get; set; }
+        [JsonIgnore]
+        public int wordsPageNumber { get; set; }
 
     }
 }

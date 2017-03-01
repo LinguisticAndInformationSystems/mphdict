@@ -124,7 +124,6 @@ namespace mphdict.Models.morph
             builder.Entity<minor_acc>();
             //Cal Manually OnModelCreating from base class to create model objects relatet di Asp.Net identity (not nice)
             (new mphContext(optionsBuilder.Options, schema)).OnModelCreating(builder);
-            builder.Entity<langid>().ToTable("lang", schema);
             //builder.Entity<Invoice>().ToTable("REGION", schema);
 
             return builder.Model;

@@ -13,9 +13,9 @@ using uSofTrod.generalTypes.Models;
 
 namespace mphdict.Models.SynonymousSets
 {
-    public class synsetContext: DbContext
+    public class synsetsContext: DbContext
     {
-        private string _schema = string.Empty; 
+        private string _schema = string.Empty; // "dbo" 
 
         public DbSet<langid> lang { get; set; }
         public DbSet<alphadigit> alphadigits { get; set; }
@@ -23,14 +23,14 @@ namespace mphdict.Models.SynonymousSets
         public DbSet<synsets> synsets { get; set; }
         public DbSet<pofs> pofs { get; set; }
         
-        public synsetContext(DbContextOptions<synsetContext> options) 
+        public synsetsContext(DbContextOptions<synsetsContext> options) 
             : base(options)
         {
             //Configuration.LazyLoadingEnabled = false;
             //Configuration.ProxyCreationEnabled = false;
             //Configuration.AutoDetectChangesEnabled = false;
         }
-        public synsetContext(DbContextOptions<synsetContext> options, string schema)
+        public synsetsContext(DbContextOptions<synsetsContext> options, string schema)
             : base(options)
         {
             _schema = schema;
@@ -72,7 +72,7 @@ namespace mphdict.Models.SynonymousSets
 
         #region for working with multiple schemas
         private static ConcurrentDictionary<string, IModel> modelCache = new ConcurrentDictionary<string, IModel>();
-        public static synsetContext Create(DbContextOptionsBuilder<synsetContext> optionsBuilder, string schema)
+        public static synsetsContext Create(DbContextOptionsBuilder<synsetsContext> optionsBuilder, string schema)
         {
 
             IModel compiledModel;
@@ -81,9 +81,9 @@ namespace mphdict.Models.SynonymousSets
 
             optionsBuilder.UseModel(compiledModel);
 
-            return new synsetContext(optionsBuilder.Options, schema);
+            return new synsetsContext(optionsBuilder.Options, schema);
         }
-        private static IModel GetCompiled(DbContextOptionsBuilder<synsetContext> optionsBuilder, string schema)
+        private static IModel GetCompiled(DbContextOptionsBuilder<synsetsContext> optionsBuilder, string schema)
         {
             //https://github.com/aspnet/EntityFramework/issues/3909
             //var serviceCollection = new ServiceCollection();
@@ -101,7 +101,7 @@ namespace mphdict.Models.SynonymousSets
             builder.Entity<synsets>();
             builder.Entity<pofs>();
             //Cal Manually OnModelCreating from base class to create model objects relatet di Asp.Net identity (not nice)
-            (new synsetContext(optionsBuilder.Options, schema)).OnModelCreating(builder);
+            (new synsetsContext(optionsBuilder.Options, schema)).OnModelCreating(builder);
             //builder.Entity<Invoice>().ToTable("REGION", schema);
 
             return builder.Model;

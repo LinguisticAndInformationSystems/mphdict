@@ -14,6 +14,7 @@ using Microsoft.EntityFrameworkCore;
 using mphdict.Models.morph;
 using mphdict;
 using mphweb.FuncModule;
+using mphdict.Models.SynonymousSets;
 
 namespace mphweb
 {
@@ -51,12 +52,16 @@ namespace mphweb
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddTransient<mphObj>();
+            services.AddTransient<synsetsObj>();
             services.AddScoped<ViewRender, ViewRender>();
             services.AddSingleton<IConfiguration>(Configuration);
             services.AddEntityFramework()
                 .AddEntityFrameworkSqlite()
                 //.AddDbContext<mphContext>(options => options.UseSqlite($"Filename={Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).FullName, $"data/{Configuration.GetConnectionString("sqlitedb")}")}"));
                 .AddDbContext<mphContext>(options => options.UseSqlite($"Filename={Path.Combine(Directory.GetParent(Startup.ContentRootPath).FullName, $"data/{Configuration.GetConnectionString("sqlitedb")}")}"));
+            services.AddEntityFramework()
+                .AddEntityFrameworkSqlServer()
+                .AddDbContext<synsetsContext>(options => options.UseSqlServer(Configuration.GetConnectionString("SQLContext")));
             services.AddMvc();
         }
 

@@ -26,7 +26,7 @@ namespace mphweb
             host.Run();
         }
     }
-    public enum viewtype { dict, pclass, aclass, analyze, error };
+    public enum viewtype { dict, synsets, pclass, aclass, analyze, error };
     public static class variables
     {
         private static SelectList _pclass;

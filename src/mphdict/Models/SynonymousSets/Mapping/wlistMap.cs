@@ -22,6 +22,9 @@ namespace mphdict.Models.SynonymousSets.Mapping
             Entity.Property(p => p.comm2).HasMaxLength(4000);
             Entity.Property(p => p.interpretation).HasMaxLength(4000);
 
+            Entity.Ignore(p => p.CountOfWords);
+            Entity.Ignore(p => p.wordsPageNumber);
+
             Entity.HasIndex(p => p.word);
             Entity.HasIndex(p => p.digit);
             Entity.HasIndex(p => p.id_set);

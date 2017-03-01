@@ -1,0 +1,22 @@
+﻿@using mphdict.Models.morph
+@model mphweb.Models.syndictParams
+
+<div id="words-list" class="words-list">
+    @*@if (Model.page != null)
+    {*@
+    @foreach (var item in Model.page)
+    {
+        <a asp-action="Index" asp-controller="synsets" asp-route-idset="@item.id_set"
+           asp-route-wid="@item.id" asp-route-currentPage="@Model.incp.currentPage" asp-route-wordSearch="@Model.incp.wordSearch"
+           asp-route-fetchType="@Model.f.fetchType" asp-route-str="@Model.f.str" asp-route-isStrFiltering="@Model.f.isStrFiltering"
+           asp-route-ispofs="@Model.f.ispofs" asp-route-pofs="@Model.f.pofs" asp-fragment="@($"wid-{item.id}")"
+           class="@(item.id == Model.incp.wid ? "selected-word" : "")" id="@($"wid-{item.id}")">
+            @item.word.Replace('\"', '\x301')
+            @if (item.homonym > 0)
+            {
+                <sup>@item.homonym</sup>
+            }
+        </a>
+    }
+    @*}*@
+</div>

@@ -23,7 +23,7 @@ namespace mphweb.Controllers
         }
         public async Task<IActionResult> Index(incParams incp, filter f, pclsfilter pclsf)
         {
-            ViewBag.dp = new dictParams() { f=f, incp=incp };
+            ViewBag.dp = new grdictParams() { f=f, incp=incp };
             ViewBag.vtype = viewtype.pclass;
             ViewBag.indents = db.indents;
             if (pclsf.ispofsPcls)

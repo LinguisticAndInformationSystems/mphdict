@@ -251,8 +251,8 @@ namespace mphdict
                 var a = context.words_list.ToArray();
                 for (int i = 0; i < a.Length; i++)
                 {
-                    a[i].digit = mo.atod(a[i].reestr);
-                    a[i].reverse = new string(mo.atod(a[i].reestr).ToArray().Reverse().ToArray());
+                    a[i].digit = sharedTypes.atod(a[i].reestr, mo.talpha);
+                    a[i].reverse = new string(sharedTypes.atod(a[i].reestr, mo.talpha).ToArray().Reverse().ToArray());
                     q++;
                     if (q == 4000)
                     {
@@ -269,7 +269,7 @@ namespace mphdict
                 var af = context.flexes.ToArray();
                 for (int i = 0; i < af.Length; i++)
                 {
-                    af[i].digit = mo.atod(af[i].flex, false);
+                    af[i].digit = sharedTypes.atod(af[i].flex, mo.talpha, false);  
                     q++;
                     if (q == 4000)
                     {

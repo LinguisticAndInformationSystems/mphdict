@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using mphdict;
 using mphdict.Logging;
 using mphdict.Models.morph;
+using mphdict.Models.SynonymousSets;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -35,15 +36,19 @@ namespace mphcon
             p = new Program();
             p.InitializeServices();
 
-            switch (args[0])
+            if ((args != null) && (args.Length > 0))
             {
-                case "json":
-                    generateJson();
-                    break;
-                default:
-                    Console.WriteLine("Unknown parameters");
-                    break;
+                switch (args[0])
+                {
+                    case "json":
+                        generateJson();
+                        break;
+                    default:
+                        Console.WriteLine("Unknown parameters");
+                        break;
+                }
             }
+            //forming_nrw_synsets();
             //forming_nrw();
             //copyContext();
             //copyFromJson();
@@ -52,6 +57,10 @@ namespace mphcon
             //viewWords();
         }
 
+        static void forming_nrw_synsets()
+        {
+            p.container.GetService<synsetsObj>().forming_nrw();
+        }
         static void forming_nrw()
         {
             DbContextOptionsBuilder<mphContext> DbContextOptions = new DbContextOptionsBuilder<mphContext>().UseSqlServer(Configuration.GetConnectionString("gramSqlDb"));
@@ -113,15 +122,16 @@ namespace mphcon
         {
             var services = new ServiceCollection();
             services.AddTransient<mphDb>();
+            services.AddTransient<synsetsObj>();
             services.AddSingleton<ILoggerFactory>(ApplicationLogging.LoggerFactory);
 
-            //services.AddEntityFramework()
-            //    .AddEntityFrameworkSqlServer()
-            //    .AddDbContext<mphContext>(options => options.UseSqlServer(Configuration.GetConnectionString("gramSqlDb")));
             services.AddEntityFramework()
-                .AddEntityFrameworkSqlite()
-                //.AddDbContext<mphContext>(options => options.UseSqlite($"Filename={Path.Combine(Directory.GetCurrentDirectory(), "mph_c.db")}"));
-                .AddDbContext<mphContext>(options => options.UseSqlite($"Filename={Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).FullName, $"data/{Configuration.GetConnectionString("sqlitedb")}")}"));
+                .AddEntityFrameworkSqlServer()
+                .AddDbContext<synsetsContext>(options => options.UseSqlServer(Configuration.GetConnectionString("gramSqlDb")));
+            //services.AddEntityFramework()
+            //    .AddEntityFrameworkSqlite()
+            //    //.AddDbContext<mphContext>(options => options.UseSqlite($"Filename={Path.Combine(Directory.GetCurrentDirectory(), "mph_c.db")}"));
+            //    .AddDbContext<mphContext>(options => options.UseSqlite($"Filename={Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).FullName, $"data/{Configuration.GetConnectionString("sqlitedb")}")}"));
 
             container = services.BuildServiceProvider();
         }

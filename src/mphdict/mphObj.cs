@@ -18,7 +18,7 @@ namespace mphdict
         private static object o = new object();
         static private alphadigit[] _talpha=null;
 
-        private alphadigit[] talpha
+        public alphadigit[] talpha
         {
             get
             {
@@ -166,24 +166,11 @@ namespace mphdict
             }
         }
         // перетворення рядка в код (якщо не потрібно враховувати \', то askip=true)
-        public string atod(string a, bool askip = true)
-        {
-            if (a == null) return "";
-            StringBuilder d = new StringBuilder("");
-            for (int i = 0; i < a.Length; i++)
-            {
-                if ((askip) && ((a[i] == '\'') || (a[i] == ' ')||(a[i] == '-'))) continue;
-                alphadigit rs = talpha.FirstOrDefault(t => t.alpha == a[i].ToString());
-                if (rs != null) d.Append(rs.digit);
-            }
-            return d.ToString();
-        }
-
         private IQueryable<word_param> setWordListQueryFilter(filter f, IQueryable<word_param> q)
         {
             if ((f.isStrFiltering) && (!string.IsNullOrEmpty(f.str)))
             {
-                string s = atod(f.str);
+                string s = sharedTypes.atod(f.str, talpha);
                 switch (f.fetchType)
                 {
                     case FetchType.StartsWith:
@@ -264,7 +251,7 @@ namespace mphdict
             //System.Runtime.CompilerServices.StrongBox <T>
             try
             {
-                string w = f.isInverse==true? atod(new string(word.Reverse().ToArray())) : atod(word);
+                string w = f.isInverse==true? sharedTypes.atod(new string(word.Reverse().ToArray()), talpha) : sharedTypes.atod(word, talpha);
                 int start = 0;
                 var q = (from c in db.words_list select c);
 
@@ -365,16 +352,6 @@ namespace mphdict
         public indents_base cls { get; set; }
         public flexes_base[] flexes { get; set; }
     }
-    public enum FetchType
-    {
-        [Display(Name = "StartsWith", ResourceType = typeof(Resources.main))]
-        StartsWith = 0,
-        [Display(Name = "Contains", ResourceType = typeof(Resources.main))]
-        Contains = 1,
-        [Display(Name = "EndsWith", ResourceType = typeof(Resources.main))]
-        EndsWith = 2
-    };
-
     public class filter
     {
         public FetchType fetchType { get; set; }
@@ -394,11 +371,4 @@ namespace mphdict
         public byte pofsPcls { get; set; }
         public short pclassPcls { get; set; }
     }
-    public struct ps
-    {
-        public short id { get; set; }
-        public string name { get; set; }
-        public string category { get; set; }
-    }
-
 }

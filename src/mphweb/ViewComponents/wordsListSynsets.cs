@@ -9,16 +9,15 @@ using System.Threading.Tasks;
 
 namespace mphweb.ViewComponents
 {
-    public class wordsList: ViewComponent
+    public class wordsListSynsets: ViewComponent
     {
         ILogger Logger { get; } = ApplicationLogging.CreateLogger<wordsList>();
-        mphObj db;
-        public wordsList(mphObj db)
+        synsetsObj db;
+        public wordsListSynsets(synsetsObj db)
         {
             this.db = db;
-            this.db.Logger = Logger;
         }
-        public async Task<IViewComponentResult> InvokeAsync(grdictParams dp)
+        public async Task<IViewComponentResult> InvokeAsync(syndictParams dp)
         {
             dp.page = await db.getPage(dp.f, dp.incp.currentPage, 100);
             
