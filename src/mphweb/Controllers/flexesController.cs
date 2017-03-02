@@ -23,17 +23,18 @@ namespace mphweb.Controllers
         }
         public async Task<IActionResult> Index(incParams incp, filter f, pclsfilter pclsf)
         {
-            ViewBag.dp = new grdictParams() { f=f, incp=incp };
-            ViewBag.vtype = viewtype.pclass;
-            ViewBag.indents = db.indents;
+            var dp = new dictParams() {
+                gr = new grdictParams() { f = f, incp = incp },
+                pcls = new pclsdictParams() { indents = db.indents, f = pclsf, pclsinfo = await db.getPClass(pclsf.pclassPcls) },
+                vtype = viewtype.pclass
+            };
+
             if (pclsf.ispofsPcls)
             {
-                ViewBag.indents = (from c in db.indents where c.gr_id == pclsf.pofsPcls select c).ToArray();
+                dp.pcls.indents = (from c in db.indents where c.gr_id == pclsf.pofsPcls select c).ToArray();
             }
-            pclass_info pcls = await db.getPClass(pclsf.pclassPcls);
-            ViewBag.pclsf = pclsf;
-            var a = Resources.idispl.bname_ua;
-            return View(pcls);
+            ViewBag.dp = dp;
+            return View(dp.pcls.pclsinfo);
         }
     }
 }

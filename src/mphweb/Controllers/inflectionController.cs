@@ -48,61 +48,56 @@ namespace mphweb.Controllers
                 incp.wordSearch = getStartWordId();
                 return RedirectToAction("Search", routeValues: setParams(incp, f));
             }
-            var dp = await prepaireData(incp, f);
-            ViewBag.dp = dp;
-            ViewBag.vtype = viewtype.dict;
-            return View(dp);
+            var dpg = await prepaireData(incp, f);
+            ViewBag.dp = new dictParams() { gr = dpg, vtype = viewtype.dict };
+            return View(dpg);
         }
         public async Task<IActionResult> toPrev(incParams incp, filter f)
         {
             incp.currentPage = incp.currentPage-1;
-            var dp = await prepaireData(incp, f);
-            ViewBag.dp = dp;
-            ViewBag.vtype = viewtype.dict;
-            return View("Index", dp);
+            var dpg = await prepaireData(incp, f);
+            ViewBag.dp = new dictParams() { gr = dpg, vtype = viewtype.dict };
+            return View("Index", dpg);
         }
         public async Task<IActionResult> toNext(incParams incp, filter f)
         {
             incp.currentPage = incp.currentPage + 1;
-            var dp = await prepaireData(incp, f);
-            ViewBag.dp = dp;
-            ViewBag.vtype = viewtype.dict;
-            return View("Index", dp);
+            var dpg = await prepaireData(incp, f);
+            ViewBag.dp = new dictParams() { gr = dpg, vtype = viewtype.dict };
+            return View("Index", dpg);
         }
         public async Task<IActionResult> toPage(incParams incp, filter f)
         {
             incp.currentPage = incp.currentPage-1;
-            var dp = await prepaireData(incp, f);
-            ViewBag.dp = dp;
-            ViewBag.vtype = viewtype.dict;
-            return View("Index", dp);
+            var dpg = await prepaireData(incp, f);
+            ViewBag.dp = new dictParams() { gr = dpg, vtype = viewtype.dict };
+            return View("Index", dpg);
         }
         public async Task<ActionResult> Search(incParams incp, filter f)
         {
             var w = await db.searchWord(f, incp.wordSearch);
             incp.currentPage = w.wordsPageNumber;
             incp.wid = w.nom_old;
-            var dp = new grdictParams() { incp = incp, f = f};
-            dp.count = w.CountOfWords;
-            int count_plus = dp.count % 100;
-            dp.maxpage = count_plus > 0 ? (dp.count / 100) + 1 : (dp.count / 100);
-            if (dp.incp.currentPage >= dp.maxpage) dp.incp.currentPage = dp.maxpage - 1;
-            if (dp.incp.currentPage < 0) dp.incp.currentPage = 0;
+            var dpg = new grdictParams() { incp = incp, f = f};
+            dpg.count = w.CountOfWords;
+            int count_plus = dpg.count % 100;
+            dpg.maxpage = count_plus > 0 ? (dpg.count / 100) + 1 : (dpg.count / 100);
+            if (dpg.incp.currentPage >= dpg.maxpage) dpg.incp.currentPage = dpg.maxpage - 1;
+            if (dpg.incp.currentPage < 0) dpg.incp.currentPage = 0;
 
-            ViewBag.dp = dp;
+            ViewBag.dp = new dictParams() { gr = dpg, vtype = viewtype.dict };
             return Redirect(Url.Action("SearchWord", "inflection", 
-                new { isStrFiltering= f.isStrFiltering, str=f.str, fetchType=f.fetchType, isInverse = f.isInverse, ispclass=f.ispclass, pclass=f.pclass, ispofs = f.ispofs, pofs = f.pofs, currentPage= incp.currentPage, wordSearch= incp.wordSearch, wid= incp.wid, count= dp.count, maxpage = dp.maxpage }, null, null, $"wid-{incp.wid}"));
+                new { isStrFiltering= f.isStrFiltering, str=f.str, fetchType=f.fetchType, isInverse = f.isInverse, ispclass=f.ispclass, pclass=f.pclass, ispofs = f.ispofs, pofs = f.pofs, currentPage= incp.currentPage, wordSearch= incp.wordSearch, wid= incp.wid, count= dpg.count, maxpage = dpg.maxpage }, null, null, $"wid-{incp.wid}"));
 
         }
         public async Task<ActionResult> SearchWord(incParams incp, filter f, int count, int maxpage)
         {
-            var dp = new grdictParams() { incp = incp, f = f, id_lang = db.lid.id_lang };
-            dp.count=count;
-            dp.maxpage = maxpage;
-            dp.entry = await db.getEntry(incp.wid);
-            ViewBag.dp = dp;
-            ViewBag.vtype = viewtype.dict;
-            return View("Index", dp);
+            var dpg = new grdictParams() { incp = incp, f = f, id_lang = db.lid.id_lang };
+            dpg.count=count;
+            dpg.maxpage = maxpage;
+            dpg.entry = await db.getEntry(incp.wid);
+            ViewBag.dp = new dictParams() { gr = dpg, vtype = viewtype.dict };
+            return View("Index", dpg);
         }
         private RouteValueDictionary setParams(incParams p, filter f)
         {

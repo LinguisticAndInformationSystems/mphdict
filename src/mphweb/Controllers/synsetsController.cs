@@ -47,60 +47,55 @@ namespace mphweb.Controllers
                 incp.wordSearch = getStartWordId();
                 return RedirectToAction("Search", routeValues: setParams(incp, f));
             }
-            var dp = await prepaireData(incp, f);
-            ViewBag.dp = dp;
-            ViewBag.vtype = viewtype.synsets;
-            return View(dp);
+            var dps = await prepaireData(incp, f);
+            ViewBag.dp = new dictParams() { syn = dps, vtype = viewtype.synsets };
+            return View(dps);
         }
         public async Task<IActionResult> toPrev(synincParams incp, synsetsfilter f)
         {
             incp.currentPage = incp.currentPage-1;
-            var dp = await prepaireData(incp, f);
-            ViewBag.dp = dp;
-            ViewBag.vtype = viewtype.synsets;
-            return View("Index", dp);
+            var dps = await prepaireData(incp, f);
+            ViewBag.dp = new dictParams() { syn = dps, vtype = viewtype.synsets };
+            return View("Index", dps);
         }
         public async Task<IActionResult> toNext(synincParams incp, synsetsfilter f)
         {
             incp.currentPage = incp.currentPage + 1;
-            var dp = await prepaireData(incp, f);
-            ViewBag.dp = dp;
-            ViewBag.vtype = viewtype.synsets;
-            return View("Index", dp);
+            var dps = await prepaireData(incp, f);
+            ViewBag.dp = new dictParams() { syn = dps, vtype = viewtype.synsets };
+            return View("Index", dps);
         }
         public async Task<IActionResult> toPage(synincParams incp, synsetsfilter f)
         {
             incp.currentPage = incp.currentPage-1;
-            var dp = await prepaireData(incp, f);
-            ViewBag.dp = dp;
-            ViewBag.vtype = viewtype.synsets;
-            return View("Index", dp);
+            var dps = await prepaireData(incp, f);
+            ViewBag.dp = new dictParams() { syn = dps, vtype = viewtype.synsets };
+            return View("Index", dps);
         }
         public async Task<ActionResult> Search(synincParams incp, synsetsfilter f)
         {
             var w = await db.searchWord(f, incp.wordSearch);
             incp.currentPage = w.wordsPageNumber;
             incp.idset = w.id_set;
-            var dp = new syndictParams() { incp = incp, f = f};
-            dp.count = w.CountOfWords;
-            int count_plus = dp.count % 100;
-            dp.maxpage = count_plus > 0 ? (dp.count / 100) + 1 : (dp.count / 100);
-            if (dp.incp.currentPage >= dp.maxpage) dp.incp.currentPage = dp.maxpage - 1;
-            if (dp.incp.currentPage < 0) dp.incp.currentPage = 0;
+            var dps = new syndictParams() { incp = incp, f = f};
+            dps.count = w.CountOfWords;
+            int count_plus = dps.count % 100;
+            dps.maxpage = count_plus > 0 ? (dps.count / 100) + 1 : (dps.count / 100);
+            if (dps.incp.currentPage >= dps.maxpage) dps.incp.currentPage = dps.maxpage - 1;
+            if (dps.incp.currentPage < 0) dps.incp.currentPage = 0;
 
-            ViewBag.dp = dp;
+            ViewBag.dp = new dictParams() { syn = dps, vtype = viewtype.synsets };
             return Redirect(Url.Action("SearchWord", "synsets", 
-                new { wid= incp.wid, isStrFiltering= f.isStrFiltering, str=f.str, fetchType=f.fetchType, ispofs = f.ispofs, pofs = f.pofs, currentPage= incp.currentPage, wordSearch= incp.wordSearch, idset= incp.idset, count= dp.count, maxpage = dp.maxpage }, null, null, $"wid-{incp.wid}"));
+                new { wid= incp.wid, isStrFiltering= f.isStrFiltering, str=f.str, fetchType=f.fetchType, ispofs = f.ispofs, pofs = f.pofs, currentPage= incp.currentPage, wordSearch= incp.wordSearch, idset= incp.idset, count= dps.count, maxpage = dps.maxpage }, null, null, $"wid-{incp.wid}"));
         }
         public async Task<ActionResult> SearchWord(synincParams incp, synsetsfilter f, int count, int maxpage)
         {
-            var dp = new syndictParams() { incp = incp, f = f, id_lang = db.lid.id_lang };
-            dp.count=count;
-            dp.maxpage = maxpage;
-            dp.entry = await db.getEntry(incp.idset);
-            ViewBag.dp = dp;
-            ViewBag.vtype = viewtype.synsets;
-            return View("Index", dp);
+            var dps = new syndictParams() { incp = incp, f = f, id_lang = db.lid.id_lang };
+            dps.count=count;
+            dps.maxpage = maxpage;
+            dps.entry = await db.getEntry(incp.idset);
+            ViewBag.dp = new dictParams() { syn = dps, vtype = viewtype.synsets };
+            return View("Index", dps);
         }
         private RouteValueDictionary setParams(synincParams p, synsetsfilter f)
         {

@@ -78,7 +78,7 @@ namespace mphweb.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Граматичний словник російської мови.
+        ///    Looks up a localized string similar to Словники російської мови.
         /// </summary>
         public static string dict_ru_name {
             get {
@@ -87,11 +87,38 @@ namespace mphweb.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Граматичний словник української мови.
+        ///    Looks up a localized string similar to Словники української мови.
         /// </summary>
         public static string dict_ua_name {
             get {
                 return ResourceManager.GetString("dict_ua_name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Граматичний словник.
+        /// </summary>
+        public static string tab_gram_name {
+            get {
+                return ResourceManager.GetString("tab_gram_name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Словозмінні класи.
+        /// </summary>
+        public static string tab_inflectional_classes_name {
+            get {
+                return ResourceManager.GetString("tab_inflectional_classes_name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Словник синонімів.
+        /// </summary>
+        public static string tab_synsets_name {
+            get {
+                return ResourceManager.GetString("tab_synsets_name", resourceCulture);
             }
         }
     }

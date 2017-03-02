@@ -8,6 +8,19 @@ using System.Threading.Tasks;
 
 namespace mphweb.Models
 {
+    public class dictParams
+    {
+        public grdictParams gr { get; set; }
+        public pclsdictParams pcls { get; set; }
+        public syndictParams syn { get; set; }
+        public viewtype vtype { get; set; } = viewtype.dict;
+    }
+    public class pclsdictParams
+    {
+        public indents_base[] indents { get; set; }
+        public pclass_info pclsinfo { get; set; }
+        public pclsfilter f { get; set; }
+    }
     public class grdictParams
     {
         public filter f { get; set; }

@@ -16,10 +16,7 @@
 </head>
 <body>
     @{
-        mphweb.Models.grdictParams d = null;
-        if (ViewBag.dp != null) {
-            d = (mphweb.Models.grdictParams)ViewBag.dp;
-        }
+        mphweb.Models.dictParams d = ViewBag.dp;
     }
     <div id="wrapper">
         <header>
@@ -28,24 +25,24 @@
             </div>
             <div id="main-name">
                 <div>
-                @if (variables.lang.id_lang == 1058)
-                {
-                   @: @idispl.bname_ua
+                    @if (variables.lang.id_lang == 1058)
+                    {
+                        @: @idispl.bname_ua
                 }
-                else
-                {
-                   @: @idispl.bname_ru
+                    else
+                    {
+                        @: @idispl.bname_ru
                 }
                 </div>
                 <div>
                     <a href="https://github.com/LinguisticAndInformationSystems/mphdict" target="_blank">
-                         @if (variables.lang.id_lang == 1058)
-                         {
-                             @: @idispl.dict_ua_name
+                        @if (variables.lang.id_lang == 1058)
+                        {
+                            @: @idispl.dict_ua_name
                          }
-                         else
-                         {
-                             @: @idispl.dict_ru_name
+                        else
+                        {
+                            @: @idispl.dict_ru_name
                          }
                     </a>
                 </div>
@@ -58,25 +55,30 @@
                 <a href="#iworking" title="Вихід"></a>
             </div>
         </header>
-        
-       @{await Html.RenderPartialAsync("_MainControlPanel", d);}
-        
+
+        @{await Html.RenderPartialAsync("_MainControlPanel", d);}
+
         <main>
-                @switch ((viewtype)ViewBag.vtype)
-                {
-                    case viewtype.dict:
-                        <nav>
-                            @{await Html.RenderPartialAsync("_navDictionary", d);}
-                        </nav>
-                        break;
-                    case viewtype.pclass:
-                        <nav class="nav_pclass">
-                            @{await Html.RenderPartialAsync("_navPClass", (mphdict.Models.morph.indents_base[])ViewBag.indents);}
-                        </nav>
-                        break;
-                    default:
-                        break;
-                }
+            @switch (d.vtype)
+            {
+                case viewtype.dict:
+                    <nav>
+                        @{await Html.RenderPartialAsync("_navDictionary", d.gr);}
+                    </nav>
+                    break;
+                case viewtype.pclass:
+                    <nav class="nav_pclass">
+                        @{await Html.RenderPartialAsync("_navPClass", d.pcls.indents);}
+                    </nav>
+                    break;
+                case viewtype.synsets:
+                    <nav>
+                        @{await Html.RenderPartialAsync("_navSynsets", d.syn);}
+                    </nav>
+                    break;
+                default:
+                    break;
+             }
             <article>
                 <header></header>
                 <section>

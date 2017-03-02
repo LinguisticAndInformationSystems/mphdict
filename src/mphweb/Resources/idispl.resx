@@ -124,9 +124,18 @@
     <value>Цифрове лексикографічне надбання України</value>
   </data>
   <data name="dict_ru_name" xml:space="preserve">
-    <value>Граматичний словник російської мови</value>
+    <value>Словники російської мови</value>
   </data>
   <data name="dict_ua_name" xml:space="preserve">
-    <value>Граматичний словник української мови</value>
+    <value>Словники української мови</value>
+  </data>
+  <data name="tab_gram_name" xml:space="preserve">
+    <value>Граматичний словник</value>
+  </data>
+  <data name="tab_inflectional_classes_name" xml:space="preserve">
+    <value>Словозмінні класи</value>
+  </data>
+  <data name="tab_synsets_name" xml:space="preserve">
+    <value>Словник синонімів</value>
   </data>
 </root>
