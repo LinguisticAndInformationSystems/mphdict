@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using uSofTrod.TextUtility.txToolsCore;
 
 namespace mphweb.Models
 {
@@ -25,7 +26,7 @@ namespace mphweb.Models
             {
                 s.Append("<div class=\"syn-block-name\">Ілюстративний матеріал:</div>");
                 s.Append("<div class=\"syn-ill\">");
-                s.Append(item.illustrations.prepareString());
+                s.Append(item.illustrations.prepareString().prepareGId());
                 s.Append("</div>");
             }
             if (item._pofs != null)
@@ -63,6 +64,33 @@ namespace mphweb.Models
         {
             if (s != null)
                 return s.Replace("[S]", "<span class=\"S\">").Replace("[/S]", "</span>").Replace("[/B]", "</span>").Replace("[B]", "<span class=\"B\">").Replace("[BUX]", "<span class=\"BUX\">").Replace("[/BUX]", "</span>").Replace("[I]", "<span class=\"I\">").Replace("[/I]", "</span>");
+            else return "";
+        }
+        static public string prepareGId(this string s)
+        {
+            if (s != null)
+            {
+                s = s.Replace("[/GID]", "</span>");
+                string start_tag = "[GID";
+                string end_tag = "[/GID]";
+                int start = s.IndexOf(start_tag);
+                int end = s.IndexOf(end_tag);
+                for (;;)
+                {
+                    if (start < 0) break;
+                    int indx = start + start_tag.Length;
+                    while ((indx < s.Length) && (xparse.numerals.Contains(s[indx])))
+                    {
+                        indx++;
+                    }
+                    string id = s.Substring(start + start_tag.Length + 1, indx - (start + start_tag.Length) - 1);
+                    s = s.Remove(start, start - (indx + 1));
+                    s = s.Insert(start, $"<span data-gd-id=\"{id}\">");
+                    start = s.IndexOf(start_tag);
+                    end = s.IndexOf(end_tag);
+                }
+                return s;
+            }
             else return "";
         }
     }
