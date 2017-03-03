@@ -648,6 +648,7 @@ main > article {
         z-index:auto;
     }
     main > article > section {
+        flex:1 1 auto;
         overflow-y:auto;
     }
 @media all and (max-width:800px) {
@@ -1097,6 +1098,71 @@ sup             { vertical-align: super }
     .gd-entry > div {
         text-align: center;
     }
+.syn-entry {
+    font-size:1rem;
+    margin: .5em;
+    line-height: 1.15;
+    text-indent: 1.4rem;
+}
+    .syn-entry div {
+        margin-top: .5em;
+        margin-bottom: .5em;
+    }
+.syn-set {
+    list-style: disc inside;
+}
+.syn-comm {
+    font-style:italic;
+    color:rgb(31, 147, 12);
+}
+.syn-int {
+}
+.syn-int:first-letter {
+    text-transform: uppercase;
+}
+.syn-ill {
+    color: #669;
+}
+.syn-gr {
+    color: rgb(31, 147, 12);
+}
+.syn-block-name {
+    color: rgb(107, 47, 47);
+    font-weight: bold;
+}
+.B 
+{
+    display:inline;
+    font-weight:bold;
+    font-style:normal;
+}
+.I 
+{
+    display:inline;
+    font-style:italic;
+    font-weight:normal;
+}
+.S 
+{
+    display:inline;
+    letter-spacing:5px;
+    font-style:normal;
+    font-weight:normal;
+}
+.U 
+{
+    display:inline;
+    text-decoration:underline;
+}
+.BUX 
+{
+    display:inline;
+    vertical-align:super;
+    font-size:0.8em;
+    font-weight:bold;
+    font-style:normal;
+}
+
 table {
   font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
   background: white;

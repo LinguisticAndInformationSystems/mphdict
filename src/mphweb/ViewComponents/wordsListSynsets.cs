@@ -21,8 +21,7 @@ namespace mphweb.ViewComponents
         {
             dp.page = await db.getPage(dp.f, dp.incp.currentPage, 100);
             
-            return View("wordsList", dp);
+            return View("wordsListSynsets", dp);
         }
-
     }
 }

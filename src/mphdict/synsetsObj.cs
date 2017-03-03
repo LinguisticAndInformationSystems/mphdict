@@ -224,7 +224,7 @@ namespace mphdict
                 wlist_base r = null;
                 if (wp != null)
                 {
-                    r = (new wlist_base() { CountOfWords = count, wordsPageNumber = pagenumber, id = wp.id, comm= wp.comm, comm2= wp.comm2, digit= wp.digit, homonym= wp.homonym, hyperonym= wp.hyperonym, id_hyp= wp.id_hyp, id_int= wp.id_int, id_phon= wp.id_phon, id_r=wp.id_r, id_set= wp.id_set, id_syn= wp.id_syn, inactive= wp.inactive, interpretation= wp.interpretation, intsum= wp.intsum, login= wp.login, nom= wp.nom, sign=wp.sign, sword=wp.sword, timemarker= wp.timemarker, word= wp.word });
+                    r = (new wlist_base() { CountOfWords = count, wordsPageNumber = pagenumber, id = wp.id, comm= wp.comm, digit= wp.digit, homonym= wp.homonym, hyperonym= wp.hyperonym, id_hyp= wp.id_hyp, id_int= wp.id_int, id_phon= wp.id_phon, id_r=wp.id_r, id_set= wp.id_set, id_syn= wp.id_syn, inactive= wp.inactive, interpretation= wp.interpretation, intsum= wp.intsum, login= wp.login, nom= wp.nom, sign=wp.sign, sword=wp.sword, timemarker= wp.timemarker, word= wp.word });
                 }
                 return r;
 

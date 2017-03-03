@@ -1,10 +1,10 @@
 ﻿@using mphdict.Models.morph
 @model mphweb.Models.syndictParams
 
-<form asp-action="toPage" asp-controller="inflection" method="get" id="paging-control" >
+<form asp-action="toPage" asp-controller="synsets" method="get" id="paging-control" >
     <div id="word-count">Кількість слів - @Model.count</div>
     <div id="list-control">
-        <a asp-action="toPrev" asp-controller="inflection"
+        <a asp-action="toPrev" asp-controller="synsets"
            asp-route-wid="@Model.incp.wid" asp-route-currentPage="@Model.incp.currentPage" asp-route-wordSearch="@Model.incp.wordSearch"
            asp-route-fetchType="@Model.f.fetchType" asp-route-str="@Model.f.str" asp-route-isStrFiltering="@Model.f.isStrFiltering" 
            asp-route-ispofs="@Model.f.ispofs" asp-route-pofs="@Model.f.pofs" asp-route-idset="@Model.incp.idset" 
@@ -22,13 +22,13 @@
         <input type="hidden" asp-for="@Model.f.pofs" />
 
         <div id="page-number">&nbsp;з&nbsp;</div>
-        <a id="last-page" asp-action="Index" asp-controller="inflection"
+        <a id="last-page" asp-action="Index" asp-controller="synsets"
            asp-route-wid="@Model.incp.wid" asp-route-currentPage="@(Model.maxpage-1)" asp-route-wordSearch="@Model.incp.wordSearch"
            asp-route-fetchType="@Model.f.fetchType" asp-route-str="@Model.f.str" asp-route-isStrFiltering="@Model.f.isStrFiltering" 
            asp-route-ispofs="@Model.f.ispofs" asp-route-pofs="@Model.f.pofs" asp-route-idset="@Model.incp.idset">@(Model.maxpage)</a>
         <button class="btn"></button>
 
-        <a asp-action="toNext" asp-controller="inflection"
+        <a asp-action="toNext" asp-controller="synsets"
            asp-route-wid="@Model.incp.wid" asp-route-currentPage="@Model.incp.currentPage" asp-route-wordSearch="@Model.incp.wordSearch"
            asp-route-fetchType="@Model.f.fetchType" asp-route-str="@Model.f.str" asp-route-isStrFiltering="@Model.f.isStrFiltering"
            asp-route-ispofs="@Model.f.ispofs" asp-route-pofs="@Model.f.pofs" asp-route-idset="@Model.incp.idset"

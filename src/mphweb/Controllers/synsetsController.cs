@@ -77,6 +77,7 @@ namespace mphweb.Controllers
             var w = await db.searchWord(f, incp.wordSearch);
             incp.currentPage = w.wordsPageNumber;
             incp.idset = w.id_set;
+            incp.wid = w.id;
             var dps = new syndictParams() { incp = incp, f = f};
             dps.count = w.CountOfWords;
             int count_plus = dps.count % 100;

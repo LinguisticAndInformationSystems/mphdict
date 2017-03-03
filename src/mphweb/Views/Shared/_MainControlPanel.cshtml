@@ -26,12 +26,22 @@
         }
         else
         {
+            if (@Model.gr != null)
+            {
             <a asp-action="Index" asp-controller="inflection"
                asp-route-wid="@Model.gr.incp.wid" asp-route-currentPage="@Model.gr.incp.currentPage" asp-route-wordSearch="@Model.gr.incp.wordSearch"
                asp-route-fetchType="@Model.gr.f.fetchType" asp-route-str="@Model.gr.f.str" asp-route-isStrFiltering="@Model.gr.f.isStrFiltering" asp-route-isInverse="@Model.gr.f.isInverse" asp-route-ispclass="@Model.gr.f.ispclass" asp-route-pclass="@Model.gr.f.pclass" asp-route-ispofs="@Model.gr.f.ispofs" asp-route-pofs="@Model.gr.f.pofs"
                class="tab-item group-not-active-tab">
                 @idispl.tab_gram_name
             </a>
+            }
+            else
+            {
+                <a asp-action="Index" asp-controller="inflection"
+                   class="tab-item group-not-active-tab">
+                    @idispl.tab_gram_name
+                </a>
+            }
         }
         @if (Model.vtype == viewtype.pclass)
         {
@@ -39,12 +49,22 @@
         }
         else
         {
+            if (@Model.gr != null)
+            {
             <a asp-action="Index" asp-controller="flexes"
                asp-route-wid="@Model.gr.incp.wid" asp-route-currentPage="@Model.gr.incp.currentPage" asp-route-wordSearch="@Model.gr.incp.wordSearch"
                asp-route-fetchType="@Model.gr.f.fetchType" asp-route-str="@Model.gr.f.str" asp-route-isStrFiltering="@Model.gr.f.isStrFiltering" asp-route-isInverse="@Model.gr.f.isInverse" asp-route-ispclass="@Model.gr.f.ispclass" asp-route-pclass="@Model.gr.f.pclass" asp-route-ispofs="@Model.gr.f.ispofs" asp-route-pofs="@Model.gr.f.pofs"
                class="tab-item group-not-active-tab">
                 @idispl.tab_inflectional_classes_name
             </a>
+            }
+            else
+            {
+                <a asp-action="Index" asp-controller="flexes"
+                   class="tab-item group-not-active-tab">
+                    @idispl.tab_inflectional_classes_name
+                </a>
+            }
         }
         if (Model.vtype == viewtype.synsets)
         {

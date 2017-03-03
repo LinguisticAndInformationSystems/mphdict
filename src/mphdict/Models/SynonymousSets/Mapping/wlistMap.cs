@@ -19,7 +19,6 @@ namespace mphdict.Models.SynonymousSets.Mapping
 
             Entity.Property(p => p.word).HasMaxLength(100);
             Entity.Property(p => p.comm).HasMaxLength(4000);
-            Entity.Property(p => p.comm2).HasMaxLength(4000);
             Entity.Property(p => p.interpretation).HasMaxLength(4000);
 
             Entity.Ignore(p => p.CountOfWords);

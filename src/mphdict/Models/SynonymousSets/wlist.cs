@@ -21,7 +21,6 @@ namespace mphdict.Models.SynonymousSets
         public int id_syn { get; set; }
         public string word { get; set; }
         public string comm { get; set; }
-        public string comm2 { get; set; }
         public string interpretation { get; set; }
         public int? sign { get; set; }
         public int? id_r { get; set; }

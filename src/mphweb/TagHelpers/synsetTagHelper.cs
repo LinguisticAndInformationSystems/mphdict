@@ -14,7 +14,7 @@ namespace mphweb.TagHelpers
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
             output.TagName = "div";
-            output.Attributes.SetAttribute("class", "gd-entry");
+            output.Attributes.SetAttribute("class", "syn-entry");
             string templ = Models.synsetEntry.formEntry(SynSet);
             output.Content.SetHtmlContent(templ);
         }

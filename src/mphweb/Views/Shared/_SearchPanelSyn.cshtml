@@ -1,7 +1,7 @@
 ﻿@using mphdict.Models.morph
 @model mphweb.Models.syndictParams
 
-<form asp-action="Search" asp-controller="inflection" method="get" >
+<form asp-action="Search" asp-controller="synsets" method="get" >
     <div id="search-block">
         <input asp-for="@Model.incp.wordSearch" placeholder="введіть слово для пошуку..." />
         @*<input type="text" name="@nameof(Model.incp.wordSearch)" value="@(Model.incp.wordSearch)" placeholder="введіть слово для пошуку..." />*@
