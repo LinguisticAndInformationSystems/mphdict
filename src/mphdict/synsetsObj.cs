@@ -225,7 +225,7 @@ namespace mphdict
                 wlist_base r = null;
                 if (wp != null)
                 {
-                    r = (new wlist_base() { CountOfWords = count, wordsPageNumber = pagenumber, id = wp.id, comm= wp.comm, digit= wp.digit, homonym= wp.homonym, hyperonym= wp.hyperonym, id_hyp= wp.id_hyp, id_int= wp.id_int, id_phon= wp.id_phon, id_r=wp.id_r, id_set= wp.id_set, id_syn= wp.id_syn, inactive= wp.inactive, interpretation= wp.interpretation, intsum= wp.intsum, login= wp.login, nom= wp.nom, sign=wp.sign, sword=wp.sword, timemarker= wp.timemarker, word= wp.word });
+                    r = (new wlist_base() { CountOfWords = count, wordsPageNumber = pagenumber, id = wp.id, comm= wp.comm, digit= wp.digit, homonym= wp.homonym, hyperonym= wp.hyperonym, id_hyp= wp.id_hyp, id_int= wp.id_int, id_phon= wp.id_phon, id_r=wp.id_r, id_set= wp.id_set, id_syn= wp.id_syn, inactive= wp.inactive, interpretation= wp.interpretation, intsum= wp.intsum, userid= wp.userid, nom= wp.nom, sign=wp.sign, sword=wp.sword, timemarker= wp.timemarker, word= wp.word });
                 }
                 return r;
 
@@ -317,8 +317,8 @@ namespace mphdict
                         var end_tag_indx = s.IndexOf(end_templ);
                         string id = s.Substring(p + start_templ.Length, end_tag_indx - (p + start_templ.Length));
                         s = s.Remove(p, end_tag_indx + end_templ.Length-p);
-                        s = s.Insert(p, "[/GID]");
-                        s = s.Insert(indx+1, $"[GID{id}]");
+                        s = s.Insert(p, "[/D]");
+                        s = s.Insert(indx+1, $"[D GID={id}]");
                         a[i].illustrations = s;
                         p = s.IndexOf(start_templ);
                     }

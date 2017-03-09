@@ -70,28 +70,43 @@ namespace mphweb.Models
         {
             if (s != null)
             {
-                s = s.Replace("[/GID]", "</span>");
-                string start_tag = "[GID";
-                string end_tag = "[/GID]";
-                int start = s.IndexOf(start_tag);
-                int end = s.IndexOf(end_tag);
+                int end, start = 0;
+                s = s.Replace("[/D]", "</span>");
+                string start_data_tag = "[D ";
+                string gram_tag = " GID=";
                 for (;;)
                 {
-                    if (start < 0) break;
-                    int indx = start + start_tag.Length;
-                    while ((indx < s.Length) && (xparse.numerals.Contains(s[indx])))
+                    start = s.IndexOf(start_data_tag, start);
+                    if (start >= 0)
                     {
-                        indx++;
+                        end = s.IndexOf("]", start + start_data_tag.Length);
+                        string data = s.Substring(start, end - start + 1);
+                        s = s.Remove(start, end - start + 1);
+                        string attrval = data.getAttrValue(gram_tag);
+                        if (!string.IsNullOrEmpty(attrval))
+                        {
+                            s=s.Insert(start, $"<span data-gid=\"{attrval}\">");
+                        }
                     }
-                    string id = s.Substring(start + start_tag.Length + 1, indx - (start + start_tag.Length) - 1);
-                    s = s.Remove(start, start - (indx + 1));
-                    s = s.Insert(start, $"<span data-gd-id=\"{id}\">");
-                    start = s.IndexOf(start_tag);
-                    end = s.IndexOf(end_tag);
+                    else break;
                 }
                 return s;
             }
             else return "";
+        }
+        static public string getAttrValue(this string s, string attr)
+        {
+            string val = string.Empty;
+            int start = s.IndexOf(attr);
+            if (start >= 0) {
+                int indx = start + attr.Length;
+                while ((indx < s.Length) && (xparse.numerals.Contains(s[indx])))
+                {
+                    indx++;
+                }
+                val = s.Substring(start + attr.Length, indx - (start + attr.Length));
+            }
+            return val;
         }
     }
 }

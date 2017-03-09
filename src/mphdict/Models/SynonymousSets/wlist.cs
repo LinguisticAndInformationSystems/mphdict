@@ -33,7 +33,7 @@ namespace mphdict.Models.SynonymousSets
         public int? id_hyp { get; set; }
         public int? id_phon { get; set; }
         public int? homonym { get; set; }
-        public int? login { get; set; }
+        public int? userid { get; set; }
         public bool inactive { get; set; }
         public DateTime? timemarker { get; set; }
         [JsonIgnore]

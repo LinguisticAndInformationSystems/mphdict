@@ -23,7 +23,7 @@ namespace mphdict.Models.SynonymousSets
         public string interpretation { get; set; }
         public int pofs { get; set; }
         public bool? finished { get; set; }
-        public int? login { get; set; }
+        public int? userid { get; set; }
         public DateTime? timemarker { get; set; }
     }
 }
