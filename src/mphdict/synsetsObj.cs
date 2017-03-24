@@ -292,58 +292,144 @@ namespace mphdict
         }
         public void prepare_ill()
         {
-            string templ = "<!--?-->";
-            string templ2 = "<!--!-->";
-            string start_templ = "<!--";
-            string end_templ = "-->";
-            try
-            {
-                int q = 0, cp = 0;
-                var a = db.synsets.ToArray();
-                for (int i = 0; i < a.Length; i++)
-                {
-                    string s = a[i].illustrations;
-                    if (s == null) continue;
-                    s = s.Replace(templ, "");
-                    s = s.Replace(templ2, "");
-                    int p = s.IndexOf(start_templ);
-                    for (;;)
-                    {
-                        if (p < 0) break;
-                        int indx = p-1;
-                        while ((indx > 0) && ((xparse.Cyrillic.IsAlpha(s[indx])>=0) || (s[indx]=='\x301'))) {
-                            indx--;
-                        }
-                        var end_tag_indx = s.IndexOf(end_templ);
-                        string id = s.Substring(p + start_templ.Length, end_tag_indx - (p + start_templ.Length));
-                        s = s.Remove(p, end_tag_indx + end_templ.Length-p);
-                        s = s.Insert(p, "[/D]");
-                        s = s.Insert(indx+1, $"[D GID={id}]");
-                        a[i].illustrations = s;
-                        p = s.IndexOf(start_templ);
-                    }
-                    q++;
-                    if (q == 4000)
-                    {
-                        q = 0;
-                        db.SaveChanges();
-                        Console.WriteLine($"prepared next 4000 rows - {i}...");
-                    }
-                    cp++;
-                }
-                db.SaveChanges();
-                Console.WriteLine($"finished ({cp})");
-                Console.Read();
-            }
-            catch (Exception ex)
-            {
-                Logger.LogError(new EventId(0), ex, ex.Message);
-            }
-            finally
-            {
-            }
+            //string templ = "<!--?-->";
+            //string templ2 = "<!--!-->";
+            //string start_templ = "<!--";
+            //string end_templ = "-->";
+            //try
+            //{
+            //    int q = 0, cp = 0;
+            //    var a = db.synsets.ToArray();
+            //    for (int i = 0; i < a.Length; i++)
+            //    {
+            //        string s = a[i].illustrations;
+            //        if (s == null) continue;
+            //        s = s.Replace(templ, "");
+            //        s = s.Replace(templ2, "");
+            //        int p = s.IndexOf(start_templ);
+            //        for (;;)
+            //        {
+            //            if (p < 0) break;
+            //            int indx = p-1;
+            //            while ((indx > 0) && ((xparse.Cyrillic.IsAlpha(s[indx])>=0) || (s[indx]=='\x301'))) {
+            //                indx--;
+            //            }
+            //            var end_tag_indx = s.IndexOf(end_templ);
+            //            string id = s.Substring(p + start_templ.Length, end_tag_indx - (p + start_templ.Length));
+            //            s = s.Remove(p, end_tag_indx + end_templ.Length-p);
+            //            s = s.Insert(p, "[/D]");
+            //            s = s.Insert(indx+1, $"[D GID={id}]");
+            //            a[i].illustrations = s;
+            //            p = s.IndexOf(start_templ);
+            //        }
+            //        q++;
+            //        if (q == 4000)
+            //        {
+            //            q = 0;
+            //            db.SaveChanges();
+            //            Console.WriteLine($"prepared next 4000 rows - {i}...");
+            //        }
+            //        cp++;
+            //    }
+            //    db.SaveChanges();
+            //    Console.WriteLine($"finished ({cp})");
+            //    Console.Read();
+            //}
+            //catch (Exception ex)
+            //{
+            //    Logger.LogError(new EventId(0), ex, ex.Message);
+            //}
+            //finally
+            //{
+            //}
         }
+        public void prepare_ill2()
+        {
+            //string templ = "<!--?-->";
+            //string templ2 = "<!--!-->";
+            //string start_templ = "<!--";
+            //string end_templ = "-->";
+            //try
+            //{
+            //    int q = 0, cp = 0;
+            //    var a = db.synsets.ToArray();
+            //    for (int i = 0; i < a.Length; i++)
+            //    {
+            //        string s = a[i].illustrations;
+            //        if (s == null) continue;
+            //        s = s.Replace(templ, "");
+            //        s = s.Replace(templ2, "");
+            //        int p = s.IndexOf(start_templ);
+            //        for (;;)
+            //        {
+            //            if (p < 0) break;
+            //            int indx = p - 1;
+            //            while ((indx > 0) && ((xparse.Cyrillic.IsAlpha(s[indx]) >= 0) || (s[indx] == '\x301')))
+            //            {
+            //                indx--;
+            //            }
+            //            var end_tag_indx = s.IndexOf(end_templ);
+            //            string id = s.Substring(p + start_templ.Length, end_tag_indx - (p + start_templ.Length));
+            //            s = s.Remove(p, end_tag_indx + end_templ.Length - p);
+            //            s = s.Insert(p, $"[D G={id}]");
+            //            a[i].illustrations = s;
+            //            p = s.IndexOf(start_templ);
+            //        }
+            //        q++;
+            //        if (q == 4000)
+            //        {
+            //            q = 0;
+            //            db.SaveChanges();
+            //            Console.WriteLine($"prepared next 4000 rows - {i}...");
+            //        }
+            //        cp++;
+            //    }
+            //    db.SaveChanges();
+            //    Console.WriteLine($"finished ({cp})");
+            //    Console.Read();
+            //}
+            //catch (Exception ex)
+            //{
+            //    Logger.LogError(new EventId(0), ex, ex.Message);
+            //}
+            //finally
+            //{
+            //}
+        }
+        public void compress_ill()
+        {
+            //try
+            //{
+            //    int q = 0, cp = 0;
+            //    var a = db.synsets.ToArray();
+            //    for (int i = 0; i < a.Length; i++)
+            //    {
+            //        string s = a[i].illustrations;
+            //        if (string.IsNullOrEmpty(s)) continue;
 
+            //        a[i].binill = GZip.compress(stringext.GetBytes(s));
+
+            //        q++;
+            //        if (q == 4000)
+            //        {
+            //            q = 0;
+            //            db.SaveChanges();
+            //            Console.WriteLine($"prepared next 4000 rows - {i}...");
+            //        }
+            //        cp++;
+            //    }
+            //    db.SaveChanges();
+            //    Console.WriteLine($"finished ({cp})");
+            //    Console.Read();
+            //}
+            //catch (Exception ex)
+            //{
+            //    Logger.LogError(new EventId(0), ex, ex.Message);
+            //}
+            //finally
+            //{
+            //}
+        }
         #endregion
     }
     public class synsetsfilter

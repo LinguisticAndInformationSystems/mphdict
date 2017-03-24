@@ -19,11 +19,12 @@ namespace mphdict.Models.SynonymousSets
     public class synsets_base
     {
         public int id { get; set; }
-        public string illustrations { get; set; }
+        //public string illustrations { get; set; }
         public string interpretation { get; set; }
         public int pofs { get; set; }
         public bool? finished { get; set; }
         public int? userid { get; set; }
         public DateTime? timemarker { get; set; }
+        public byte[] binill { get; set; }
     }
 }

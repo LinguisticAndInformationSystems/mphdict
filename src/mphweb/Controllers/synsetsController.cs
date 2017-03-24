@@ -44,7 +44,7 @@ namespace mphweb.Controllers
         {
             if ((incp.idset == 0)&&(f.isStrFiltering==false) && (f.ispofs == false))
             {
-                incp.wordSearch = getStartWordId();
+                incp.wordSearch = "а";
                 return RedirectToAction("Search", routeValues: setParams(incp, f));
             }
             var dps = await prepaireData(incp, f);

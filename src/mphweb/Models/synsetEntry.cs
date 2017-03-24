@@ -14,19 +14,20 @@ namespace mphweb.Models
         {
             //
             StringBuilder s = new StringBuilder();
-
-            if (item.interpretation != null)
+            
+            if (!string.IsNullOrEmpty(item.interpretation))
             {
                 s.Append("<div class=\"syn-block-name\">Тлумачення:</div>");
                 s.Append("<div class=\"syn-int\">");
                 s.Append(item.interpretation.prepareString());
                 s.Append("</div>");
             }
-            if (item.illustrations != null)
+            if (/*item.illustrations*/ item.binill != null)
             {
                 s.Append("<div class=\"syn-block-name\">Ілюстративний матеріал:</div>");
                 s.Append("<div class=\"syn-ill\">");
-                s.Append(item.illustrations.prepareString().prepareGId());
+                s.Append(GZip.decompress(item.binill).GetString().prepareString().prepareGId2());
+                //s.Append(item.illustrations.prepareString().prepareGId2());
                 s.Append("</div>");
             }
             if (item._pofs != null)
@@ -94,6 +95,40 @@ namespace mphweb.Models
             }
             else return "";
         }
+
+        public static string prepareGId2(this string s)
+        {
+            string tag_start = "[D G=", tag_end = "]";
+            try
+            {
+                if (string.IsNullOrEmpty(s)) return "";
+                int p = s.IndexOf(tag_start);
+                for (;;)
+                {
+                    if (p < 0) break;
+                    int indx = p - 1;
+                    while ((indx > 0) && ((xparse.Cyrillic.IsAlpha(s[indx]) >= 0) || (s[indx] == '\x301')))
+                    {
+                        indx--;
+                    }
+                    var end_tag_indx = s.IndexOf(tag_end, p + tag_start.Length);
+                    string id = s.Substring(p + tag_start.Length, end_tag_indx - (p + tag_start.Length));
+                    s = s.Remove(p, end_tag_indx + tag_end.Length - p);
+                    s = s.Insert(p, "</span>");
+                    s = s.Insert(indx + 1, $"<span data-gid=\"{id}\">");
+                    p = s.IndexOf(tag_start);
+                }
+                return s;
+            }
+            catch (Exception ex)
+            {
+                return "";
+            }
+            finally
+            {
+            }
+        }
+
         static public string getAttrValue(this string s, string attr)
         {
             string val = string.Empty;

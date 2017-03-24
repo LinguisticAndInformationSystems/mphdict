@@ -114,7 +114,37 @@ namespace mphdict
                     {
                         lock (o)
                         {
-                            _indents = (from c in db.indents orderby c.type select new indents_base() { CountOfWords = c.words_list.Count(), comment=c.comment, type=c.type, field3=c.field3, field4=c.field4, gr_id=c.gr_id, grName=c.gr.part_of_speech, indent=c.indent }).ToArray();
+                            _indents = (from c in db.words_list.AsNoTracking()
+                                        group c by c.type into pg
+                                        join ind in db.indents.Include(t => t.gr).AsNoTracking()
+                                        on pg.FirstOrDefault().type equals ind.type
+                                        orderby ind.type
+
+                                        select new indents_base()
+                                        {
+                                            CountOfWords = pg.Count(),
+                                            comment = ind.comment,
+                                            type = ind.type,
+                                            field3 = ind.field3,
+                                            field4 = ind.field4,
+                                            gr_id = ind.gr_id,
+                                            grName = ind.gr.part_of_speech,
+                                            indent = ind.indent
+                                        }).ToArray();
+                            //This query do not work in vs2017
+                            //_indents = (from c in db.indents.Include(t => t.gr).Include(t => t.words_list).AsNoTracking()
+                            //            orderby c.type
+                            //            select new indents_base()
+                            //            {
+                            //                CountOfWords = c.words_list.Count(),
+                            //                comment = c.comment,
+                            //                type = c.type,
+                            //                field3 = c.field3,
+                            //                field4 = c.field4,
+                            //                gr_id = c.gr_id,
+                            //                grName = c.gr.part_of_speech,
+                            //                indent = c.indent
+                            //            }).ToArray();
                         }
                     }
                     return _indents;

@@ -48,7 +48,8 @@ namespace mphcon
                         break;
                 }
             }
-            prepare_ill_synsets();
+            compress_ill();
+            //prepare_ill_synsets();
             //forming_nrw_synsets();
             //forming_nrw();
             //copyContext();
@@ -58,9 +59,13 @@ namespace mphcon
             //viewWords();
         }
 
+        static void compress_ill()
+        {
+            p.container.GetService<synsetsObj>().compress_ill();
+        }
         static void prepare_ill_synsets()
         {
-            p.container.GetService<synsetsObj>().prepare_ill();
+            p.container.GetService<synsetsObj>().prepare_ill2();
         }
         static void forming_nrw_synsets()
         {

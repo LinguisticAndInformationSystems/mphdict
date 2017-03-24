@@ -1,24 +1,21 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26228.4
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{16A3A9BC-FEE2-478D-A1A6-0DB5E5074E93}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{802BE4CA-DA6E-425C-AD04-1CC231CA89BA}"
-	ProjectSection(SolutionItems) = preProject
-		global.json = global.json
-	EndProjectSection
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "mphdict", "src\mphdict\mphdict.xproj", "{E96366BC-21CC-489F-BBEC-F7491B5728EF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "mphdict", "src\mphdict\mphdict.csproj", "{E96366BC-21CC-489F-BBEC-F7491B5728EF}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "mphcon", "src\mphcon\mphcon.xproj", "{FC000FB0-3AD9-471E-936B-FA2EDDEDEE7A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "mphcon", "src\mphcon\mphcon.csproj", "{FC000FB0-3AD9-471E-936B-FA2EDDEDEE7A}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "mphweb", "src\mphweb\mphweb.xproj", "{ECF96C11-7D31-4CBC-B7E7-48E6DFE0F582}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "mphweb", "src\mphweb\mphweb.csproj", "{ECF96C11-7D31-4CBC-B7E7-48E6DFE0F582}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "generalTypes", "src\generalTypes\generalTypes.xproj", "{0313BBCA-2849-4BD5-B4CB-96F59D449A70}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "generalTypes", "src\generalTypes\generalTypes.csproj", "{0313BBCA-2849-4BD5-B4CB-96F59D449A70}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "txtoolscore", "src\txtools\txtoolscore.xproj", "{866D72EB-B4A2-4429-8F60-3F276B3986D5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "txtools", "src\txtools\txtools.csproj", "{866D72EB-B4A2-4429-8F60-3F276B3986D5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
