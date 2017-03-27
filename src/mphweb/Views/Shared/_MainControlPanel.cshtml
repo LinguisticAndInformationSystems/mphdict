@@ -1,6 +1,7 @@
 ﻿@using mphdict.Models.morph
 @using mphweb.Resources
 @model mphweb.Models.dictParams
+
 <div id="main-tab">
     @if (Model.vtype == viewtype.error)
     {
@@ -88,10 +89,10 @@
         @switch (Model.vtype)
         {
             case viewtype.dict:
-                var f = Model.gr.f;
-                var incp = Model.gr.incp;
                 @if (Model != null)
                 {
+                    var f = Model.gr.f;
+                    var incp = Model.gr.incp;
                     <div class="menu-group">
                         <form id="query-control" asp-action="Index" asp-controller="inflection" method="get">
                             <div class="menu-group-content">
@@ -146,9 +147,9 @@
                 }
                 break;
             case viewtype.pclass:
-                var pclsf = Model.pcls.f;
                 if (Model.pcls.f != null)
                 {
+                    var pclsf = Model.pcls.f;
                     <div class="menu-group">
                         <div class="menu-group-content">
                             <div class="query-param">
@@ -209,6 +210,51 @@
                         </form>
                         <div class="menu-group-name">
                             Відібрати
+                        </div>
+                    </div>
+                }
+                break;
+            case viewtype.synsets:
+               @if (Model != null)
+               {
+                   var f = Model.syn.f;
+                   var incp = Model.syn.incp;
+                    <div class="menu-group">
+                        <form id="query-control" asp-action="Index" asp-controller="synsets" method="get">
+                            <div class="menu-group-content">
+                                <div id="query-param" class="query-param">
+                                    <div id="query-param-val" class="query-param-val">
+                                        <input asp-for="@f.isStrFiltering" />
+                                        <select asp-for="@f.fetchType">
+                                            <option value="0">Починається з</option>
+                                            <option value="1">Містить</option>
+                                            <option value="2">Закінчується на</option>
+                                        </select>
+                                    </div>
+                                    <div class="query-param-val">
+                                        <input asp-for="@f.str" pattern="[A-za-zА-Яа-я\sЇїЁёЄєІі]+" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="menu-group-content">
+                                <div class="query-param">
+                                    <div class="query-param-val">
+                                        &nbsp;
+                                    </div>
+                                    <div class="query-param-val">
+                                        <input asp-for="@f.ispofs" />
+                                        <select asp-for="@f.pofs" asp-items="@variables.synpofs"></select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="menu-group-content">
+                                <button id="filter" title="Оновити" class="btn"></button>
+                            </div>
+                            <input asp-for="@incp.wordSearch" type="hidden" />
+                        </form>
+
+                        <div class="menu-group-name">
+                            Робота з реєстром
                         </div>
                     </div>
                 }

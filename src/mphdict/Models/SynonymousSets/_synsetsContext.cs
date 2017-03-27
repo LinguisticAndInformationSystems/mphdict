@@ -15,7 +15,7 @@ namespace mphdict.Models.SynonymousSets
 {
     public class synsetsContext: DbContext
     {
-        private string _schema = "dbo"; //  string.Empty
+        private string _schema = string.Empty; // "dbo" 
 
         public DbSet<langid> lang { get; set; }
         public DbSet<alphadigit> alphadigits { get; set; }

@@ -12,47 +12,46 @@ namespace mphweb.Models
     {
         static public string formEntry(synsets item)
         {
-            //
             StringBuilder s = new StringBuilder();
-            
-            if (!string.IsNullOrEmpty(item.interpretation))
+            if (item != null)
             {
-                s.Append("<div class=\"syn-block-name\">Тлумачення:</div>");
-                s.Append("<div class=\"syn-int\">");
-                s.Append(item.interpretation.prepareString());
-                s.Append("</div>");
-            }
-            if (/*item.illustrations*/ item.binill != null)
-            {
-                s.Append("<div class=\"syn-block-name\">Ілюстративний матеріал:</div>");
-                s.Append("<div class=\"syn-ill\">");
-                s.Append(GZip.decompress(item.binill).GetString().prepareString().prepareGId2());
-                //s.Append(item.illustrations.prepareString().prepareGId2());
-                s.Append("</div>");
-            }
-            if (item._pofs != null)
-            {
-                s.Append("<div class=\"syn-pofs\">");
-                s.Append($"<span class=\"syn-gr\">{item._pofs.name}</span>");
-                s.Append("</div>");
-            }
-            if (item._wlist != null)
-            {
-                s.Append("<ul class=\"syn-set\">");
-                s.Append("<div class=\"syn-block-name\">Синонімічний ряд:</div>");
-                foreach (var i in item._wlist)
+
+                if (!string.IsNullOrEmpty(item.interpretation))
                 {
-                    s.Append("<li class=\"syn-set-item\">");
-                    s.Append($"<span class=\"word_style\">&nbsp;{i.word.prepareWord(i.homonym!=null?(int)i.homonym:0)}</span>");
-                    s.Append($"<span class=\"syn-comm\">&nbsp;{i.comm.prepareString()}</span>");
-                    s.Append($"<span class=\"syn-int\">&nbsp;{i.interpretation.prepareString()}</span>");
-                    s.Append("</li>");
+                    s.Append("<div class=\"syn-block-name\">Тлумачення:</div>");
+                    s.Append("<div class=\"syn-int\">");
+                    s.Append(item.interpretation.prepareString());
+                    s.Append("</div>");
                 }
-                s.Append("</ul>");
+                if (/*item.illustrations*/ item.binill != null)
+                {
+                    s.Append("<div class=\"syn-block-name\">Ілюстративний матеріал:</div>");
+                    s.Append("<div class=\"syn-ill\">");
+                    s.Append(GZip.decompress(item.binill).GetString().prepareString().prepareGId2());
+                    //s.Append(item.illustrations.prepareString().prepareGId2());
+                    s.Append("</div>");
+                }
+                if (item._pofs != null)
+                {
+                    s.Append("<div class=\"syn-pofs\">");
+                    s.Append($"<span class=\"syn-gr\">{item._pofs.name}</span>");
+                    s.Append("</div>");
+                }
+                if (item._wlist != null)
+                {
+                    s.Append("<ul class=\"syn-set\">");
+                    s.Append("<div class=\"syn-block-name\">Синонімічний ряд:</div>");
+                    foreach (var i in item._wlist)
+                    {
+                        s.Append("<li class=\"syn-set-item\">");
+                        s.Append($"<span class=\"word_style\">&nbsp;{i.word.prepareWord(i.homonym != null ? (int)i.homonym : 0)}</span>");
+                        s.Append($"<span class=\"syn-comm\">&nbsp;{i.comm.prepareString()}</span>");
+                        s.Append($"<span class=\"syn-int\">&nbsp;{i.interpretation.prepareString()}</span>");
+                        s.Append("</li>");
+                    }
+                    s.Append("</ul>");
+                }
             }
-
-
-
             return s.ToString();
         }
         static public string prepareWord(this string s, int h=0)

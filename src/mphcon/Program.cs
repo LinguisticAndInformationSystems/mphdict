@@ -48,7 +48,7 @@ namespace mphcon
                         break;
                 }
             }
-            compress_ill();
+            //compress_ill();
             //prepare_ill_synsets();
             //forming_nrw_synsets();
             //forming_nrw();

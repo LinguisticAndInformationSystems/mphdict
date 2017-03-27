@@ -101,5 +101,30 @@ namespace mphweb
                 return _lang;
             }
         }
+
+        private static SelectList _synpofs = null;
+        public static SelectList synpofs
+        {
+            get
+            {
+                if (_synpofs == null)
+                {
+                    try
+                    {
+                        var t = ((synsetsObj)ApplicationVariables.services.GetService(typeof(synsetsObj))).pofs;
+                        var tpofs = new ps[t[0].Length];
+                        t[0].CopyTo(tpofs, 0);
+                        //t[1].CopyTo(tpofs, t[0].Length);
+                        _synpofs = new SelectList(tpofs, "id", "name", null, null);
+                    }
+                    catch (Exception ex)
+                    {
+                        _synpofs = null;
+                    }
+                }
+                return _synpofs;
+            }
+        }
+
     }
 }

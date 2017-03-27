@@ -183,9 +183,11 @@ input {
 }
 .tab-item {
     flex: 0 0 auto;
-    border:1px #d4d4d4 solid;
-    border-bottom:none;
-    padding:.5rem;
+    border: 1px #d4d4d4 solid;
+    border-bottom: none;
+    padding: .5rem;
+    /*font-weight: bolder;*/
+    font-size:1.1em;
 }
     .tab-item:first-child {
         border-left:none;
@@ -197,10 +199,12 @@ input {
         flex: 1 1 auto;    
     }
 .group-not-active-tab {
-    border:none;
-    text-decoration:none;
+    border: none;
+    text-decoration: none;
     color: inherit;
-    border-bottom:1px #d4d4d4 solid;
+    border-bottom: 1px #d4d4d4 solid;
+    font-size: 1em;
+    font-weight: normal;
 }
 .tab-item-empty {
     border:none;

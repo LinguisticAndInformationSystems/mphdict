@@ -69,10 +69,11 @@ namespace mphdict
                         lock (o)
                         {
                             _pofs = new List<ps[]>();
-                            var g1 = (from c in db.pofs where (c.id <= 16) orderby c.name select c).ToArray();
-                            var g2 = (from c in db.pofs where (c.id > 16) orderby c.name select c).ToArray();
-                            _pofs.Add((from c in g1 select new ps() { id = (short)c.id, name = c.name, category = "Змінні" }).ToArray());
-                            _pofs.Add(g2.Select(c => new ps() { id = (short)c.id, name = c.name, category = "Незмінні" }).ToArray());
+                            var g1 = (from c in db.pofs /*where (c.id <= 16)*/ orderby c.name select c).ToArray();
+                            //var g2 = (from c in db.pofs where (c.id > 16) orderby c.name select c).ToArray();
+                            //_pofs.Add((from c in g1 select new ps() { id = (short)c.id, name = c.name, category = "Змінні" }).ToArray());
+                            //_pofs.Add(g2.Select(c => new ps() { id = (short)c.id, name = c.name, category = "Незмінні" }).ToArray());
+                            _pofs.Add((from c in g1 select new ps() { id = (short)c.id, name = c.name}).ToArray());
                         }
                     }
                     return _pofs;
@@ -141,7 +142,7 @@ namespace mphdict
                 }
                 if (f.ispofs)
                 {
-                    q = (from c in q join ss in db.synsets on c.id_set equals ss.pofs where ss.pofs == f.pofs select c);
+                    q = (from c in q join ss in db.synsets on c.id_set equals ss.id where ss.pofs == f.pofs select c);
                 }
                 return q;
             }
