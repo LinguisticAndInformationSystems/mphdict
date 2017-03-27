@@ -50,6 +50,8 @@ namespace mphdict.Models.SynonymousSets
             modelBuilder.pofsMap();
             modelBuilder.synsetsMap();
             modelBuilder.wlistMap();
+            modelBuilder.langMap();
+            modelBuilder.alphadigitMap();
 
             modelBuilder.Entity<langid>().ToTable("lang"); 
             if (!string.IsNullOrEmpty(_schema))

@@ -3,6 +3,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Metadata.Conventions.Internal;
+using mphdict.Models.SynonymousSets.Mapping;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -53,6 +54,9 @@ namespace mphdict.Models.morph
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.RemovePluralizingTableNameConvention();
+
+            modelBuilder.langMap();
+            modelBuilder.alphadigitMap();
 
             modelBuilder.Entity<word_param>().ToTable("nom");
             modelBuilder.Entity<word_param>().HasIndex(b => b.accent);
