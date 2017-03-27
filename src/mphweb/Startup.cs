@@ -75,6 +75,9 @@ namespace mphweb
             loggerFactory.AddSerilog();
             ApplicationLogging.LoggerFactory = loggerFactory;
 
+            //Microsoft.Extensions.Logging.ILogger Logger = ApplicationLogging.CreateLogger<Startup>();
+            //Logger.LogError(new EventId(0), new Exception(), $"Filename={Path.Combine(Directory.GetParent(Startup.ContentRootPath).FullName, $"data/mph_{Configuration.GetConnectionString("sqlitedb")}.db")}");
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
