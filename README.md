@@ -1,11 +1,11 @@
 # mphdict
-Grammatical Dictionary of Ukrainian language +
+Digital lexicographical systems Ukrainian language + (the grammatical dictionary, synonymous dictionary)
 
 Copyright © 2016 uSofTrod. Contacts: uSofTrod@outlook.com
 
 License: http://opensource.org/licenses/MIT
 
-Граматичний словник української мови +
+Цифрові лексикографічні системи української мови + (граматичний словник української мови, словник синонімів)
 
 Опис
 
