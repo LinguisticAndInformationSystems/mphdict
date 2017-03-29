@@ -33,6 +33,9 @@ License: http://opensource.org/licenses/MIT
 
 - реалізовано візуалізацію синонімічних рядів, їх тлумачень та ілюстрацій.
 
+Ми на Фейсбук
+
+https://www.facebook.com/USofTrod-180689769033511/
 
 Required software
 
@@ -43,7 +46,6 @@ https://github.com/dotnet/core/
 ASP.NET Core 1.1
 
 https://github.com/aspnet/home
-
 
 How to start
 
