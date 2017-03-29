@@ -1,5 +1,5 @@
 # mphdict
-Digital lexicographical systems Ukrainian language + (the grammatical dictionary, synonymous dictionary)
+Digital lexicographic systems Ukrainian language + (the grammatical dictionary, synonymous dictionary)
 
 Copyright © 2016 uSofTrod. Contacts: uSofTrod@outlook.com
 
