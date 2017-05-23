@@ -1,4 +1,14 @@
 ﻿@using mphweb.Resources
+@using System.Net
+@using Microsoft.AspNetCore.Localization
+
+@using Microsoft.AspNetCore.Mvc.Localization
+@*@using Microsoft.Extensions.Options
+@using Microsoft.AspNetCore.Builder*@
+
+@inject IViewLocalizer Localizer
+@*@inject IOptions<RequestLocalizationOptions> LocOptions*@
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,7 +27,10 @@
 <body>
     @{
         mphweb.Models.dictParams d = ViewBag.dp;
-    }
+        var requestCulture = Context.Features.Get<IRequestCultureFeature>();
+        //List<SelectListItem> cultureItems = ((RequestCultureProvider)requestCulture?.Provider).Options.SupportedUICultures.Select(c => new SelectListItem { Value = c.Name, Text = c.DisplayName })
+        //    .ToList();
+}
     <div id="wrapper">
         <header>
             <div id="goto_main">
@@ -27,22 +40,22 @@
                 <div>
                     @if (variables.lang.id_lang == 1058)
                     {
-                        @: @idispl.bname_ua
+                        @: @Localizer["bname_ua"]  @*idispl.bname_ua*@
                 }
                     else
                     {
-                        @: @idispl.bname_ru
+                        @: @Localizer["bname_ru"]  @*@idispl.bname_ru*@
                 }
                 </div>
                 <div>
                     <a href="https://github.com/LinguisticAndInformationSystems/mphdict" target="_blank">
                         @if (variables.lang.id_lang == 1058)
                         {
-                            @: @idispl.dict_ua_name
+                            @: @Localizer["dict_ua_name"]
                          }
                         else
                         {
-                            @: @idispl.dict_ru_name
+                            @: @Localizer["dict_ru_name"]
                          }
                     </a>
                 </div>
@@ -50,6 +63,27 @@
             <div id="main-info">
                 <div>Copyright © 2016 <a href="mailto:uSofTrod@outlook.com">uSofTrod</a> </div>
                 <div><a href="http://opensource.org/licenses/MIT" target="_blank">The MIT License</a> </div>
+            </div>
+            <div id="lang-info">
+                @if (requestCulture.RequestCulture.UICulture.Name == "uk")
+                {
+                    //WebUtility.UrlEncode()
+                    string p = string.Concat(Url.Action("ChangeLang", "Culture"), $"?qp={WebUtility.UrlEncode(Context.Request.QueryString.Value)}", $"&c={ViewContext.RouteData.Values["controller"]}&a={ViewContext.RouteData.Values["action"]}&lang=en");
+                    <div>UK</div>
+                    <a href="@p">
+                        EN
+                    </a>
+                }
+                else
+                {
+                    string p = string.Concat(Url.Action("ChangeLang", "Culture"), $"?qp={WebUtility.UrlEncode(Context.Request.QueryString.Value)}", $"&c={ViewContext.RouteData.Values["controller"]}&a={ViewContext.RouteData.Values["action"]}&lang=uk");
+                    <a href="@p">
+                        UK
+                    </a>
+                    <div>EN</div>
+                 }
+
+
             </div>
             <div id="logoff">
                 <a href="#iworking" title="Вихід"></a>

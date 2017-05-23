@@ -117,18 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="bname_ru" xml:space="preserve">
-    <value>Іншомовні цифрові лексикографічні системи</value>
-  </data>
-  <data name="bname_ua" xml:space="preserve">
-    <value>Цифрове лексикографічне надбання України</value>
-  </data>
-  <data name="dict_ru_name" xml:space="preserve">
-    <value>Словники російської мови</value>
-  </data>
-  <data name="dict_ua_name" xml:space="preserve">
-    <value>Словники української мови</value>
-  </data>
   <data name="tab_gram_name" xml:space="preserve">
     <value>Граматичний словник</value>
   </data>

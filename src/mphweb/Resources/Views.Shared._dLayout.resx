@@ -121,12 +121,12 @@
     <value>Іншомовні цифрові лексикографічні системи</value>
   </data>
   <data name="bname_ua" xml:space="preserve">
-    <value>Цифрове лексикографічне надбання України</value>
+    <value>_Цифрове лексикографічне надбання України_</value>
   </data>
   <data name="dict_ru_name" xml:space="preserve">
-    <value>Граматичний словник російської мови</value>
+    <value>Словники російської мови</value>
   </data>
   <data name="dict_ua_name" xml:space="preserve">
-    <value>Граматичний словник української мови</value>
+    <value>Словники української мови</value>
   </data>
 </root>

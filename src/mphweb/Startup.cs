@@ -15,6 +15,11 @@ using mphdict.Models.morph;
 using mphdict;
 using mphweb.FuncModule;
 using mphdict.Models.SynonymousSets;
+using System.Globalization;
+using Microsoft.AspNetCore.Localization;
+using mphweb.Providers;
+using Microsoft.AspNetCore.Routing.Constraints;
+using Microsoft.AspNetCore.Mvc.Razor;
 
 namespace mphweb
 {
@@ -63,12 +68,32 @@ namespace mphweb
             //services.AddEntityFramework()
             //    .AddEntityFrameworkSqlServer()
             //    .AddDbContext<synsetsContext>(options => options.UseSqlServer(Configuration.GetConnectionString("SQLContext")));
-            services.AddMvc();
+
+            services.AddLocalization(options => options.ResourcesPath = "Resources");
+            // Add framework services.
+            services.AddMvc().AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix).AddDataAnnotationsLocalization();
+            //services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            var supportedCultures = new List<CultureInfo>
+            {
+                new CultureInfo("uk"),
+                new CultureInfo("en"),
+            };
+            var localizationOptions = new RequestLocalizationOptions
+            {
+                DefaultRequestCulture = new RequestCulture("uk"),
+                // Formatting numbers, dates, etc.
+                SupportedCultures = supportedCultures,
+                // UI strings that we have localized.
+                SupportedUICultures = supportedCultures,
+            };
+            localizationOptions.RequestCultureProviders.Insert(0, new UrlRequestCultureProvider(localizationOptions));
+            app.UseRequestLocalization(localizationOptions);
+
             ApplicationVariables.services=app.ApplicationServices;
             //loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             //loggerFactory.AddDebug();
@@ -95,6 +120,14 @@ namespace mphweb
 
             app.UseMvc(routes =>
             {
+                routes.MapRoute(
+                    name: "cultureRoute",
+                    template: "{culture}/{controller}/{action}/{id?}",
+                    defaults: new { controller = "Home", action = "ShowStructure" },
+                    constraints: new
+                    {
+                        culture = new RegexRouteConstraint("^[a-z]{2}(?:-[A-Z]{2})?$")
+                    });
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=inflection}/{action=Index}/{id?}");

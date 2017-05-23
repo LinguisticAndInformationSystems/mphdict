@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Routing;
 using mphdict.Models.morph;
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Hosting;
+using System.Reflection;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -92,6 +93,15 @@ namespace mphweb.Controllers
         }
         public async Task<ActionResult> SearchWord(incParams incp, filter f, int count, int maxpage)
         {
+            //global::System.Resources.ResourceManager rm = new global::System.Resources.ResourceManager("mphweb.Resources.idispl", typeof(Resources.idispl).GetTypeInfo().Assembly);
+            //System.Resources.ResourceManager rm = new System.Resources.ResourceManager(typeof(mphweb.Resources.idispl));
+            //System.Resources.ResourceManager rm = System.Resources.ResourceManager("mphweb.Resources.idispl", typeof(Resources.idispl).GetTypeInfo().Assembly);
+            //string test2 = mphweb.Resources.idispl.ResourceManager.GetString("bname_ua", new System.Globalization.CultureInfo("uk"));
+            //string test1 = mphweb.Resources.idispl.ResourceManager.GetString("bname_ua", new System.Globalization.CultureInfo("en"));
+            //System.Resources.ResourceManager resourceManager = new System.Resources.ResourceManager("MyResource", Assembly.GetExecutingAssembly
+            //string test2 = rm.GetString("bname_ua", new System.Globalization.CultureInfo("uk"));
+            //string test1 = rm.GetString("bname_ua", new System.Globalization.CultureInfo("en"));
+
             var dpg = new grdictParams() { incp = incp, f = f, id_lang = db.lid.id_lang };
             dpg.count=count;
             dpg.maxpage = maxpage;

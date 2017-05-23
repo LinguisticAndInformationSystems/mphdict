@@ -2,28 +2,32 @@
 @using mphweb.Resources
 @model mphweb.Models.dictParams
 
+@using Microsoft.AspNetCore.Mvc.Localization
+
+@inject IViewLocalizer Localizer
+
 <div id="main-tab">
     @if (Model.vtype == viewtype.error)
     {
         <div class="tab-item">Помилка</div>
         <a asp-action="Index" asp-controller="inflection"
            class="tab-item group-not-active-tab">
-            @idispl.tab_gram_name
+            @Localizer["tab_gram_name"]
         </a>
         <a asp-action="Index" asp-controller="flexes"
            class="tab-item group-not-active-tab">
-            @idispl.tab_inflectional_classes_name
+            @Localizer["tab_inflectional_classes_name"]
         </a>
         <a asp-action="Index" asp-controller="synsets"
            class="tab-item group-not-active-tab">
-            @idispl.tab_synsets_name
+            @Localizer["tab_synsets_name"]
         </a>
     }
     else
     {
         if (Model.vtype == viewtype.dict)
         {
-            <div class="tab-item">@idispl.tab_gram_name</div>
+            <div class="tab-item">@Localizer["tab_gram_name"]</div>
         }
         else
         {
@@ -33,20 +37,20 @@
                asp-route-wid="@Model.gr.incp.wid" asp-route-currentPage="@Model.gr.incp.currentPage" asp-route-wordSearch="@Model.gr.incp.wordSearch"
                asp-route-fetchType="@Model.gr.f.fetchType" asp-route-str="@Model.gr.f.str" asp-route-isStrFiltering="@Model.gr.f.isStrFiltering" asp-route-isInverse="@Model.gr.f.isInverse" asp-route-ispclass="@Model.gr.f.ispclass" asp-route-pclass="@Model.gr.f.pclass" asp-route-ispofs="@Model.gr.f.ispofs" asp-route-pofs="@Model.gr.f.pofs"
                class="tab-item group-not-active-tab">
-                @idispl.tab_gram_name
+                @Localizer["tab_gram_name"]
             </a>
             }
             else
             {
                 <a asp-action="Index" asp-controller="inflection"
                    class="tab-item group-not-active-tab">
-                    @idispl.tab_gram_name
+                    @Localizer["tab_gram_name"]
                 </a>
             }
         }
         @if (Model.vtype == viewtype.pclass)
         {
-            <div class="tab-item">@idispl.tab_inflectional_classes_name</div>
+            <div class="tab-item">@Localizer["tab_inflectional_classes_name"]</div>
         }
         else
         {
@@ -56,26 +60,26 @@
                asp-route-wid="@Model.gr.incp.wid" asp-route-currentPage="@Model.gr.incp.currentPage" asp-route-wordSearch="@Model.gr.incp.wordSearch"
                asp-route-fetchType="@Model.gr.f.fetchType" asp-route-str="@Model.gr.f.str" asp-route-isStrFiltering="@Model.gr.f.isStrFiltering" asp-route-isInverse="@Model.gr.f.isInverse" asp-route-ispclass="@Model.gr.f.ispclass" asp-route-pclass="@Model.gr.f.pclass" asp-route-ispofs="@Model.gr.f.ispofs" asp-route-pofs="@Model.gr.f.pofs"
                class="tab-item group-not-active-tab">
-                @idispl.tab_inflectional_classes_name
+                @Localizer["tab_inflectional_classes_name"]
             </a>
             }
             else
             {
                 <a asp-action="Index" asp-controller="flexes"
                    class="tab-item group-not-active-tab">
-                    @idispl.tab_inflectional_classes_name
+                    @Localizer["tab_inflectional_classes_name"]
                 </a>
             }
         }
         if (Model.vtype == viewtype.synsets)
         {
-            <div class="tab-item">@idispl.tab_synsets_name</div>
+            <div class="tab-item">@Localizer["tab_synsets_name"]</div>
         }
         else
         {
             <a asp-action="Index" asp-controller="synsets"
                class="tab-item group-not-active-tab">
-                @idispl.tab_synsets_name
+                @Localizer["tab_synsets_name"]
             </a>
         }
 

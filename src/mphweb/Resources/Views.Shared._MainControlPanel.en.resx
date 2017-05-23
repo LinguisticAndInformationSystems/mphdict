@@ -117,16 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="bname_ru" xml:space="preserve">
-    <value>Іншомовні цифрові лексикографічні системи</value>
+  <data name="tab_gram_name" xml:space="preserve">
+    <value>Grammatical Dictionary</value>
   </data>
-  <data name="bname_ua" xml:space="preserve">
-    <value>Цифрове лексикографічне надбання України</value>
+  <data name="tab_inflectional_classes_name" xml:space="preserve">
+    <value>Inflectional classes</value>
   </data>
-  <data name="dict_ru_name" xml:space="preserve">
-    <value>Граматичний словник російської мови</value>
-  </data>
-  <data name="dict_ua_name" xml:space="preserve">
-    <value>Граматичний словник української мови</value>
+  <data name="tab_synsets_name" xml:space="preserve">
+    <value>Dictionary of synonyms</value>
   </data>
 </root>

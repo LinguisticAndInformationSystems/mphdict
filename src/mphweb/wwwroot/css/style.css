@@ -151,20 +151,30 @@ input {
             font-family:FontAwesome;
             content:'\f011';
         }
-    
-/* ------------------ /header ------------------ */
-/* ------------------ footer ------------------ */
-#mainfooter {
-	/*border: 0.06rem solid red;*/
-    display:flex;
+#lang-info {
+    font-size: 0.8rem;
+    margin-right: 0.5rem;
+}
+    #lang-info > a {
+        display:block;
+        margin-bottom: 0.2rem;
+    }
+    #lang-info > div {
+        margin-bottom: 0.2rem;
+    }
+    /* ------------------ /header ------------------ */
+    /* ------------------ footer ------------------ */
+    #mainfooter {
+    /*border: 0.06rem solid red;*/
+    display: flex;
     flex: 0 0 auto;
-    align-items:center;
+    align-items: center;
     justify-content: center;
-    background:gray;/*#0c628d;*/
-    height:0rem;
+    background: gray; /*#0c628d;*/
+    height: 0rem;
     transition-property: height;
     transition-duration: 1s;
-    overflow:hidden;
+    overflow: hidden;
 }
     #mainfooter > a {
         margin:0px !important;
