@@ -23,7 +23,8 @@ namespace mphweb.Providers
             var parts = httpContext.Request.Path.Value.Split('/').Where(p => !String.IsNullOrWhiteSpace(p)).ToList();
             if (parts.Count == 0)
             {
-                return Task.FromResult<ProviderCultureResult>(null);
+                //return Task.FromResult<ProviderCultureResult>(null);
+                return Task.FromResult(new ProviderCultureResult("uk"));
             }
 
             var cultureSegmentIndex = parts.Contains("api") ? 1 : 0;
@@ -31,10 +32,12 @@ namespace mphweb.Providers
             parts[cultureSegmentIndex], @"^[a-z]{2}(?:-[A-Z]{2})?$");
             if (!hasCulture)
             {
-                return Task.FromResult<ProviderCultureResult>(null);
+                //return Task.FromResult<ProviderCultureResult>(null);
+                return Task.FromResult(new ProviderCultureResult("uk"));
             }
 
             var culture = parts[cultureSegmentIndex];
+            if(string.IsNullOrEmpty(culture)) return Task.FromResult(new ProviderCultureResult("uk"));
             return Task.FromResult(new ProviderCultureResult(culture));
         }
     }
