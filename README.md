@@ -45,11 +45,11 @@ https://www.facebook.com/USofTrod-180689769033511/
 
 Required software
 
-.NET Core 1.1
+.NET Core 2.0
 
 https://github.com/dotnet/core/
 
-ASP.NET Core 1.1
+ASP.NET Core 2.0
 
 https://github.com/aspnet/home
 

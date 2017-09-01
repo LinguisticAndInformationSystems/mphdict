@@ -60,7 +60,7 @@ namespace mphweb
             services.AddTransient<synsetsObj>();
             services.AddScoped<ViewRender, ViewRender>();
             services.AddSingleton<IConfiguration>(Configuration);
-            services.AddEntityFramework()
+            services
                 .AddEntityFrameworkSqlite()
                 //.AddDbContext<mphContext>(options => options.UseSqlite($"Filename={Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).FullName, $"data/{Configuration.GetConnectionString("sqlitedb")}")}"));
                 .AddDbContext<mphContext>(options => options.UseSqlite($"Filename={Path.Combine(Directory.GetParent(Startup.ContentRootPath).FullName, $"data/mph_{Configuration.GetConnectionString("sqlitedb")}.db")}"))

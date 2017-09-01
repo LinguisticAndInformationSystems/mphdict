@@ -81,7 +81,7 @@ namespace mphdict.Models.morph
             modelBuilder.Entity<alphadigit>()
                 .HasKey(c => new { c.lang, c.alpha, c.ls });
 
-            modelBuilder.HasChangeTrackingStrategy(Microsoft.EntityFrameworkCore.Metadata.ChangeTrackingStrategy.Snapshot);
+            modelBuilder.HasChangeTrackingStrategy(ChangeTrackingStrategy.Snapshot);
 
 
             //modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();//не змінювати імена під час сворення БД
@@ -110,7 +110,7 @@ namespace mphdict.Models.morph
             //var serviceCollection = new ServiceCollection();
             //serviceCollection.AddEntityFramework().AddSqlServer();
             //var serviceProvider = serviceCollection.BuildServiceProvider();
-            var coreConventionSetBuilder = new CoreConventionSetBuilder();
+            var coreConventionSetBuilder = new CoreConventionSetBuilder(null);
             //var sqlConventionSetBuilder = new SqlServerConventionSetBuilder(new SqlServerTypeMapper());
             //var conventionSet = sqlConventionSetBuilder.AddConventions(coreConventionSetBuilder.CreateConventionSet());
 

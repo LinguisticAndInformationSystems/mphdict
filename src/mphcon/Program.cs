@@ -135,7 +135,7 @@ namespace mphcon
             services.AddTransient<synsetsObj>();
             services.AddSingleton<ILoggerFactory>(ApplicationLogging.LoggerFactory);
 
-            services.AddEntityFramework()
+            services
                 .AddEntityFrameworkSqlServer()
                 .AddDbContext<synsetsContext>(options => options.UseSqlServer(Configuration.GetConnectionString("gramSqlDb")));
             //services.AddEntityFramework()
@@ -162,7 +162,7 @@ namespace mphcon
             //    .AddEntityFrameworkSqlServer()
             //    .AddDbContext<mphContext>(options => options.UseSqlServer(Configuration.GetConnectionString("gramSqlDb2"),
             //    b => b.MigrationsAssembly("mphcon")));
-            services.AddEntityFramework()
+            services
                 .AddEntityFrameworkSqlite()
                 .AddDbContext<mphContext>(options => options.UseSqlite($"Filename={Path.Combine(Directory.GetCurrentDirectory(), "mph.db")}",
                 b => b.MigrationsAssembly("mphcon")));
