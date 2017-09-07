@@ -9,6 +9,7 @@ using mphdict.Models.morph;
 using mphdict;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using uSofTrod.generalTypes.Models;
+using Microsoft.AspNetCore;
 
 namespace mphweb
 {
@@ -16,6 +17,8 @@ namespace mphweb
     {
         public static void Main(string[] args)
         {
+            //BuildWebHost(args).Run();
+
             var host = new WebHostBuilder()
                 .UseKestrel()
                 .UseContentRoot(Directory.GetCurrentDirectory())
@@ -25,6 +28,10 @@ namespace mphweb
 
             host.Run();
         }
+        public static IWebHost BuildWebHost(string[] args) =>
+            WebHost.CreateDefaultBuilder(args)
+                .UseStartup<Startup>()
+                .Build();
     }
     public enum viewtype { dict, synsets, pclass, aclass, analyze, error };
     public static class variables

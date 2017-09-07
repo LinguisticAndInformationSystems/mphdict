@@ -13,13 +13,13 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using mphdict.Models.morph;
 using mphdict;
-using mphweb.FuncModule;
 using mphdict.Models.SynonymousSets;
 using System.Globalization;
 using Microsoft.AspNetCore.Localization;
 using mphweb.Providers;
 using Microsoft.AspNetCore.Routing.Constraints;
 using Microsoft.AspNetCore.Mvc.Razor;
+using Mvc.RenderViewToString;
 
 namespace mphweb
 {
@@ -58,7 +58,8 @@ namespace mphweb
         {
             services.AddTransient<mphObj>();
             services.AddTransient<synsetsObj>();
-            services.AddScoped<ViewRender, ViewRender>();
+            services.AddScoped<RazorViewToStringRenderer, RazorViewToStringRenderer>();
+
             services.AddSingleton<IConfiguration>(Configuration);
             services
                 .AddEntityFrameworkSqlite()

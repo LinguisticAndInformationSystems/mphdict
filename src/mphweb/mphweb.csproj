@@ -6,7 +6,7 @@
     <AssemblyName>mphweb</AssemblyName>
     <OutputType>Exe</OutputType>
     <PackageId>mphweb</PackageId>
-    <PackageTargetFallback>$(PackageTargetFallback);dotnet5.6;portable-net45+win8</PackageTargetFallback>
+    <!--<MvcRazorExcludeRefAssembliesFromPublish>false</MvcRazorExcludeRefAssembliesFromPublish>-->
   </PropertyGroup>
 
   <ItemGroup>
@@ -22,20 +22,9 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.0.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer.Design" Version="1.1.2" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.0" />
     <PackageReference Include="Serilog.Sinks.File" Version="3.2.0" />
     <PackageReference Include="Serilog.Sinks.RollingFile" Version="3.3.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="2.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="2.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Logging" Version="2.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="2.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="2.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="2.0.0" />
     <PackageReference Include="Serilog.Extensions.Logging" Version="2.0.2" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.0.0" />
   </ItemGroup>
 
   <Target Name="PrepublishScript" BeforeTargets="PrepareForPublish">
@@ -48,10 +37,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="logs\" />
-    <Folder Include="logs\" />
-    <Folder Include="logs\" />
-    <Folder Include="logs\" />
     <Folder Include="logs\" />
   </ItemGroup>
 
