@@ -23,14 +23,14 @@ namespace mphdict.Models.SynonymousSets
         public DbSet<synsets> synsets { get; set; }
         public DbSet<pofs> pofs { get; set; }
         
-        public etymContext(DbContextOptions<synsetsContext> options) 
+        public etymContext(DbContextOptions<etymContext> options) 
             : base(options)
         {
             //Configuration.LazyLoadingEnabled = false;
             //Configuration.ProxyCreationEnabled = false;
             //Configuration.AutoDetectChangesEnabled = false;
         }
-        public etymContext(DbContextOptions<synsetsContext> options, string schema)
+        public etymContext(DbContextOptions<etymContext> options, string schema)
             : base(options)
         {
             _schema = schema;
@@ -74,7 +74,7 @@ namespace mphdict.Models.SynonymousSets
 
         #region for working with multiple schemas
         private static ConcurrentDictionary<string, IModel> modelCache = new ConcurrentDictionary<string, IModel>();
-        public static synsetsContext Create(DbContextOptionsBuilder<synsetsContext> optionsBuilder, string schema)
+        public static etymContext Create(DbContextOptionsBuilder<etymContext> optionsBuilder, string schema)
         {
 
             IModel compiledModel;
@@ -83,9 +83,9 @@ namespace mphdict.Models.SynonymousSets
 
             optionsBuilder.UseModel(compiledModel);
 
-            return new synsetsContext(optionsBuilder.Options, schema);
+            return new etymContext(optionsBuilder.Options, schema);
         }
-        private static IModel GetCompiled(DbContextOptionsBuilder<synsetsContext> optionsBuilder, string schema)
+        private static IModel GetCompiled(DbContextOptionsBuilder<etymContext> optionsBuilder, string schema)
         {
             //https://github.com/aspnet/EntityFramework/issues/3909
             //var serviceCollection = new ServiceCollection();
@@ -103,7 +103,7 @@ namespace mphdict.Models.SynonymousSets
             builder.Entity<synsets>();
             builder.Entity<pofs>();
             //Cal Manually OnModelCreating from base class to create model objects relatet di Asp.Net identity (not nice)
-            (new synsetsContext(optionsBuilder.Options, schema)).OnModelCreating(builder);
+            (new etymContext(optionsBuilder.Options, schema)).OnModelCreating(builder);
             //builder.Entity<Invoice>().ToTable("REGION", schema);
 
             return builder.Model;
