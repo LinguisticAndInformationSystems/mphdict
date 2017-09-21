@@ -201,21 +201,22 @@ namespace mphdict
             if ((f.isStrFiltering) && (!string.IsNullOrEmpty(f.str)))
             {
                 string s = sharedTypes.atod(f.str, talpha);
-                switch (f.fetchType)
-                {
-                    case FetchType.StartsWith:
-                        q = q.Where(c => c.digit.StartsWith(s));
-                        //q = q.Where(c => c.reestr.Replace("\"","").StartsWith(f.str));
-                        break;
-                    case FetchType.EndsWith:
-                        q = q.Where(c => c.digit.EndsWith(s));
-                        //q = q.Where(c => c.reestr.Replace("\"", "").EndsWith(f.str));
-                        break;
-                    case FetchType.Contains:
-                        q = q.Where(c => c.digit.Contains(s));
-                        //q = q.Where(c => c.reestr.Replace("\"", "").Contains(f.str));
-                        break;
-                }
+                //switch (f.fetchType)
+                //{
+                //    case FetchType.StartsWith:
+                //        q = q.Where(c => c.digit.StartsWith(s));
+                //        //q = q.Where(c => c.reestr.Replace("\"","").StartsWith(f.str));
+                //        break;
+                //    case FetchType.EndsWith:
+                //        q = q.Where(c => c.digit.EndsWith(s));
+                //        //q = q.Where(c => c.reestr.Replace("\"", "").EndsWith(f.str));
+                //        break;
+                //    case FetchType.Contains:
+                //        q = q.Where(c => c.digit.Contains(s));
+                //        //q = q.Where(c => c.reestr.Replace("\"", "").Contains(f.str));
+                //        break;
+                //}
+                q = q.Where(c => EF.Functions.Like(c.digit, s));
             }
             if (f.ispclass) {
                 q = q.Where(c => c.type == f.pclass);

@@ -17,8 +17,21 @@ namespace mphdict
             for (int i = 0; i < a.Length; i++)
             {
                 if ((askip) && ((a[i] == '\'') || (a[i] == ' ') || (a[i] == '-'))) continue;
-                alphadigit rs = talpha.FirstOrDefault(t => t.alpha == a[i].ToString());
-                if (rs != null) d.Append(rs.digit);
+                if (a[i] == '_')
+                {
+                    d.Append(a[i]);
+                }
+                else
+                {
+                    if (a[i] == '*') {
+                        d.Append("%");
+                    }
+                    else
+                    {
+                        alphadigit rs = talpha.FirstOrDefault(t => t.alpha == a[i].ToString());
+                        if (rs != null) d.Append(rs.digit);
+                    }
+                }
             }
             return d.ToString();
         }
