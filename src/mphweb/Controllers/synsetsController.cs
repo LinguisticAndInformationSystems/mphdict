@@ -32,6 +32,7 @@ namespace mphweb.Controllers
         {
             syndictParams dp = new syndictParams() { incp = incp, f = f, id_lang = db.lid.id_lang };
             if (incp.idset != 0) dp.entry = await db.getEntry(incp.idset);
+            dp.w = await db.getWord(incp.wid);
             dp.count = await db.CountWords(f);
             int count_plus = dp.count % 100;
             dp.maxpage = count_plus>0? (dp.count / 100)+1: (dp.count / 100);
@@ -44,7 +45,6 @@ namespace mphweb.Controllers
         {
             if ((incp.idset == 0)&&(f.isStrFiltering==false) && (f.ispofs == false))
             {
-                incp.wordSearch = "а";
                 return RedirectToAction("Search", routeValues: setParams(incp, f));
             }
             var dps = await prepaireData(incp, f);
@@ -95,6 +95,7 @@ namespace mphweb.Controllers
             dps.count=count;
             dps.maxpage = maxpage;
             dps.entry = await db.getEntry(incp.idset);
+            dps.w = await db.getWord(incp.wid);
             ViewBag.dp = new dictParams() { syn = dps, vtype = viewtype.synsets };
             return View("Index", dps);
         }

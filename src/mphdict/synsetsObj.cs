@@ -260,6 +260,22 @@ namespace mphdict
                 else throw ex;
             }
         }
+        public async Task<string> getWord(int wid)
+        {
+            try
+            {
+                return await (from c in db.wlist where c.id== wid select c.word).FirstOrDefaultAsync();
+            }
+            catch (Exception ex)
+            {
+                if (Logger != null)
+                {
+                    Logger.LogError(new EventId(0), ex, ex.Message);
+                    return null;
+                }
+                else throw ex;
+            }
+        }
 
         #region сервісні функції
         public void forming_nrw()

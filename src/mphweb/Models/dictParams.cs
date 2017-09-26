@@ -37,7 +37,7 @@ namespace mphweb.Models
         public synsetsfilter f { get; set; }
         public synincParams incp { get; set; }
         public wlist[] page { get; set; }
-        //public word_param_base SearchedWord { get; set; }
+        public string w { get; set; }
         public int maxpage { get; set; }
         public int count { get; set; }
         public int id_lang { get; set; }
