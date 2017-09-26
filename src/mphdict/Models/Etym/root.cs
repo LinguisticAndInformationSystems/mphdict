@@ -5,13 +5,13 @@ using System.Text;
 
 namespace mphdict.Models.Etym
 {
-    public class main: main_base
+    public class root: root_base
     {
         public virtual ObservableCollection<bibl> bibls { get; set; }
         public virtual ObservableCollection<e_classes> e_classes { get; set; }
         public virtual ObservableCollection<links> links { get; set; }
     }
-    public partial class main_base
+    public partial class root_base
     {
         public int id { get; set; }
         public Nullable<int> volume_num { get; set; }
