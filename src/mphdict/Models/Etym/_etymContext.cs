@@ -3,7 +3,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Metadata.Conventions.Internal;
-using mphdict.Models.SynonymousSets.Mapping;
+using mphdict.Models.Etym.Mapping;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -11,18 +11,19 @@ using System.Linq;
 using System.Threading.Tasks;
 using uSofTrod.generalTypes.Models;
 
-namespace mphdict.Models.SynonymousSets
+namespace mphdict.Models.Etym
 {
     public class etymContext: DbContext
     {
         private string _schema = string.Empty; // "dbo" 
 
-        public DbSet<langid> lang { get; set; }
-        public DbSet<alphadigit> alphadigits { get; set; }
-        public DbSet<wlist> wlist { get; set; }
-        public DbSet<synsets> synsets { get; set; }
-        public DbSet<pofs> pofs { get; set; }
-        
+        public DbSet<bibl> bibls { get; set; }
+        public DbSet<e_classes> e_classes { get; set; }
+        public DbSet<etymons> etymons { get; set; }
+        public DbSet<lang_all> lang_all { get; set; }
+        public DbSet<links> links { get; set; }
+        public DbSet<root> roots { get; set; }
+
         public etymContext(DbContextOptions<etymContext> options) 
             : base(options)
         {
@@ -47,20 +48,14 @@ namespace mphdict.Models.SynonymousSets
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.RemovePluralizingTableNameConvention();
-            modelBuilder.pofsMap();
-            modelBuilder.synsetsMap();
-            modelBuilder.wlistMap();
-            modelBuilder.langMap();
-            modelBuilder.alphadigitMap();
+            modelBuilder.biblMap();
+            modelBuilder.e_classesMap();
+            modelBuilder.etymonsMap();
+            modelBuilder.lang_allMap();
+            modelBuilder.linksMap();
+            modelBuilder.rootMap();
 
-            modelBuilder.Entity<langid>().ToTable("lang"); 
-            if (!string.IsNullOrEmpty(_schema))
-            {
-                modelBuilder.HasDefaultSchema(_schema);
-                modelBuilder.Entity<alphadigit>().ToTable("alphadigit", "dbo");
-            }
-            modelBuilder.Entity<alphadigit>()
-                .HasKey(c => new { c.lang, c.alpha, c.ls});
+            modelBuilder.HasDefaultSchema("dbo");
 
             modelBuilder.HasChangeTrackingStrategy(ChangeTrackingStrategy.Snapshot);
 
@@ -97,11 +92,12 @@ namespace mphdict.Models.SynonymousSets
 
             var conventionSet = coreConventionSetBuilder.CreateConventionSet();
             var builder = new ModelBuilder(conventionSet);
-            builder.Entity<alphadigit>();
-            builder.Entity<langid>();
-            builder.Entity<wlist>();
-            builder.Entity<synsets>();
-            builder.Entity<pofs>();
+            builder.Entity<bibl>();
+            builder.Entity<e_classes>();
+            builder.Entity<etymons>();
+            builder.Entity<lang_all>();
+            builder.Entity<links>();
+            builder.Entity<root>();
             //Cal Manually OnModelCreating from base class to create model objects relatet di Asp.Net identity (not nice)
             (new etymContext(optionsBuilder.Options, schema)).OnModelCreating(builder);
             //builder.Entity<Invoice>().ToTable("REGION", schema);

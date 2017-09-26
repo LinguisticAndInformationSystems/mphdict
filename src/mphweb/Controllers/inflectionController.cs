@@ -88,7 +88,7 @@ namespace mphweb.Controllers
 
             ViewBag.dp = new dictParams() { gr = dpg, vtype = viewtype.dict };
             return Redirect(Url.Action("SearchWord", "inflection", 
-                new { isStrFiltering= f.isStrFiltering, str=f.str, fetchType=f.fetchType, isInverse = f.isInverse, ispclass=f.ispclass, pclass=f.pclass, ispofs = f.ispofs, pofs = f.pofs, currentPage= incp.currentPage, wordSearch= incp.wordSearch, wid= incp.wid, count= dpg.count, maxpage = dpg.maxpage }, null, null, $"wid-{incp.wid}"));
+                new { isStrFiltering= f.isStrFiltering, str=f.str,/* fetchType=f.fetchType, */isInverse = f.isInverse, ispclass=f.ispclass, pclass=f.pclass, ispofs = f.ispofs, pofs = f.pofs, currentPage= incp.currentPage, wordSearch= incp.wordSearch, wid= incp.wid, count= dpg.count, maxpage = dpg.maxpage }, null, null, $"wid-{incp.wid}"));
 
         }
         public async Task<ActionResult> SearchWord(incParams incp, filter f, int count, int maxpage)
@@ -114,7 +114,7 @@ namespace mphweb.Controllers
             RouteValueDictionary d = new RouteValueDictionary();
             d.Add(nameof(f.isStrFiltering), f.isStrFiltering);
             d.Add(nameof(f.str), f.str);
-            d.Add(nameof(f.fetchType), (int)f.fetchType);
+            //d.Add(nameof(f.fetchType), (int)f.fetchType);
             d.Add(nameof(f.isInverse), f.isInverse);
             d.Add(nameof(p.currentPage), p.currentPage);
             d.Add(nameof(p.wordSearch), p.wordSearch);

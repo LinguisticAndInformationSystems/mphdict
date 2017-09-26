@@ -29,7 +29,7 @@ namespace mphweb.Models
         public incParams incp { get; set; }
         public int maxpage { get; set; }
         public int count { get; set; }
-        public main entry { get; set; }
+        public root entry { get; set; }
     }
     public class grdictParams
     {

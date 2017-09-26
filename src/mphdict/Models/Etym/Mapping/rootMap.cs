@@ -7,25 +7,25 @@ namespace mphdict.Models.Etym.Mapping
 {
     public static partial class ExplDbMaps
     {
-        public static void mainMap(this ModelBuilder modelBuilder)
+        public static void rootMap(this ModelBuilder modelBuilder)
         {
-            var Entity = modelBuilder.Entity<main>();
+            var Entity = modelBuilder.Entity<root>();
 
             Entity
                 .HasKey(t => t.id);
 
             Entity
       .HasMany(t => t.bibls)
-      .WithOne(i => i.main)
-      .HasForeignKey(b => b.id_main);
+      .WithOne(i => i.root)
+      .HasForeignKey(b => b.root);
             Entity
   .HasMany(t => t.e_classes)
-  .WithOne(i => i.main)
-  .HasForeignKey(b => b.id_main);
+  .WithOne(i => i.root)
+  .HasForeignKey(b => b.id_root);
             Entity
   .HasMany(t => t.links)
-  .WithOne(i => i.main)
-  .HasForeignKey(b => b.id_p_info);
+  .WithOne(i => i.root)
+  .HasForeignKey(b => b.id_root);
         }
     }
 }

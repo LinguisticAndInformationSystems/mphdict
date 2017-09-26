@@ -87,7 +87,7 @@ namespace mphweb.Controllers
 
             ViewBag.dp = new dictParams() { syn = dps, vtype = viewtype.synsets };
             return Redirect(Url.Action("SearchWord", "synsets", 
-                new { wid= incp.wid, isStrFiltering= f.isStrFiltering, str=f.str, fetchType=f.fetchType, ispofs = f.ispofs, pofs = f.pofs, currentPage= incp.currentPage, wordSearch= incp.wordSearch, idset= incp.idset, count= dps.count, maxpage = dps.maxpage }, null, null, $"wid-{incp.wid}"));
+                new { wid= incp.wid, isStrFiltering= f.isStrFiltering, str=f.str, /*fetchType=f.fetchType*/ ispofs = f.ispofs, pofs = f.pofs, currentPage= incp.currentPage, wordSearch= incp.wordSearch, idset= incp.idset, count= dps.count, maxpage = dps.maxpage }, null, null, $"wid-{incp.wid}"));
         }
         public async Task<ActionResult> SearchWord(synincParams incp, synsetsfilter f, int count, int maxpage)
         {
@@ -104,7 +104,7 @@ namespace mphweb.Controllers
             RouteValueDictionary d = new RouteValueDictionary();
             d.Add(nameof(f.isStrFiltering), f.isStrFiltering);
             d.Add(nameof(f.str), f.str);
-            d.Add(nameof(f.fetchType), (int)f.fetchType);
+            //d.Add(nameof(f.fetchType), (int)f.fetchType);
             d.Add(nameof(p.currentPage), p.currentPage);
             d.Add(nameof(p.wordSearch), p.wordSearch);
             d.Add(nameof(p.wid), p.wid);
