@@ -1,4 +1,5 @@
 ﻿using mphdict;
+using mphdict.Models.Etym;
 using mphdict.Models.morph;
 using mphdict.Models.SynonymousSets;
 using System;
@@ -13,6 +14,7 @@ namespace mphweb.Models
         public grdictParams gr { get; set; }
         public pclsdictParams pcls { get; set; }
         public syndictParams syn { get; set; }
+        public etymdictParams etym { get; set; }
         public viewtype vtype { get; set; } = viewtype.dict;
     }
     public class pclsdictParams
@@ -20,6 +22,14 @@ namespace mphweb.Models
         public indents_base[] indents { get; set; }
         public pclass_info pclsinfo { get; set; }
         public pclsfilter f { get; set; }
+    }
+    public class etymdictParams
+    {
+        public etymfilter f { get; set; }
+        public incParams incp { get; set; }
+        public int maxpage { get; set; }
+        public int count { get; set; }
+        public main entry { get; set; }
     }
     public class grdictParams
     {

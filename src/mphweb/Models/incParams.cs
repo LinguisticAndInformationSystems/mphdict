@@ -18,4 +18,8 @@ namespace mphweb.Models
         public int currentPage { get; set; }
         public string wordSearch { get; set; }
     }
+    public class etymincParams
+    {
+        public int rootid { get; set; }
+    }
 }

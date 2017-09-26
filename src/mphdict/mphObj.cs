@@ -385,7 +385,7 @@ namespace mphdict
     }
     public class filter
     {
-        public FetchType fetchType { get; set; }
+        //public FetchType fetchType { get; set; }
         //pattern="[A-za-zА-Яа-я\sЇїЁёЄєІі]+"
         //[RegularExpression(@"^([A-za-zА-Яа-я\sЇїЁёЄєІі]+)$", ErrorMessage = "Invalid characters")]
         public string str { get; set; }

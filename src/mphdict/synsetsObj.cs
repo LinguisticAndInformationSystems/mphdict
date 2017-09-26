@@ -452,7 +452,7 @@ namespace mphdict
     }
     public class synsetsfilter
     {
-        public FetchType fetchType { get; set; }
+        //public FetchType fetchType { get; set; }
         public string str { get; set; }
         public bool isStrFiltering { get; set; }
         public bool ispofs { get; set; }

@@ -58,6 +58,7 @@ namespace mphweb
         {
             services.AddTransient<mphObj>();
             services.AddTransient<synsetsObj>();
+            services.AddTransient<etymObj>();
             services.AddScoped<RazorViewToStringRenderer, RazorViewToStringRenderer>();
 
             services.AddSingleton<IConfiguration>(Configuration);
