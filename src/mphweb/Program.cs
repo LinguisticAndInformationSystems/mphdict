@@ -33,7 +33,7 @@ namespace mphweb
                 .UseStartup<Startup>()
                 .Build();
     }
-    public enum viewtype { dict, synsets, pclass, aclass, analyze, error };
+    public enum viewtype { dict, synsets, pclass, aclass, analyze, etym, error };
     public static class variables
     {
         private static SelectList _pclass;
