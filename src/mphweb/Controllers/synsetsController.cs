@@ -34,7 +34,7 @@ namespace mphweb.Controllers
             if (incp.idset != 0)
             {
                 dp.entry = await db.getEntry(incp.idset);
-                dp.w = await db.getWord(incp.wid);
+                dp.w = (from c in dp.entry._wlist where c.id== incp.wid select c.word).FirstOrDefault(); //await db.getWord(incp.wid);
                 dp.count = await db.CountWords(f);
                 int count_plus = dp.count % 100;
                 dp.maxpage = count_plus > 0 ? (dp.count / 100) + 1 : (dp.count / 100);
@@ -110,7 +110,7 @@ namespace mphweb.Controllers
             dps.count=count;
             dps.maxpage = maxpage;
             dps.entry = await db.getEntry(incp.idset);
-            dps.w = await db.getWord(incp.wid);
+            dps.w = (from c in dps.entry._wlist where c.id == incp.wid select c.word).FirstOrDefault();
             ViewBag.dp = new dictParams() { syn = dps, vtype = viewtype.synsets };
             return View("Index", dps);
         }
