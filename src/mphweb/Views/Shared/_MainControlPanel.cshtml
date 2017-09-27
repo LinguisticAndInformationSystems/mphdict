@@ -22,6 +22,10 @@
            class="tab-item group-not-active-tab">
             @Localizer["tab_synsets_name"]
         </a>
+        <a asp-action="Index" asp-controller="synsets"
+           class="tab-item group-not-active-tab">
+            @Localizer["tab_etym_name"]
+        </a>
     }
     else
     {
@@ -84,6 +88,18 @@
             <a asp-action="Search" asp-controller="synsets" asp-route-wordSearch="@wlink"
                class="tab-item group-not-active-tab">
                 @Localizer["tab_synsets_name"]
+            </a>
+        }
+        if (Model.vtype == viewtype.etym)
+        {
+            <div class="tab-item">@Localizer["tab_etym_name"]</div>
+        }
+        else
+        {
+            if (Model.vtype == viewtype.dict) { wlink = ""; }
+            <a asp-action="Search" asp-controller="etym" asp-route-wordSearch="@wlink"
+               class="tab-item group-not-active-tab">
+                @Localizer["tab_etym_name"]
             </a>
         }
 
@@ -247,6 +263,52 @@
                                     <div class="query-param-val">
                                         <input asp-for="@f.ispofs" />
                                         <select asp-for="@f.pofs" asp-items="@variables.synpofs"></select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="menu-group-content">
+                                <button id="filter" title="Оновити" class="btn"></button>
+                            </div>
+                            <input asp-for="@incp.wordSearch" type="hidden" />
+                        </form>
+
+                        <div class="menu-group-name">
+                            Робота з реєстром
+                        </div>
+                    </div>
+                }
+                break;
+            case viewtype.etym:
+                @if (Model != null)
+                {
+                    var f = Model.etym.f;
+                    var incp = Model.etym.incp;
+                    <div class="menu-group">
+                        <form id="query-control" asp-action="Index" asp-controller="etym" method="get">
+                            <div class="menu-group-content">
+                                <div id="query-param" class="query-param">
+                                    <div id="query-param-val" class="query-param-val">
+                                        <input asp-for="@f.isStrFiltering" />
+                                        <label asp-for="@f.str">Шаблон для вибірки:</label>
+                                        @*<select asp-for="@f.fetchType">
+                                                <option value="0">Починається з</option>
+                                                <option value="1">Містить</option>
+                                                <option value="2">Закінчується на</option>
+                                            </select>*@
+                                    </div>
+                                    <div class="query-param-val">
+                                        <input asp-for="@f.str" placeholder="пр_клад*" pattern="[A-za-zА-Яа-я\sЇїЁёЄєІі_*]+" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="menu-group-content">
+                                <div class="query-param">
+                                    <div class="query-param-val">
+                                        &nbsp;
+                                    </div>
+                                    <div class="query-param-val">
+                                        @*<input asp-for="@f.ispofs" />
+                                        <select asp-for="@f.pofs" asp-items="@variables.synpofs"></select>*@
                                     </div>
                                 </div>
                             </div>

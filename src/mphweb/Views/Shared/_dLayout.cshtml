@@ -110,8 +110,13 @@
                         @{await Html.RenderPartialAsync("_navSynsets", d.syn);}
                     </nav>
                     break;
-                default:
-                    break;
+                case viewtype.etym:
+                    <nav>
+                         @{await Html.RenderPartialAsync("_navEtym", d.etym);}
+                    </nav>
+                       break;
+                 default:
+                       break;
              }
             <article>
                 <header></header>

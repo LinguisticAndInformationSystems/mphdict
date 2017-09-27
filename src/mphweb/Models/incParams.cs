@@ -20,6 +20,9 @@ namespace mphweb.Models
     }
     public class etymincParams
     {
-        public int rootid { get; set; }
+        public int idclass { get; set; }
+        public int wid { get; set; }
+        public int currentPage { get; set; }
+        public string wordSearch { get; set; }
     }
 }

@@ -26,10 +26,12 @@ namespace mphweb.Models
     public class etymdictParams
     {
         public etymfilter f { get; set; }
-        public incParams incp { get; set; }
+        public etymincParams incp { get; set; }
         public int maxpage { get; set; }
         public int count { get; set; }
         public root entry { get; set; }
+        public etymons[] page { get; set; }
+        public string w { get; set; }
     }
     public class grdictParams
     {

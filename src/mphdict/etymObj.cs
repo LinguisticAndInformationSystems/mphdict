@@ -32,14 +32,18 @@ namespace mphdict
         }
         private static object o = new object();
 
-        private IQueryable<wlist> setWordListQueryFilter(etymfilter f, IQueryable<wlist> q)
+        private IQueryable<etymons> setWordListQueryFilter(etymfilter f, IQueryable<etymons> q)
         {
             try
             {
                 if ((f.isStrFiltering) && (!string.IsNullOrEmpty(f.str)))
                 {
                     string s = f.str;
-                    q = q.Where(c => EF.Functions.Like(c.digit, s));
+                    q = q.Where(c => EF.Functions.Like(c.word, s));
+                }
+                if (!f.isLang)
+                {
+                    q = q.Where(c => c.ishead == true);
                 }
                 return q;
             }
@@ -57,10 +61,9 @@ namespace mphdict
         {
             try
             {
-                //var q = (from c in db.wlist select c);
-                //q = setWordListQueryFilter(f, q);
-                //return await q.CountAsync();
-                return 0;
+                var q = (from c in db.etymons select c);
+                q = setWordListQueryFilter(f, q);
+                return await q.CountAsync();
             }
             catch (Exception ex)
             {
@@ -72,29 +75,29 @@ namespace mphdict
                 else throw ex;
             }
         }
-        //public async Task<wlist[]> getPage(etymfilter f, int start, int pageSize)
-        //{
-        //    try
-        //    {
-        //        //var q = (from c in db.wlist.AsNoTracking() select c);
-        //        //q = setWordListQueryFilter(f, q);
-        //        //q = q.OrderBy(c => c.digit).ThenBy(c => c.homonym).Skip(start * pageSize).Take(pageSize);
+        public async Task<etymons[]> getPage(etymfilter f, int start, int pageSize)
+        {
+            try
+            {
+                var q = (from c in db.etymons.AsNoTracking() select c);
+                q = setWordListQueryFilter(f, q);
+                q = q.OrderBy(c => c.word).ThenBy(c => c.homonym).Skip(start * pageSize).Take(pageSize);
 
-        //        return await q.ToArrayAsync();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        if (Logger != null)
-        //        {
-        //            Logger.LogError(new EventId(0), ex, ex.Message);
-        //            return null;
-        //        }
-        //        else throw ex;
-        //    }
-        //    finally
-        //    {
-        //    }
-        //}
+                return await q.ToArrayAsync();
+            }
+            catch (Exception ex)
+            {
+                if (Logger != null)
+                {
+                    Logger.LogError(new EventId(0), ex, ex.Message);
+                    return null;
+                }
+                else throw ex;
+            }
+            finally
+            {
+            }
+        }
         public async Task<wlist_base> searchWord(etymfilter f, string word)
         {
             //System.Runtime.CompilerServices.StrongBox <T>
@@ -181,6 +184,6 @@ namespace mphdict
         public string str { get; set; }
         public bool isStrFiltering { get; set; }
         public bool isLang { get; set; }
-        public int LangID { get; set; }
+        public int langId { get; set; }
     }
 }
