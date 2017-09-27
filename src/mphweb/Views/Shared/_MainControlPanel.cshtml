@@ -37,7 +37,7 @@
             {
             <a asp-action="Index" asp-controller="inflection"
                asp-route-wid="@Model.gr.incp.wid" asp-route-currentPage="@Model.gr.incp.currentPage" asp-route-wordSearch="@Model.gr.incp.wordSearch"
-               asp-route-fetchType="@Model.gr.f.fetchType" asp-route-str="@Model.gr.f.str" asp-route-isStrFiltering="@Model.gr.f.isStrFiltering" asp-route-isInverse="@Model.gr.f.isInverse" asp-route-ispclass="@Model.gr.f.ispclass" asp-route-pclass="@Model.gr.f.pclass" asp-route-ispofs="@Model.gr.f.ispofs" asp-route-pofs="@Model.gr.f.pofs"
+               asp-route-str="@Model.gr.f.str" asp-route-isStrFiltering="@Model.gr.f.isStrFiltering" asp-route-isInverse="@Model.gr.f.isInverse" asp-route-ispclass="@Model.gr.f.ispclass" asp-route-pclass="@Model.gr.f.pclass" asp-route-ispofs="@Model.gr.f.ispofs" asp-route-pofs="@Model.gr.f.pofs"
                class="tab-item group-not-active-tab">
                 @Localizer["tab_gram_name"]
             </a>
@@ -61,7 +61,7 @@
             {
             <a asp-action="Index" asp-controller="flexes"
                asp-route-wid="@Model.gr.incp.wid" asp-route-currentPage="@Model.gr.incp.currentPage" asp-route-wordSearch="@Model.gr.incp.wordSearch"
-               asp-route-fetchType="@Model.gr.f.fetchType" asp-route-str="@Model.gr.f.str" asp-route-isStrFiltering="@Model.gr.f.isStrFiltering" asp-route-isInverse="@Model.gr.f.isInverse" asp-route-ispclass="@Model.gr.f.ispclass" asp-route-pclass="@Model.gr.f.pclass" asp-route-ispofs="@Model.gr.f.ispofs" asp-route-pofs="@Model.gr.f.pofs"
+               asp-route-str="@Model.gr.f.str" asp-route-isStrFiltering="@Model.gr.f.isStrFiltering" asp-route-isInverse="@Model.gr.f.isInverse" asp-route-ispclass="@Model.gr.f.ispclass" asp-route-pclass="@Model.gr.f.pclass" asp-route-ispofs="@Model.gr.f.ispofs" asp-route-pofs="@Model.gr.f.pofs"
                class="tab-item group-not-active-tab">
                 @Localizer["tab_inflectional_classes_name"]
             </a>
@@ -108,11 +108,6 @@
                                     <div id="query-param-val" class="query-param-val">
                                         <input asp-for="@f.isStrFiltering" />
                                         <label asp-for="@f.str">Шаблон для вибірки:</label>
-                                        @*<select asp-for="@f.fetchType">
-                                            <option value="0">Починається з</option>
-                                            <option value="1">Містить</option>
-                                            <option value="2">Закінчується на</option>
-                                        </select>*@
                                     </div>
                                     <div class="query-param-val">
                                         <input asp-for="@f.str" placeholder="пр_клад*" pattern="[A-za-zА-Яа-я\sЇїЁёЄєІі_*]+" />
@@ -205,8 +200,6 @@
                                 <input type="hidden" name="@nameof(Model.gr.f.isInverse)" value="@(Model.gr.f.isInverse.ToString())" />
                                 @*<input type="hidden" asp-for="@Model.gr.f.str" />*@
                                 <input type="hidden" name="@nameof(Model.gr.f.str)" value="@(Model.gr.f.str)" />
-                                @*<input type="hidden" asp-for="@Model.gr.f.fetchType" />*@
-                                <input type="hidden" name="@nameof(Model.gr.f.fetchType)" value="@(Model.gr.f.fetchType)" />
                                 @*<input type="hidden" asp-for="@Model.gr.f.ispclass" />*@
                                 <input type="hidden" name="@nameof(Model.gr.f.ispclass)" value="@(Model.gr.f.ispclass.ToString())" />
                                 @*<input type="hidden" asp-for="@Model.gr.f.pclass" />*@

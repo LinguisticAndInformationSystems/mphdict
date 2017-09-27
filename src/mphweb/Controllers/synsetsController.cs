@@ -31,13 +31,28 @@ namespace mphweb.Controllers
         private async Task<syndictParams> prepaireData(synincParams incp, synsetsfilter f)
         {
             syndictParams dp = new syndictParams() { incp = incp, f = f, id_lang = db.lid.id_lang };
-            if (incp.idset != 0) dp.entry = await db.getEntry(incp.idset);
-            dp.w = await db.getWord(incp.wid);
-            dp.count = await db.CountWords(f);
-            int count_plus = dp.count % 100;
-            dp.maxpage = count_plus>0? (dp.count / 100)+1: (dp.count / 100);
-            if (dp.incp.currentPage >= dp.maxpage) dp.incp.currentPage = dp.maxpage-1;
-            if (dp.incp.currentPage < 0) dp.incp.currentPage = 0;
+            if (incp.idset != 0)
+            {
+                dp.entry = await db.getEntry(incp.idset);
+                dp.w = await db.getWord(incp.wid);
+                dp.count = await db.CountWords(f);
+                int count_plus = dp.count % 100;
+                dp.maxpage = count_plus > 0 ? (dp.count / 100) + 1 : (dp.count / 100);
+                if (dp.incp.currentPage >= dp.maxpage) dp.incp.currentPage = dp.maxpage - 1;
+                if (dp.incp.currentPage < 0) dp.incp.currentPage = 0;
+            }
+            else {
+                var w = await db.searchWord(f, "");
+                incp.currentPage = w.wordsPageNumber;
+                incp.idset = w.id_set;
+                incp.wid = w.id;
+                dp.entry = await db.getEntry(incp.idset);
+                dp.count = w.CountOfWords;
+                int count_plus = dp.count % 100;
+                dp.maxpage = count_plus > 0 ? (dp.count / 100) + 1 : (dp.count / 100);
+                if (dp.incp.currentPage >= dp.maxpage) dp.incp.currentPage = dp.maxpage - 1;
+                if (dp.incp.currentPage < 0) dp.incp.currentPage = 0;
+            }
             return dp;
         }
         // GET: /<controller>/
@@ -87,7 +102,7 @@ namespace mphweb.Controllers
 
             ViewBag.dp = new dictParams() { syn = dps, vtype = viewtype.synsets };
             return Redirect(Url.Action("SearchWord", "synsets", 
-                new { wid= incp.wid, isStrFiltering= f.isStrFiltering, str=f.str, /*fetchType=f.fetchType*/ ispofs = f.ispofs, pofs = f.pofs, currentPage= incp.currentPage, wordSearch= incp.wordSearch, idset= incp.idset, count= dps.count, maxpage = dps.maxpage }, null, null, $"wid-{incp.wid}"));
+                new { wid= incp.wid, isStrFiltering= f.isStrFiltering, str=f.str, ispofs = f.ispofs, pofs = f.pofs, currentPage= incp.currentPage, wordSearch= incp.wordSearch, idset= incp.idset, count= dps.count, maxpage = dps.maxpage }, null, null, $"wid-{incp.wid}"));
         }
         public async Task<ActionResult> SearchWord(synincParams incp, synsetsfilter f, int count, int maxpage)
         {
@@ -104,7 +119,6 @@ namespace mphweb.Controllers
             RouteValueDictionary d = new RouteValueDictionary();
             d.Add(nameof(f.isStrFiltering), f.isStrFiltering);
             d.Add(nameof(f.str), f.str);
-            //d.Add(nameof(f.fetchType), (int)f.fetchType);
             d.Add(nameof(p.currentPage), p.currentPage);
             d.Add(nameof(p.wordSearch), p.wordSearch);
             d.Add(nameof(p.wid), p.wid);
