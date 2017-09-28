@@ -15,7 +15,7 @@ namespace mphdict.Models.Etym.Mapping
                 .HasKey(t => t.id);
 
             Entity.Property(t => t.word).HasMaxLength(255);
-            Entity.Property(t => t.digit).HasMaxLength(255);
+            //Entity.Property(t => t.digit).HasMaxLength(255);
             Entity.Property(t => t.lang_marker).HasMaxLength(255);
             Entity.Property(t => t.lang_note).HasMaxLength(50);
         }

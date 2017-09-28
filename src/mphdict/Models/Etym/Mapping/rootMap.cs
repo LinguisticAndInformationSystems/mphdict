@@ -17,7 +17,7 @@ namespace mphdict.Models.Etym.Mapping
             Entity
       .HasMany(t => t.bibls)
       .WithOne(i => i.root)
-      .HasForeignKey(b => b.root);
+      .HasForeignKey(b => b.id_root);
             Entity
   .HasMany(t => t.e_classes)
   .WithOne(i => i.root)

@@ -81,7 +81,7 @@ namespace mphweb.Controllers
         {
             var w = await db.searchWord(f, incp.wordSearch);
             incp.currentPage = w.wordsPageNumber;
-            incp.idclass = w.id_set;
+            incp.idclass = w.id_e_classes;
             incp.wid = w.id;
             var dps = new etymdictParams() { incp = incp, f = f };
             dps.count = w.CountOfWords;
@@ -101,7 +101,7 @@ namespace mphweb.Controllers
             dps.maxpage = maxpage;
             dps.entry = await db.getEntry(incp.idclass);
             dps.w = await db.getWord(incp.wid);
-            ViewBag.dp = new dictParams() { etym = dps, vtype = viewtype.synsets };
+            ViewBag.dp = new dictParams() { etym = dps, vtype = viewtype.etym };
             return View("Index", dps);
         }
     }
