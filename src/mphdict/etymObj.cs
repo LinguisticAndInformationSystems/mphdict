@@ -98,40 +98,39 @@ namespace mphdict
             {
             }
         }
-        public async Task<wlist_base> searchWord(etymfilter f, string word)
+        public async Task<etymons_base> searchWord(etymfilter f, string word)
         {
             //System.Runtime.CompilerServices.StrongBox <T>
             try
             {
-                //string w = word;
-                //int start = 0;
-                //var q = (from c in db.etymons select c);
+                string w = word;
+                int start = 0;
+                var q = (from c in db.etymons select c);
 
-                //q = setWordListQueryFilter(f, q);
+                q = setWordListQueryFilter(f, q);
 
-                //q = q.OrderBy(c => c.digit).ThenBy(c => c.homonym);
-                //start = await (from c in q where w.CompareTo(c.digit) > 0 select c).CountAsync();
+                q = q.OrderBy(c => c.word).ThenBy(c => c.homonym);
+                start = await (from c in q where w.CompareTo(c.word) > 0 select c).CountAsync();
 
-                //int pagenumber = start / 100;
-                //int count = q.Count();
+                int pagenumber = start / 100;
+                int count = q.Count();
 
-                //if (count <= start)
-                //{
-                //    q = q.Skip((start - 1)).Take(1);
-                //}
-                //else
-                //{
-                //    q = q.Skip(start).Take(1);
-                //}
-                //wlist wp = await q.FirstOrDefaultAsync();
-                //wlist_base r = null;
-                //if (wp != null)
-                //{
-                //    r = (new wlist_base() { CountOfWords = count, wordsPageNumber = pagenumber, id = wp.id, comm= wp.comm, digit= wp.digit, homonym= wp.homonym, hyperonym= wp.hyperonym, id_hyp= wp.id_hyp, id_int= wp.id_int, id_phon= wp.id_phon, id_r=wp.id_r, id_set= wp.id_set, id_syn= wp.id_syn, inactive= wp.inactive, interpretation= wp.interpretation, intsum= wp.intsum, userid= wp.userid, nom= wp.nom, sign=wp.sign, sword=wp.sword, timemarker= wp.timemarker, word= wp.word });
-                //return r;
-                //}
+                if (count <= start)
+                {
+                    q = q.Skip((start - 1)).Take(1);
+                }
+                else
+                {
+                    q = q.Skip(start).Take(1);
+                }
+                etymons wp = await q.FirstOrDefaultAsync();
+                etymons_base r = null;
+                if (wp != null)
+                {
+                    r = (new etymons_base() { CountOfWords = count, wordsPageNumber = pagenumber, id = wp.id, id_e_classes=wp.id_e_classes, homonym = wp.homonym, word = wp.word });
 
-                return new wlist_base();
+                }
+                return r;
 
             }
             catch (Exception ex)
