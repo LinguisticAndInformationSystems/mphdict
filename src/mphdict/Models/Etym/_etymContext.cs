@@ -55,7 +55,11 @@ namespace mphdict.Models.Etym
             modelBuilder.linksMap();
             modelBuilder.rootMap();
 
-            modelBuilder.HasDefaultSchema("dbo");
+            if (!string.IsNullOrEmpty(_schema))
+            {
+                modelBuilder.HasDefaultSchema(_schema);
+            }
+
 
             modelBuilder.HasChangeTrackingStrategy(ChangeTrackingStrategy.Snapshot);
 

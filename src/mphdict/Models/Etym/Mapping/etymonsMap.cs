@@ -10,6 +10,8 @@ namespace mphdict.Models.Etym.Mapping
         public static void etymonsMap(this ModelBuilder modelBuilder)
         {
             var Entity = modelBuilder.Entity<etymons>();
+            Entity.Ignore(p => p.CountOfWords);
+            Entity.Ignore(p => p.wordsPageNumber);
 
             Entity
                 .HasKey(t => t.id);
