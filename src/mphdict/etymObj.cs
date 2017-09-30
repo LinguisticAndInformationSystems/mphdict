@@ -13,13 +13,41 @@ namespace mphdict
 {
     public class etymObj : IDisposable
     {
-        private string schema;
         private etymContext db;
         private ILogger Logger { get; set; }
         public etymObj(etymContext db, ILogger<synsetsContext> log)
         {
             this.db = db;
             Logger = log;
+        }
+         static private List<ps[]> _pofs = null;
+        public List<ps[]> pofs
+        {
+            get
+            {
+                try
+                {
+                    if (_pofs == null)
+                    {
+                        lock (o)
+                        {
+                            _pofs = new List<ps[]>();
+                            var g1 = (from c in db.lang_all /*where (c.id <= 16)*/ orderby c.lang_name select c).ToArray();
+                            _pofs.Add((from c in g1 select new ps() { id = (short)c.lang_code, name = c.lang_name }).ToArray());
+                        }
+                    }
+                    return _pofs;
+                }
+                catch (Exception ex)
+                {
+                    _pofs = null;
+                    if (Logger != null)
+                        Logger.LogError(new EventId(0), ex, ex.Message);
+                    else
+                        throw ex;
+                    return null;
+                }
+            }
         }
         public void Dispose()
         {
@@ -41,9 +69,31 @@ namespace mphdict
                     string s = f.str;
                     q = q.Where(c => EF.Functions.Like(c.word, s));
                 }
-                if (!f.isLang)
+                if (f.isHead)
                 {
                     q = q.Where(c => c.ishead == true);
+                }
+                if (f.isLang)
+                {
+                    q = q.Where(c => c.lang_code==f.langId);
+                }
+                if (f.isType)
+                {
+                    switch (f.typeId)
+                    {
+                        case 0://Літературні
+                            q = q.Where(c => c.dialect == false);
+                            break;
+                        case 1://Діалектні
+                            q = q.Where(c => c.dialect == true);
+                            break;
+                        case 2://Омоніми
+                            q = q.Where(c => c.homonym >0);
+                            break;
+                        case 3://Антропоніми
+                            q = q.Where(c => c.antroponym == true);
+                            break;
+                    }
                 }
                 return q;
             }
@@ -81,7 +131,7 @@ namespace mphdict
             {
                 var q = (from c in db.etymons.AsNoTracking() select c);
                 q = setWordListQueryFilter(f, q);
-                q = q.OrderBy(c => c.word).ThenBy(c => c.homonym).Skip(start * pageSize).Take(pageSize);
+                q = q.OrderBy(c => c.word.ToUpperInvariant().Replace("-", "").Replace("\'", "").Replace(" ", "")).ThenBy(c => c.homonym).Skip(start * pageSize).Take(pageSize);
 
                 return await q.ToArrayAsync();
             }
@@ -103,14 +153,14 @@ namespace mphdict
             //System.Runtime.CompilerServices.StrongBox <T>
             try
             {
-                string w = word;
+                string w = word??"";
                 int start = 0;
                 var q = (from c in db.etymons select c);
 
                 q = setWordListQueryFilter(f, q);
 
-                q = q.OrderBy(c => c.word).ThenBy(c => c.homonym);
-                start = await (from c in q where w.CompareTo(c.word) > 0 select c).CountAsync();
+                q = q.OrderBy(c => c.word.ToUpperInvariant().Replace("-", "").Replace("\'", "").Replace(" ", "")).ThenBy(c => c.homonym);
+                start = await (from c in q where w.CompareTo(c.word.ToUpperInvariant().Replace("-", "").Replace("\'", "").Replace(" ", "")) > 0 select c).CountAsync();
 
                 int pagenumber = start / 100;
                 int count = q.Count();
@@ -182,7 +232,10 @@ namespace mphdict
     {
         public string str { get; set; }
         public bool isStrFiltering { get; set; }
+        public bool isHead { get; set; } = true;
         public bool isLang { get; set; }
         public int langId { get; set; }
+        public bool isType { get; set; }
+        public int typeId { get; set; }
     }
 }

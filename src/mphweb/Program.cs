@@ -132,6 +132,28 @@ namespace mphweb
                 return _synpofs;
             }
         }
+        private static SelectList _etympofs = null;
+        public static SelectList etympofs
+        {
+            get
+            {
+                if (_etympofs == null)
+                {
+                    try
+                    {
+                        var t = ((etymObj)ApplicationVariables.services.GetService(typeof(etymObj))).pofs;
+                        var tpofs = new ps[t[0].Length];
+                        t[0].CopyTo(tpofs, 0);
+                        _etympofs = new SelectList(tpofs, "id", "name", null, null);
+                    }
+                    catch (Exception ex)
+                    {
+                        _etympofs = null;
+                    }
+                }
+                return _etympofs;
+            }
+        }
 
     }
 }

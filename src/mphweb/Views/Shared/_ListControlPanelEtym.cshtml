@@ -6,7 +6,8 @@
     <div id="list-control">
         <a asp-action="toPrev" asp-controller="etym"
            asp-route-wid="@Model.incp.wid" asp-route-currentPage="@Model.incp.currentPage" asp-route-wordSearch="@Model.incp.wordSearch"
-           asp-route-str="@Model.f.str" asp-route-isStrFiltering="@Model.f.isStrFiltering" asp-route-isInverse="@Model.f.isLang" asp-route-ispclass="@Model.f.langId" 
+           asp-route-str="@Model.f.str" asp-route-isStrFiltering="@Model.f.isStrFiltering" asp-route-isLang="@Model.f.isLang" asp-route-langId="@Model.f.langId" 
+            asp-route-isType="@Model.f.isType" asp-route-typeId="@Model.f.typeId" asp-route-isHead="@Model.f.isHead"
            class="btn @(Model.incp.currentPage==0?"disable-nav":"")">‹</a>
 
         @*<input type="number" asp-for="@Model.incp.currentPage" />*@
@@ -17,16 +18,21 @@
         <input type="hidden" asp-for="@Model.f.str" />
         <input type="hidden" asp-for="@Model.f.isLang" />
         <input type="hidden" asp-for="@Model.f.langId" />
+        <input type="hidden" asp-for="@Model.f.isType" />
+        <input type="hidden" asp-for="@Model.f.typeId" />
+        <input type="hidden" asp-for="@Model.f.isHead" />
 
         <div id="page-number">&nbsp;з&nbsp;</div>
         <a id="last-page" asp-action="Index" asp-controller="etym"
            asp-route-wid="@Model.incp.wid" asp-route-currentPage="@(Model.maxpage-1)" asp-route-wordSearch="@Model.incp.wordSearch"
-           asp-route-str="@Model.f.str" asp-route-isStrFiltering="@Model.f.isStrFiltering" asp-route-isInverse="@Model.f.isLang" asp-route-ispclass="@Model.f.langId" >@(Model.maxpage)</a>
+           asp-route-str="@Model.f.str" asp-route-isStrFiltering="@Model.f.isStrFiltering" asp-route-isLang="@Model.f.isLang" 
+           asp-route-langId="@Model.f.langId" asp-route-isType="@Model.f.isType" asp-route-typeId="@Model.f.typeId" asp-route-isHead="@Model.f.isHead" >@(Model.maxpage)</a>
         <button class="btn"></button>
 
         <a asp-action="toNext" asp-controller="etym"
            asp-route-wid="@Model.incp.wid" asp-route-currentPage="@Model.incp.currentPage" asp-route-wordSearch="@Model.incp.wordSearch"
-           asp-route-str="@Model.f.str" asp-route-isStrFiltering="@Model.f.isStrFiltering" asp-route-isInverse="@Model.f.isLang" asp-route-ispclass="@Model.f.langId"
+           asp-route-str="@Model.f.str" asp-route-isStrFiltering="@Model.f.isStrFiltering" asp-route-isLang="@Model.f.isLang" 
+           asp-route-langId="@Model.f.langId" asp-route-isType="@Model.f.isType" asp-route-typeId="@Model.f.typeId" asp-route-isHead="@Model.f.isHead"
            class="btn @(Model.incp.currentPage==Model.maxpage?"disable-nav":"")">›</a>
     </div>
 </form>

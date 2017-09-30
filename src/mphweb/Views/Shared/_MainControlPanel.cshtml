@@ -316,6 +316,34 @@
                                 </div>
                             </div>
                             <div class="menu-group-content">
+                                <div class="query-param">
+                                    <div class="query-param-val">
+                                        <input asp-for="@f.isHead" />
+                                        <label for="isHead">Показувати лише реєстрові етимони</label>
+                                    </div>
+                                    <div class="query-param-val">
+                                        <input asp-for="@f.isLang"/>
+                                        <select asp-for="@f.langId" asp-items="@variables.etympofs" ></select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="menu-group-content">
+                                <div class="query-param">
+                                    <div class="query-param-val">
+                                        &nbsp;
+                                    </div>
+                                    <div class="query-param-val">
+                                        <input asp-for="@f.isType" />
+                                        <select asp-for="@f.typeId">
+                                            <option value="0">Літературні</option>
+                                            <option value="1">Діалектні</option>
+                                            <option value="2">Омоніми</option>
+                                            <option value="3">Антропоніми</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="menu-group-content">
                                 <button id="filter" title="Оновити" class="btn"></button>
                             </div>
                             <input asp-for="@incp.wordSearch" type="hidden" />

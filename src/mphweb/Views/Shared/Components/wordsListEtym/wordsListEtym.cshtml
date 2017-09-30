@@ -8,7 +8,9 @@
         <a asp-action="Index" asp-controller="etym" asp-route-idclass="@item.id_e_classes"
            asp-route-wid="@item.id" asp-route-currentPage="@Model.incp.currentPage" asp-route-wordSearch="@Model.incp.wordSearch"
            asp-route-str="@Model.f.str" asp-route-isStrFiltering="@Model.f.isStrFiltering"
-           asp-route-isLang="@Model.f.isLang" asp-route-langId="@Model.f.langId" asp-fragment="@($"wid-{item.id}")"
+           asp-route-isLang="@Model.f.isLang" asp-route-langId="@Model.f.langId" 
+            asp-route-isType="@Model.f.isType" asp-route-typeId="@Model.f.typeId" asp-route-isHead="@Model.f.isHead" 
+           asp-fragment="@($"wid-{item.id}")"
            class="@(item.id == Model.incp.wid ? "selected-word" : "")" id="@($"wid-{item.id}")">
             @item.word.Replace('\"', '\x301')
             @if (item.homonym > 0)
