@@ -1112,17 +1112,17 @@ sup             { vertical-align: super }
     .gd-entry > div {
         text-align: center;
     }
-.syn-entry {
+.syn-entry, .etym-entry {
     font-size:1rem;
     margin: .5em;
     line-height: 1.15;
     text-indent: 1.4rem;
 }
-    .syn-entry div {
+    .syn-entry div, .etym-entry div {
         margin-top: .5em;
         margin-bottom: .5em;
     }
-.syn-set {
+.syn-set, .etym-bibls {
     list-style: disc inside;
 }
 .syn-comm {
@@ -1140,7 +1140,7 @@ sup             { vertical-align: super }
 .syn-gr {
     color: rgb(31, 147, 12);
 }
-.syn-block-name {
+.syn-block-name, .etym-block-name {
     color: rgb(107, 47, 47);
     font-weight: bold;
 }

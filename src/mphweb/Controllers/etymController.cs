@@ -23,7 +23,7 @@ namespace mphweb.Controllers
             etymdictParams dp = new etymdictParams() { incp = incp, f = f};
             if (incp.wid != 0)
             {
-                dp.entry = await db.getEntry(incp.wid);
+                dp.entry = await db.getEntry(incp.idclass);
                 dp.count = await db.CountWords(f);
                 int count_plus = dp.count % 100;
                 dp.maxpage = count_plus > 0 ? (dp.count / 100) + 1 : (dp.count / 100);
@@ -36,7 +36,7 @@ namespace mphweb.Controllers
                 if (w != null)
                 {
                     incp.currentPage = w.wordsPageNumber;
-                    dp.entry = await db.getEntry(incp.wid);
+                    dp.entry = await db.getEntry(incp.idclass);
                     dp.count = w.CountOfWords;
                     int count_plus = dp.count % 100;
                     dp.maxpage = count_plus > 0 ? (dp.count / 100) + 1 : (dp.count / 100);

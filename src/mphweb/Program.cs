@@ -132,6 +132,26 @@ namespace mphweb
                 return _synpofs;
             }
         }
+        private static ps[] _etymLang_all = null;
+        public static ps[] etymLang_all
+        {
+            get
+            {
+                if (_etymLang_all == null)
+                {
+                    try
+                    {
+                        var t = ((etymObj)ApplicationVariables.services.GetService(typeof(etymObj))).pofs;
+                        _etymLang_all = new ps[t[0].Length];
+                    }
+                    catch (Exception ex)
+                    {
+                        _etymLang_all = null;
+                    }
+                }
+                return _etymLang_all;
+            }
+        }
         private static SelectList _etympofs = null;
         public static SelectList etympofs
         {
@@ -141,10 +161,7 @@ namespace mphweb
                 {
                     try
                     {
-                        var t = ((etymObj)ApplicationVariables.services.GetService(typeof(etymObj))).pofs;
-                        var tpofs = new ps[t[0].Length];
-                        t[0].CopyTo(tpofs, 0);
-                        _etympofs = new SelectList(tpofs, "id", "name", null, null);
+                        _etympofs = new SelectList(etymLang_all, "id", "name", null, null);
                     }
                     catch (Exception ex)
                     {

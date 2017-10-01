@@ -193,11 +193,12 @@ namespace mphdict
                 else throw ex;
             }
         }
-        public async Task<root> getEntry(int idset)
+        public async Task<root> getEntry(int idclass)
         {
             try
             {
-                var ss = await (from c in db.roots select c).FirstOrDefaultAsync();
+                var ss = await (from c in db.roots.Include("e_classes.etymons").Include("bibls").Include("links")
+                                where c.e_classes.Any(m=>m.id== idclass)  select c).FirstOrDefaultAsync();
                 //ss._wlist = ss._wlist.OrderBy(o => o.id_syn).ToArray();
                 return ss;
             }
