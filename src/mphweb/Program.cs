@@ -143,6 +143,7 @@ namespace mphweb
                     {
                         var t = ((etymObj)ApplicationVariables.services.GetService(typeof(etymObj))).pofs;
                         _etymLang_all = new ps[t[0].Length];
+                        t[0].CopyTo(_etymLang_all, 0);
                     }
                     catch (Exception ex)
                     {

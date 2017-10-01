@@ -1122,12 +1122,15 @@ sup             { vertical-align: super }
         margin-top: .5em;
         margin-bottom: .5em;
     }
-.syn-set, .etym-bibls {
+.syn-set, .etym-bibls, .etym-equivalents {
     list-style: disc inside;
 }
+.etym-etymon > .I {
+    color: rgb(31, 147, 12);
+}
 .syn-comm {
-    font-style:italic;
-    color:rgb(31, 147, 12);
+    font-style: italic;
+    color: rgb(31, 147, 12);
 }
 .syn-int {
 }
@@ -1222,9 +1225,9 @@ table .td_style {
     text-align:center;
 }
 
-.word_style {
+.word_style, .etym-lang-name {
     color: #039;
-    font-weight:bold;
+    font-weight: bold;
 }
 .gram_style {
     color: #669;
