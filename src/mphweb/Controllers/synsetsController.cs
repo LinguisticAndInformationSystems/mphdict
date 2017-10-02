@@ -28,21 +28,11 @@ namespace mphweb.Controllers
             IConfiguration conf = (IConfiguration)HttpContext.RequestServices.GetService(typeof(IConfiguration));
             return variables.lang.id_lang==1058?conf.GetValue<string>("start_ua_word"): conf.GetValue<string>("start_ru_word");
         }
-        private async Task<syndictParams> prepaireData(synincParams incp, synsetsfilter f)
+        private async Task SearchData(string sw, synincParams incp, synsetsfilter f, syndictParams dp)
         {
-            syndictParams dp = new syndictParams() { incp = incp, f = f, id_lang = db.lid.id_lang };
-            if (incp.idset != 0)
+            var w = await db.searchWord(f, sw);
+            if (w != null)
             {
-                dp.entry = await db.getEntry(incp.idset);
-                dp.w = (from c in dp.entry._wlist where c.id== incp.wid select c.word).FirstOrDefault(); //await db.getWord(incp.wid);
-                dp.count = await db.CountWords(f);
-                int count_plus = dp.count % 100;
-                dp.maxpage = count_plus > 0 ? (dp.count / 100) + 1 : (dp.count / 100);
-                if (dp.incp.currentPage >= dp.maxpage) dp.incp.currentPage = dp.maxpage - 1;
-                if (dp.incp.currentPage < 0) dp.incp.currentPage = 0;
-            }
-            else {
-                var w = await db.searchWord(f, "");
                 incp.currentPage = w.wordsPageNumber;
                 incp.idset = w.id_set;
                 incp.wid = w.id;
@@ -52,6 +42,33 @@ namespace mphweb.Controllers
                 dp.maxpage = count_plus > 0 ? (dp.count / 100) + 1 : (dp.count / 100);
                 if (dp.incp.currentPage >= dp.maxpage) dp.incp.currentPage = dp.maxpage - 1;
                 if (dp.incp.currentPage < 0) dp.incp.currentPage = 0;
+            }
+            else
+            {
+                incp.currentPage = 0;
+                incp.wid = 0;
+                dp.entry = null;
+                dp.count = 0;
+                dp.maxpage = 0;
+                dp.incp.currentPage = 0;
+            }
+        }
+        private async Task<syndictParams> prepaireData(synincParams incp, synsetsfilter f)
+        {
+            syndictParams dp = new syndictParams() { incp = incp, f = f, id_lang = db.lid.id_lang };
+            if (incp.idset != 0)
+            {
+                dp.entry = await db.getEntry(incp.idset);
+                dp.w = (from c in dp.entry._wlist where c.id == incp.wid select c.word).FirstOrDefault(); //await db.getWord(incp.wid);
+                dp.count = await db.CountWords(f);
+                int count_plus = dp.count % 100;
+                dp.maxpage = count_plus > 0 ? (dp.count / 100) + 1 : (dp.count / 100);
+                if (dp.incp.currentPage >= dp.maxpage) dp.incp.currentPage = dp.maxpage - 1;
+                if (dp.incp.currentPage < 0) dp.incp.currentPage = 0;
+            }
+            else
+            {
+                await SearchData(string.Empty, incp, f, dp);
             }
             return dp;
         }
@@ -89,17 +106,8 @@ namespace mphweb.Controllers
         }
         public async Task<ActionResult> Search(synincParams incp, synsetsfilter f)
         {
-            var w = await db.searchWord(f, incp.wordSearch);
-            incp.currentPage = w.wordsPageNumber;
-            incp.idset = w.id_set;
-            incp.wid = w.id;
-            var dps = new syndictParams() { incp = incp, f = f};
-            dps.count = w.CountOfWords;
-            int count_plus = dps.count % 100;
-            dps.maxpage = count_plus > 0 ? (dps.count / 100) + 1 : (dps.count / 100);
-            if (dps.incp.currentPage >= dps.maxpage) dps.incp.currentPage = dps.maxpage - 1;
-            if (dps.incp.currentPage < 0) dps.incp.currentPage = 0;
-
+            var dps = new syndictParams() { f=f, incp=incp};
+            await SearchData(incp.wordSearch, incp, f, dps);
             ViewBag.dp = new dictParams() { syn = dps, vtype = viewtype.synsets };
             return Redirect(Url.Action("SearchWord", "synsets", 
                 new { wid= incp.wid, isStrFiltering= f.isStrFiltering, str=f.str, ispofs = f.ispofs, pofs = f.pofs, currentPage= incp.currentPage, wordSearch= incp.wordSearch, idset= incp.idset, count= dps.count, maxpage = dps.maxpage }, null, null, $"wid-{incp.wid}"));
@@ -110,7 +118,8 @@ namespace mphweb.Controllers
             dps.count=count;
             dps.maxpage = maxpage;
             dps.entry = await db.getEntry(incp.idset);
-            dps.w = (from c in dps.entry._wlist where c.id == incp.wid select c.word).FirstOrDefault();
+            if (dps.entry != null) dps.w = (from c in dps.entry._wlist where c.id == incp.wid select c.word).FirstOrDefault();
+            else dps.w = "";
             ViewBag.dp = new dictParams() { syn = dps, vtype = viewtype.synsets };
             return View("Index", dps);
         }
