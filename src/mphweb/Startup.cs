@@ -67,8 +67,10 @@ namespace mphweb
                 .AddEntityFrameworkSqlite()
                 //.AddDbContext<mphContext>(options => options.UseSqlite($"Filename={Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).FullName, $"data/{Configuration.GetConnectionString("sqlitedb")}")}"));
                 .AddDbContext<mphContext>(options => options.UseSqlite($"Filename={Path.Combine(Directory.GetParent(Startup.ContentRootPath).FullName, $"data/mph_{Configuration.GetConnectionString("sqlitedb")}.db")}"))
-                .AddDbContext<synsetsContext>(options => options.UseSqlite($"Filename={Path.Combine(Directory.GetParent(Startup.ContentRootPath).FullName, $"data/synsets_{Configuration.GetConnectionString("sqlitedb")}.db")}"))
-            .AddDbContext<etymContext>(options => options.UseSqlite($"Filename={Path.Combine(Directory.GetParent(Startup.ContentRootPath).FullName, $"data/etym.db")}"));
+                .AddDbContext<synsetsContext>(options => options.UseSqlite($"Filename={Path.Combine(Directory.GetParent(Startup.ContentRootPath).FullName, $"data/synsets_{Configuration.GetConnectionString("sqlitedb")}.db")}"));
+            //.AddDbContext<etymContext>(options => options.UseSqlite($"Filename={Path.Combine(Directory.GetParent(Startup.ContentRootPath).FullName, $"data/etym.db")}"));
+            string connection = Configuration.GetConnectionString("EtymDBWebContext");
+            services.AddDbContext<etymContext>(options => options.UseSqlServer(connection));
             //services.AddEntityFramework()
             //    .AddEntityFrameworkSqlServer()
             //    .AddDbContext<synsetsContext>(options => options.UseSqlServer(Configuration.GetConnectionString("SQLContext")));
