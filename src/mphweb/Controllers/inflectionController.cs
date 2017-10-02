@@ -30,6 +30,30 @@ namespace mphweb.Controllers
             IConfiguration conf = (IConfiguration)HttpContext.RequestServices.GetService(typeof(IConfiguration));
             return variables.lang.id_lang==1058?conf.GetValue<string>("start_ua_word"): conf.GetValue<string>("start_ru_word");
         }
+        private async Task SearchData(string sw, incParams incp, filter f, grdictParams dp)
+        {
+            var w = await db.searchWord(f, sw);
+            if (w != null)
+            {
+                incp.currentPage = w.wordsPageNumber;
+                incp.wid = w.nom_old;
+                dp.entry = await db.getEntry(incp.wid);
+                dp.count = w.CountOfWords;
+                int count_plus = dp.count % 100;
+                dp.maxpage = count_plus > 0 ? (dp.count / 100) + 1 : (dp.count / 100);
+                if (dp.incp.currentPage >= dp.maxpage) dp.incp.currentPage = dp.maxpage - 1;
+                if (dp.incp.currentPage < 0) dp.incp.currentPage = 0;
+            }
+            else
+            {
+                incp.currentPage = 0;
+                incp.wid = 0;
+                dp.entry = null;
+                dp.count = 0;
+                dp.maxpage = 0;
+                dp.incp.currentPage = 0;
+            }
+        }
         private async Task<grdictParams> prepaireData(incParams incp, filter f)
         {
             grdictParams dp = new grdictParams() { incp = incp, f = f, id_lang = db.lid.id_lang };
@@ -44,15 +68,7 @@ namespace mphweb.Controllers
             }
             else
             {
-                var w = await db.searchWord(f, "");
-                incp.currentPage = w.wordsPageNumber;
-                incp.wid = w.nom_old;
-                dp.entry = await db.getEntry(incp.wid);
-                dp.count = w.CountOfWords;
-                int count_plus = dp.count % 100;
-                dp.maxpage = count_plus > 0 ? (dp.count / 100) + 1 : (dp.count / 100);
-                if (dp.incp.currentPage >= dp.maxpage) dp.incp.currentPage = dp.maxpage - 1;
-                if (dp.incp.currentPage < 0) dp.incp.currentPage = 0;
+                await SearchData(string.Empty, incp, f, dp);
             }
             return dp;
         }
@@ -91,16 +107,8 @@ namespace mphweb.Controllers
         }
         public async Task<ActionResult> Search(incParams incp, filter f)
         {
-            var w = await db.searchWord(f, incp.wordSearch);
-            incp.currentPage = w.wordsPageNumber;
-            incp.wid = w.nom_old;
-            var dpg = new grdictParams() { incp = incp, f = f};
-            dpg.count = w.CountOfWords;
-            int count_plus = dpg.count % 100;
-            dpg.maxpage = count_plus > 0 ? (dpg.count / 100) + 1 : (dpg.count / 100);
-            if (dpg.incp.currentPage >= dpg.maxpage) dpg.incp.currentPage = dpg.maxpage - 1;
-            if (dpg.incp.currentPage < 0) dpg.incp.currentPage = 0;
-
+            var dpg = new grdictParams() { f = f, incp = incp };
+            await SearchData(incp.wordSearch, incp, f, dpg);
             ViewBag.dp = new dictParams() { gr = dpg, vtype = viewtype.dict };
             return Redirect(Url.Action("SearchWord", "inflection", 
                 new { isStrFiltering= f.isStrFiltering, str=f.str, isInverse = f.isInverse, ispclass=f.ispclass, pclass=f.pclass, ispofs = f.ispofs, pofs = f.pofs, currentPage= incp.currentPage, wordSearch= incp.wordSearch, wid= incp.wid, count= dpg.count, maxpage = dpg.maxpage }, null, null, $"wid-{incp.wid}"));

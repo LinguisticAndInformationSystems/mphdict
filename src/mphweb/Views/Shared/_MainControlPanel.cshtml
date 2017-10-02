@@ -85,7 +85,7 @@
         }
         else
         {
-            if (Model.vtype == viewtype.dict) { wlink = Model.gr.entry.reestr; }
+            if (Model.vtype == viewtype.dict) { wlink = Model.gr.entry?.reestr; }
             else if (Model.vtype == viewtype.etym) { wlink = Model.etym.w; }
             <a asp-action="Search" asp-controller="synsets" asp-route-wordSearch="@wlink"
                class="tab-item group-not-active-tab">
@@ -98,7 +98,7 @@
         }
         else
         {
-            if (Model.vtype == viewtype.dict) { wlink = Model.gr.entry.reestr; }
+            if (Model.vtype == viewtype.dict) { wlink = Model.gr.entry?.reestr; }
             else if (Model.vtype == viewtype.synsets) { wlink = Model.syn.w; }
             <a asp-action="Search" asp-controller="etym" asp-route-wordSearch="@wlink"
                class="tab-item group-not-active-tab">
@@ -141,7 +141,7 @@
                                     </div>
                                     <div class="query-param-val">
                                         <input asp-for="@f.ispclass" />
-                                        <label for="f_ispclass">пар. клас:&nbsp;</label>
+                                        <label asp-for="@f.ispclass">пар. клас:&nbsp;</label>
                                         <select asp-for="@f.pclass" asp-items="@variables.pclass"></select>
                                     </div>
                                 </div>
