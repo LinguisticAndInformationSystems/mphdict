@@ -48,8 +48,8 @@
             }
             else
             {
-                if (Model.vtype == viewtype.synsets) { wlink = Model.syn.w; }
-                else if (Model.vtype == viewtype.etym) { wlink = Model.etym.w; }
+                if (Model.vtype == viewtype.synsets) { wlink = Model.syn?.w?.Replace("\"", "\x301"); }
+                else if (Model.vtype == viewtype.etym) { wlink = Model.etym?.w; }
                 <a asp-action="Search" asp-controller="inflection" asp-route-wordSearch="@wlink"
                    class="tab-item group-not-active-tab">
                     @Localizer["tab_gram_name"]
@@ -85,8 +85,8 @@
         }
         else
         {
-            if (Model.vtype == viewtype.dict) { wlink = Model.gr.entry?.reestr; }
-            else if (Model.vtype == viewtype.etym) { wlink = Model.etym.w; }
+            if (Model.vtype == viewtype.dict) { wlink = Model.gr.entry?.reestr?.Replace("\"", "\x301"); }
+            else if (Model.vtype == viewtype.etym) { wlink = Model.etym?.w; }
             <a asp-action="Search" asp-controller="synsets" asp-route-wordSearch="@wlink"
                class="tab-item group-not-active-tab">
                 @Localizer["tab_synsets_name"]
@@ -98,8 +98,8 @@
         }
         else
         {
-            if (Model.vtype == viewtype.dict) { wlink = Model.gr.entry?.reestr; }
-            else if (Model.vtype == viewtype.synsets) { wlink = Model.syn.w; }
+            if (Model.vtype == viewtype.dict) { wlink = Model.gr.entry?.reestr?.Replace("\"", "\x301"); }
+            else if (Model.vtype == viewtype.synsets) { wlink = Model.syn?.w?.Replace("\"", "\x301"); }
             <a asp-action="Search" asp-controller="etym" asp-route-wordSearch="@wlink"
                class="tab-item group-not-active-tab">
                 @Localizer["tab_etym_name"]
