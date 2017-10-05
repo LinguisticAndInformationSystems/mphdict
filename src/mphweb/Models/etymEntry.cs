@@ -20,8 +20,8 @@ namespace mphweb.Models
                 string[] roman = new string[10];
                 roman[0] = "I"; roman[1] = "II"; roman[2] = "III"; roman[3] = "IV"; roman[4] = "V";
                 roman[5] = "VI"; roman[6] = "VII"; roman[7] = "VIII"; roman[8] = "IX"; roman[9] = "X";
-
-                html.Append("<P ALIGN=\"Right\"><FONT COLOR=\"Gray\">");
+                html.Append("<div class=\"etym-ref\">Етимологічний словник української мови Інституту мовознавства ім. О.О. Потебні НАН України</div>");
+                html.Append("<div class=\"etym-ref\">");
                 html.Append("Том "); html.Append(item.volume_num.ToString());
                 html.Append(", стор. "); html.Append(item.page_initial.ToString());
                 if (item.page_initial != item.page_last)
@@ -29,7 +29,7 @@ namespace mphweb.Models
                     html.Append("-");
                     html.Append(item.page_last.ToString());
                 }
-                html.Append("</FONT></P><P>");
+                html.Append("</div>");
 
                 int cur = 0;
                 int cls = -1;
@@ -95,7 +95,7 @@ namespace mphweb.Models
                                 if (first_c_type == false) hindex.Append("</ul>");
                                 switch (cls)
                                 {
-                                    case 1: hindex.Append("<div class=\"etym-block-name\">Фонетичні та словотворчі варіанти</div>"); break;
+                                    case 1: hindex.Append("<div class=\"etym-block-name\">Фонетичні та словотвірні варіанти</div>"); break;
                                     case 2: hindex.Append("<div class=\"etym-block-name\">Етимологічні відповідники у слов'янських мовах</div>"); break;
                                     case 3: hindex.Append("<div class=\"etym-block-name\">Праслов'янська мова+інші індоєвропейські мови+...</div>"); break;
                                 }

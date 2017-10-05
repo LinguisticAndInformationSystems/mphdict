@@ -1147,11 +1147,14 @@ sup             { vertical-align: super }
     color: rgb(107, 47, 47);
     font-weight: bold;
 }
-.B 
-{
-    display:inline;
-    font-weight:bold;
-    font-style:normal;
+.etym-ref {
+    text-align: right;
+    color: grey;
+}
+.B {
+    display: inline;
+    font-weight: bold;
+    font-style: normal;
 }
 .I 
 {
