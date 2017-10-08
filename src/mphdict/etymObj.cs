@@ -59,6 +59,23 @@ namespace mphdict
             }
         }
         private static object o = new object();
+        private IQueryable<etymons> setWordListQuerySorting(IQueryable<etymons> q)
+        {
+            try
+            {
+                q = q.OrderBy(c => c.word.ToUpperInvariant().Replace("-", "").Replace("\'", "").Replace(" ", "").Replace("(", "").Replace(")", "").Replace("[", "").Replace("]", "").Replace("*", "")).ThenBy(c => c.homonym);
+                return q;
+            }
+            catch (Exception ex)
+            {
+                if (Logger != null)
+                {
+                    Logger.LogError(new EventId(0), ex, ex.Message);
+                    return null;
+                }
+                else throw ex;
+            }
+        }
 
         private IQueryable<etymons> setWordListQueryFilter(etymfilter f, IQueryable<etymons> q)
         {
@@ -131,7 +148,8 @@ namespace mphdict
             {
                 var q = (from c in db.etymons.AsNoTracking() select c);
                 q = setWordListQueryFilter(f, q);
-                q = q.OrderBy(c => c.word.ToUpperInvariant().Replace("-", "").Replace("\'", "").Replace(" ", "")).ThenBy(c => c.homonym).Skip(start * pageSize).Take(pageSize);
+                q = setWordListQuerySorting(q);
+                q = q.Skip(start * pageSize).Take(pageSize);
 
                 return await q.ToArrayAsync();
             }
@@ -159,7 +177,7 @@ namespace mphdict
 
                 q = setWordListQueryFilter(f, q);
 
-                q = q.OrderBy(c => c.word.ToUpperInvariant().Replace("-", "").Replace("\'", "").Replace(" ", "")).ThenBy(c => c.homonym);
+                q = setWordListQuerySorting(q);
                 start = await (from c in q where w.CompareTo(c.word.ToUpperInvariant().Replace("-", "").Replace("\'", "").Replace(" ", "")) > 0 select c).CountAsync();
 
                 int pagenumber = start / 100;

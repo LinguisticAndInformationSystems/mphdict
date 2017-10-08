@@ -1128,6 +1128,16 @@ sup             { vertical-align: super }
 .etym-etymon > .I {
     color: rgb(31, 147, 12);
 }
+.etym-lang-name {
+    color: rgb(31, 147, 12);
+}
+.etym-word {
+    font-weight: bold;
+    color: #039;
+}
+    .etym-word.is-head {
+        text-transform:uppercase;
+    }
 .syn-comm {
     font-style: italic;
     color: rgb(31, 147, 12);
@@ -1150,11 +1160,16 @@ sup             { vertical-align: super }
 .etym-ref {
     text-align: right;
     color: grey;
+    font-size:0.85rem;
+}
+.etym-ref-part {
+    margin: 0rem !important;
 }
 .B {
     display: inline;
     font-weight: bold;
     font-style: normal;
+    color: #039;
 }
 .I 
 {
@@ -1228,8 +1243,8 @@ table .td_style {
     text-align:center;
 }
 
-.word_style, .etym-lang-name {
-    color: #039;
+.word_style {
+    color: rgb(31, 147, 12);
     font-weight: bold;
 }
 .gram_style {

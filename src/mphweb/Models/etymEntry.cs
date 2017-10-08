@@ -20,23 +20,24 @@ namespace mphweb.Models
                 string[] roman = new string[10];
                 roman[0] = "I"; roman[1] = "II"; roman[2] = "III"; roman[3] = "IV"; roman[4] = "V";
                 roman[5] = "VI"; roman[6] = "VII"; roman[7] = "VIII"; roman[8] = "IX"; roman[9] = "X";
-                html.Append("<div class=\"etym-ref\">Етимологічний словник української мови Інституту мовознавства ім. О.О. Потебні НАН України</div>");
                 html.Append("<div class=\"etym-ref\">");
-                html.Append("Том "); html.Append(item.volume_num.ToString());
+                html.Append("<div class=\"etym-ref-part\">Етимологічний словник української мови</div>");
+                html.Append("<div class=\"etym-ref-part\">Інституту мовознавства ім. О.О. Потебні НАН України</div>");
+                html.Append("<div class=\"etym-ref-part\">Том "); html.Append(item.volume_num.ToString());
                 html.Append(", стор. "); html.Append(item.page_initial.ToString());
                 if (item.page_initial != item.page_last)
                 {
                     html.Append("-");
                     html.Append(item.page_last.ToString());
                 }
-                html.Append("</div>");
+                html.Append("</div></div>");
 
                 int cur = 0;
                 int cls = -1;
                 bool first_c_type = true;
                 if (item.e_classes != null && item.e_classes.Count() > 0)
                 {
-                    html.Append("<div class=\"etym-block-name\">Етимологія</div>");
+                    //html.Append("<div class=\"etym-block-name\">Етимологія</div>");
                     html.Append("<div class=\"etym-classes\">");
                     
                     foreach (e_classes row in item.e_classes.OrderBy(o => o.class_type).ThenBy(o => o.class_num).ThenBy(o => o.subclass_num)) //"class_type, class_num, subclass_num"
@@ -71,7 +72,7 @@ namespace mphweb.Models
                                     if (drow.lang_marker != "укр.")
                                         html.Append(drow.lang_marker + " ");
                                 }
-                                else html.Append("<span class=\"B\">");
+                                else html.Append("<span class=\"etym-word is-head\">");
                                 if (drow.dialect) html.Append("[");
                                 if (!drow.ishead) html.Append("<span class=\"I\">");
                                 html.Append((drow.word ?? "").ToString());
@@ -97,7 +98,7 @@ namespace mphweb.Models
                                 {
                                     case 1: hindex.Append("<div class=\"etym-block-name\">Фонетичні та словотвірні варіанти</div>"); break;
                                     case 2: hindex.Append("<div class=\"etym-block-name\">Етимологічні відповідники у слов'янських мовах</div>"); break;
-                                    case 3: hindex.Append("<div class=\"etym-block-name\">Праслов'янська мова+інші індоєвропейські мови+...</div>"); break;
+                                    case 3: hindex.Append("<div class=\"etym-block-name\">Етимологічні відповідники у інших мовах</div>"); break;
                                 }
                                 if (cls != 0)
                                 {
@@ -108,7 +109,7 @@ namespace mphweb.Models
                             if (cls > 0)
                             {
                                 hindex.Append("<li class=\"etym-equivalent\">");
-                                hindex.Append("<span class=\"B\">");
+                                hindex.Append("<span class=\"etym-word\">");
                                 if (drow.dialect) hindex.Append("[");
                                 hindex.Append((drow.word ?? "").ToString());
                                 if (drow.homonym > 0)
@@ -117,11 +118,14 @@ namespace mphweb.Models
                                 hindex.Append("</span> ");
                                 if (cls > 1)
                                 {
-                                    ps[] rows = null;
-                                    if (variables.etymLang_all != null) rows = variables.etymLang_all.Where(l => l.id == drow.lang_code).ToArray();
-                                    if ((rows != null) && (rows.Count() > 0))
-                                        hindex.Append("<span class=\"etym-lang-name\">&lt;" + rows.First().name + "&gt;</span>");
-                                    else hindex.Append("<span class=\"etym-lang-name\">&lt;" + drow.lang_marker + "&gt;</span>");
+                                    if (drow.lang_code != 0)
+                                    {
+                                        ps[] rows = null;
+                                        if (variables.etymLang_all != null) rows = variables.etymLang_all.Where(l => l.id == drow.lang_code).ToArray();
+                                        if ((rows != null) && (rows.Count() > 0))
+                                            hindex.Append("<span class=\"etym-lang-name\">&lt;" + rows.First().name + "&gt;</span>");
+                                        else hindex.Append("<span class=\"etym-lang-name\">&lt;" + drow.lang_marker + "&gt;</span>");
+                                    }
                                 }
                                 hindex.Append("</li>");
                             }
@@ -162,11 +166,15 @@ namespace mphweb.Models
                     }
                     else html.Append(", ");
                     //if (comm) html.Append("<FONT COLOR=\"Blue\">&lt;LINK " + (ltype == 0 ? "DYV " : "POR ") + row.link_num.ToString() + "&gt;</FONT>");
-                    html.Append("<span class=\"B\">");
+                    html.Append("<span class=\"etym-word\">");
                     html.Append((row.word ?? "").ToString());
-                    if (row.homonym > 0)
-                        html.Append(row.homonym);
-                    html.Append("</span>");
+                        if (row.homonym > 0)
+                        {
+                            html.Append("<SUP>");
+                            html.Append(row.homonym);
+                            html.Append("</SUP>");
+                        }
+                        html.Append("</span>");
                         count++;
                     //if (comm) html.Append("<FONT COLOR=\"Blue\">&lt;/--LINK--&gt;</FONT>");
                 }

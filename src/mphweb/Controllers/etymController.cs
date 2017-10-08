@@ -18,10 +18,35 @@ namespace mphweb.Controllers
         {
             this.db = db;
         }
+        private async Task SearchData(string sw, etymincParams incp, etymfilter f, etymdictParams dp)
+        {
+            var w = await db.searchWord(f, sw);
+            if (w != null)
+            {
+                incp.currentPage = w.wordsPageNumber;
+                incp.idclass = w.id_e_classes;
+                incp.wid = w.id;
+                dp.entry = await db.getEntry(incp.idclass);
+                dp.count = w.CountOfWords;
+                int count_plus = dp.count % 100;
+                dp.maxpage = count_plus > 0 ? (dp.count / 100) + 1 : (dp.count / 100);
+                if (dp.incp.currentPage >= dp.maxpage) dp.incp.currentPage = dp.maxpage - 1;
+                if (dp.incp.currentPage < 0) dp.incp.currentPage = 0;
+            }
+            else
+            {
+                incp.currentPage = 0;
+                incp.wid = 0;
+                dp.entry = null;
+                dp.count = 0;
+                dp.maxpage = 0;
+                dp.incp.currentPage = 0;
+            }
+        }
         private async Task<etymdictParams> prepareData(etymincParams incp, etymfilter f)
         {
             etymdictParams dp = new etymdictParams() { incp = incp, f = f};
-            if (incp.wid != 0)
+            if (incp.idclass != 0)
             {
                 dp.entry = await db.getEntry(incp.idclass);
                 dp.count = await db.CountWords(f);
@@ -32,17 +57,7 @@ namespace mphweb.Controllers
             }
             else
             {
-                var w = await db.searchWord(f, "");
-                if (w != null)
-                {
-                    incp.currentPage = w.wordsPageNumber;
-                    dp.entry = await db.getEntry(incp.idclass);
-                    dp.count = w.CountOfWords;
-                    int count_plus = dp.count % 100;
-                    dp.maxpage = count_plus > 0 ? (dp.count / 100) + 1 : (dp.count / 100);
-                    if (dp.incp.currentPage >= dp.maxpage) dp.incp.currentPage = dp.maxpage - 1;
-                    if (dp.incp.currentPage < 0) dp.incp.currentPage = 0;
-                }
+                await SearchData(string.Empty, incp, f, dp);
             }
             return dp;
         }
@@ -80,18 +95,7 @@ namespace mphweb.Controllers
         public async Task<ActionResult> Search(etymincParams incp, etymfilter f)
         {
             var dps = new etymdictParams() { incp = incp, f = f };
-            var w = await db.searchWord(f, incp.wordSearch);
-            if (w !=null)
-            {
-                incp.currentPage = w.wordsPageNumber;
-                incp.idclass = w.id_e_classes;
-                incp.wid = w.id;
-                dps.count = w.CountOfWords;
-                int count_plus = dps.count % 100;
-                dps.maxpage = count_plus > 0 ? (dps.count / 100) + 1 : (dps.count / 100);
-                if (dps.incp.currentPage >= dps.maxpage) dps.incp.currentPage = dps.maxpage - 1;
-                if (dps.incp.currentPage < 0) dps.incp.currentPage = 0;
-            }
+            await SearchData(incp.wordSearch, incp, f, dps);
             ViewBag.dp = new dictParams() { etym = dps, vtype = viewtype.etym };
             return Redirect(Url.Action("SearchWord", "etym",
                 new { wid = incp.wid, isStrFiltering = f.isStrFiltering, str = f.str, isHead=f.isHead, isLang=f.isLang, langId=f.langId, isType=f.isType, typeId=f.typeId, currentPage = incp.currentPage, wordSearch = incp.wordSearch, idclass = incp.idclass, count = dps.count, maxpage = dps.maxpage }, null, null, $"wid-{incp.wid}"));
