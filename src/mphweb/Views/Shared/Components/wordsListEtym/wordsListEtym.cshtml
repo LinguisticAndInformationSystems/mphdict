@@ -12,7 +12,7 @@
             asp-route-isType="@Model.f.isType" asp-route-typeId="@Model.f.typeId" asp-route-isHead="@Model.f.isHead" 
            asp-fragment="@($"wid-{item.id}")"
            class="@(item.id == Model.incp.wid ? "selected-word" : "")" id="@($"wid-{item.id}")">
-            @item.word.Replace('\"', '\x301')
+           @Html.Raw(item.word.Replace('\"', '\x301'))
             @if (item.homonym > 0)
             {
                 <sup>@item.homonym</sup>

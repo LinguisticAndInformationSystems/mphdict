@@ -49,6 +49,7 @@ namespace mphweb.Controllers
             if (incp.idclass != 0)
             {
                 dp.entry = await db.getEntry(incp.idclass);
+                dp.w = await db.getWord(incp.wid);
                 dp.count = await db.CountWords(f);
                 int count_plus = dp.count % 100;
                 dp.maxpage = count_plus > 0 ? (dp.count / 100) + 1 : (dp.count / 100);

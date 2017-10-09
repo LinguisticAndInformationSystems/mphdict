@@ -1125,8 +1125,14 @@ sup             { vertical-align: super }
 .syn-set, .etym-bibls, .etym-equivalents {
     list-style: disc inside;
 }
-.etym-etymon > .I {
-    color: rgb(31, 147, 12);
+/*.etym-etymon > .I {
+    color: #039;
+}*/
+.etym-class i {
+    display: inline;
+    font-style: italic;
+    font-weight: normal;
+    color: #039;
 }
 .etym-lang-name {
     color: rgb(31, 147, 12);

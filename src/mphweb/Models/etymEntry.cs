@@ -35,6 +35,7 @@ namespace mphweb.Models
                 int cur = 0;
                 int cls = -1;
                 bool first_c_type = true;
+                bool first_in_group = true;
                 if (item.e_classes != null && item.e_classes.Count() > 0)
                 {
                     //html.Append("<div class=\"etym-block-name\">Етимологія</div>");
@@ -74,9 +75,9 @@ namespace mphweb.Models
                                 }
                                 else html.Append("<span class=\"etym-word is-head\">");
                                 if (drow.dialect) html.Append("[");
-                                if (!drow.ishead) html.Append("<span class=\"I\">");
+                                if (!drow.ishead) html.Append("<i>");
                                 html.Append((drow.word ?? "").ToString());
-                                if (!drow.ishead) html.Append("</span>");
+                                if (!drow.ishead) html.Append("</i>");
                                 if (drow.homonym > 0)
                                     html.Append("<SUP>" + drow.homonym.ToString() + "</SUP>");
                                 if (drow.dialect) html.Append("]");
@@ -93,29 +94,32 @@ namespace mphweb.Models
                             if (cls != row.class_type)
                             {
                                 cls = row.class_type;
-                                if (first_c_type == false) hindex.Append("</ul>");
+                                if (first_c_type == false) hindex.Append(".</li></ul>");
                                 switch (cls)
                                 {
                                     case 1: hindex.Append("<div class=\"etym-block-name\">Фонетичні та словотвірні варіанти</div>"); break;
                                     case 2: hindex.Append("<div class=\"etym-block-name\">Етимологічні відповідники у слов'янських мовах</div>"); break;
-                                    case 3: hindex.Append("<div class=\"etym-block-name\">Етимологічні відповідники у інших мовах</div>"); break;
+                                    case 3: hindex.Append("<div class=\"etym-block-name\">Етимологічні відповідники</div>"); break;
                                 }
                                 if (cls != 0)
                                 {
                                     hindex.Append("<ul class=\"etym-equivalents\">");
                                     first_c_type = false;
+                                    first_in_group = true;
                                 }
                             }
                             if (cls > 0)
                             {
+                                if(!first_in_group) hindex.Append(";</li>");
                                 hindex.Append("<li class=\"etym-equivalent\">");
+                                if (first_in_group) first_in_group = false;
                                 hindex.Append("<span class=\"etym-word\">");
                                 if (drow.dialect) hindex.Append("[");
                                 hindex.Append((drow.word ?? "").ToString());
                                 if (drow.homonym > 0)
                                     hindex.Append("<SUP>" + drow.homonym.ToString() + "</SUP>");
                                 if (drow.dialect) hindex.Append("]");
-                                hindex.Append("</span> ");
+                                hindex.Append("</span>");
                                 if (cls > 1)
                                 {
                                     if (drow.lang_code != 0)
@@ -123,11 +127,12 @@ namespace mphweb.Models
                                         ps[] rows = null;
                                         if (variables.etymLang_all != null) rows = variables.etymLang_all.Where(l => l.id == drow.lang_code).ToArray();
                                         if ((rows != null) && (rows.Count() > 0))
-                                            hindex.Append("<span class=\"etym-lang-name\">&lt;" + rows.First().name + "&gt;</span>");
-                                        else hindex.Append("<span class=\"etym-lang-name\">&lt;" + drow.lang_marker + "&gt;</span>");
+                                            hindex.Append(" <span class=\"etym-lang-name\">&lt;" + rows.First().name + "&gt;</span>");
+                                        else hindex.Append(" <span class=\"etym-lang-name\">&lt;" + drow.lang_marker + "&gt;</span>");
                                     }
                                 }
-                                hindex.Append("</li>");
+                                //hindex.Append("<span>;</span>");
+                                //hindex.Append("</li>");
                             }
                             first = false;
                             cur++;
@@ -180,7 +185,7 @@ namespace mphweb.Models
                 }
                     html.Append(".</div></div>");
                 }
-                if (first_c_type == false) hindex.Append("</ul>");
+                if (first_c_type == false) hindex.Append(".</li></ul>");
                 html.Append(hindex);
             }
             return html.ToString();

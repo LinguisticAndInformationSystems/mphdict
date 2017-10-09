@@ -3,6 +3,8 @@
     var pcls_search;
     var pclass_list;
     var entry;
+    var lang_chb;
+    var is_head_chb;
     function _ready() {
         entry = document.querySelector('#wrapper > main > article > section');
         pcls_search = document.getElementById('search-pcls');
@@ -30,6 +32,15 @@
                     selected_class.classList.add('selected-word');
                 }, rlsXhr.err);
                 return return_false(event);
+            }, false);
+        }
+        is_head_chb = document.getElementById('f_isHead');
+        lang_chb = document.getElementById('f_isLang');
+        if (lang_chb != null&&is_head_chb!=null) {
+            lang_chb.addEventListener("click", function (event) {
+               if(lang_chb.checked == true){
+                    is_head_chb.checked = false;
+                }
             }, false);
         }
     }
