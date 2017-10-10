@@ -1128,6 +1128,9 @@ sup             { vertical-align: super }
 /*.etym-etymon > .I {
     color: #039;
 }*/
+.etym-entry ul {
+    padding-left: 1rem;
+}
 .etym-class i {
     display: inline;
     font-style: italic;
@@ -1136,6 +1139,7 @@ sup             { vertical-align: super }
 }
 .etym-lang-name {
     color: rgb(31, 147, 12);
+    font-size:0.85rem;
 }
 .etym-word {
     font-weight: bold;
@@ -1250,7 +1254,7 @@ table .td_style {
 }
 
 .word_style {
-    color: rgb(31, 147, 12);
+    color: #039;
     font-weight: bold;
 }
 .gram_style {

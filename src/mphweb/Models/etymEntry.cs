@@ -127,8 +127,8 @@ namespace mphweb.Models
                                         ps[] rows = null;
                                         if (variables.etymLang_all != null) rows = variables.etymLang_all.Where(l => l.id == drow.lang_code).ToArray();
                                         if ((rows != null) && (rows.Count() > 0))
-                                            hindex.Append(" <span class=\"etym-lang-name\">&lt;" + rows.First().name + "&gt;</span>");
-                                        else hindex.Append(" <span class=\"etym-lang-name\">&lt;" + drow.lang_marker + "&gt;</span>");
+                                            hindex.Append(" <span class=\"etym-lang-name\">‹" + rows.First().name + "›</span>");
+                                        else hindex.Append(" <span class=\"etym-lang-name\">‹" + drow.lang_marker + "›</span>");
                                     }
                                 }
                                 //hindex.Append("<span>;</span>");

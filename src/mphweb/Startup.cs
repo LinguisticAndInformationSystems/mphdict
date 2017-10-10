@@ -57,6 +57,7 @@ namespace mphweb
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            string connection = Configuration.GetConnectionString("EtymDBWebContext");
             services.AddTransient<mphObj>();
             services.AddTransient<synsetsObj>();
             services.AddTransient<etymObj>();
@@ -68,9 +69,8 @@ namespace mphweb
                 //.AddDbContext<mphContext>(options => options.UseSqlite($"Filename={Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).FullName, $"data/{Configuration.GetConnectionString("sqlitedb")}")}"));
                 .AddDbContext<mphContext>(options => options.UseSqlite($"Filename={Path.Combine(Directory.GetParent(Startup.ContentRootPath).FullName, $"data/mph_{Configuration.GetConnectionString("sqlitedb")}.db")}"))
                 .AddDbContext<synsetsContext>(options => options.UseSqlite($"Filename={Path.Combine(Directory.GetParent(Startup.ContentRootPath).FullName, $"data/synsets_{Configuration.GetConnectionString("sqlitedb")}.db")}"))
-            .AddDbContext<etymContext>(options => options.UseSqlite($"Filename={Path.Combine(Directory.GetParent(Startup.ContentRootPath).FullName, $"data/etym.db")}"));
-            //string connection = Configuration.GetConnectionString("EtymDBWebContext");
-            //services.AddDbContext<etymContext>(options => options.UseSqlServer(connection));
+            //.AddDbContext<etymContext>(options => options.UseSqlite($"Filename={Path.Combine(Directory.GetParent(Startup.ContentRootPath).FullName, $"data/etym.db")}"));
+                .AddDbContext<etymContext>(options => options.UseSqlServer(connection));
             //services.AddEntityFramework()
             //    .AddEntityFrameworkSqlServer()
             //    .AddDbContext<synsetsContext>(options => options.UseSqlServer(Configuration.GetConnectionString("SQLContext")));
