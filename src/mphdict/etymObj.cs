@@ -82,7 +82,7 @@ namespace mphdict
             {
                 if ((f.isStrFiltering) && (!string.IsNullOrEmpty(f.str)))
                 {
-                    string s = f.str;
+                    string s = f.str.Replace('*', '%');
                     q = q.Where(c => EF.Functions.Like(c.word, s));
                 }
                 if (f.isHead)
