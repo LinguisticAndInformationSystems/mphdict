@@ -20,7 +20,6 @@ namespace mphdict.Models.Etym
         public int homonym { get; set; }
         public bool dialect { get; set; }
         public bool antroponym { get; set; }
-        //public string digit { get; set; }
         public Nullable<int> lang_code { get; set; }
         public string lang_marker { get; set; }
         public string lang_note { get; set; }

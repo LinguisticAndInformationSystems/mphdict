@@ -15,7 +15,6 @@ namespace mphdict.Models.Etym.Mapping
                 .HasKey(t => t.id);
 
             Entity.Property(t => t.biblio_text).HasMaxLength(225);
-            Entity.Property(t => t.biblio_ind).HasMaxLength(225);
         }
     }
 }

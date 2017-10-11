@@ -14,7 +14,6 @@ namespace mphdict.Models.Etym
         public int id_root { get; set; }
         public int biblio_num { get; set; }
         public string biblio_text { get; set; }
-        public string biblio_ind { get; set; }
 
     }
 }
