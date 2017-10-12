@@ -70,7 +70,7 @@ namespace mphweb
                 .AddDbContext<mphContext>(options => options.UseSqlite($"Filename={Path.Combine(Directory.GetParent(Startup.ContentRootPath).FullName, $"data/mph_{Configuration.GetConnectionString("sqlitedb")}.db")}"))
                 .AddDbContext<synsetsContext>(options => options.UseSqlite($"Filename={Path.Combine(Directory.GetParent(Startup.ContentRootPath).FullName, $"data/synsets_{Configuration.GetConnectionString("sqlitedb")}.db")}"))
                 .AddDbContext<etymContext>(options => options.UseSqlite($"Filename={Path.Combine(Directory.GetParent(Startup.ContentRootPath).FullName, $"data/etym.db")}"));
-            //    .AddDbContext<etymContext>(options => options.UseSqlServer(connection));
+                //.AddDbContext<etymContext>(options => options.UseSqlServer(connection));
             //services.AddEntityFramework()
             //    .AddEntityFrameworkSqlServer()
 

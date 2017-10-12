@@ -145,7 +145,7 @@ namespace mphweb.Models
                 {
                     html.Append("<div class=\"etym-block-name\">Бібліографія</div>");
                     html.Append("<ul class=\"etym-bibls\">");
-                    foreach (bibl row in item.bibls)
+                    foreach (bibl row in item.bibls.OrderBy(c=>c.biblio_num))
                     {                      
                         if (row.biblio_num != 1) html.Append(";</li>");
                         html.Append("<li class=\"etym-bibl\">");
