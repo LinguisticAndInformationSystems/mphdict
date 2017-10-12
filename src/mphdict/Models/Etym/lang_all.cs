@@ -16,7 +16,6 @@ namespace mphdict.Models.Etym
         public string lang_marker_syn { get; set; }
         public string lang_name { get; set; }
         public string lang_name_syn { get; set; }
-        public Nullable<int> lang_type { get; set; }
         public Nullable<int> volume { get; set; }
     }
 }
