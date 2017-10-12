@@ -16,6 +16,7 @@ namespace mphweb.Models
         public syndictParams syn { get; set; }
         public etymdictParams etym { get; set; }
         public viewtype vtype { get; set; } = viewtype.dict;
+        public ErrorInfo ei { get; set; }
     }
     public class pclsdictParams
     {

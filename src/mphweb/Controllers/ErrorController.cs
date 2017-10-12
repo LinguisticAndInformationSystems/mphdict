@@ -23,13 +23,13 @@ namespace mphweb.Controllers
                     i.verbalInfo = "";
                     break;
             }
-            ViewBag.vtype = viewtype.error;
+            ViewBag.dp = new dictParams() { ei= i, vtype = viewtype.error };
             return View(i); //Content($"Статуcний код помилки: {id}.");
         }
         public IActionResult Info()
         {
-            ViewBag.vtype = viewtype.error;
             var i = new ErrorInfo() { id = 500, verbalInfo = "В процесі роботи виникла помилка. Зверніться до адміністратора" };
+            ViewBag.dp = new dictParams() { ei = i, vtype = viewtype.error };
             return View("StatusCodeInfo", i);
         }
 
