@@ -1,9 +1,19 @@
 # mphdict
 Digital lexicographic systems Ukrainian language + (the grammatical dictionary, synonymous dictionary +)
 
-Copyright © 2016 uSofTrod. Contacts: uSofTrod@outlook.com
+Copyright © 2017 uSofTrod. Contacts: uSofTrod@outlook.com
 
 License: http://opensource.org/licenses/MIT
+
+«База даних "mph_ua.db" доступна під ліцензією Open Database License http://opendatacommons.org/licenses/odbl/1.0/. Будь-які права на вміст (контент) цієї бази даних ліцензовано під ліцензією Database Contents License https://opendatacommons.org/licenses/dbcl/1.0/».
+
+«База даних "mph_ru.db" доступна під ліцензією Open Database License http://opendatacommons.org/licenses/odbl/1.0/. Будь-які права на вміст (контент) цієї бази даних ліцензовано під ліцензією Database Contents License https://opendatacommons.org/licenses/dbcl/1.0/».
+
+«База даних "synsets_ua.db" доступна під ліцензією Open Database License http://opendatacommons.org/licenses/odbl/1.0/. Будь-які права на вміст (контент) цієї бази даних ліцензовано під ліцензією Database Contents License https://opendatacommons.org/licenses/dbcl/1.0/».
+
+«База даних "synsets_ru.db" доступна під ліцензією Open Database License http://opendatacommons.org/licenses/odbl/1.0/. Будь-які права на вміст (контент) цієї бази даних ліцензовано під ліцензією Database Contents License https://opendatacommons.org/licenses/dbcl/1.0/».
+
+«База даних "etym.db" доступна під ліцензією Open Database License http://opendatacommons.org/licenses/odbl/1.0/. Будь-які права на вміст (контент) цієї бази даних ліцензовано під ліцензією Database Contents License https://opendatacommons.org/licenses/dbcl/1.0/».
 
 Цифрові лексикографічні системи (граматичний словник, словник синонімів)
 
