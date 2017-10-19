@@ -22,9 +22,9 @@
 #main-container{
     flex:1 1 auto;
 }
-#goto_main {
+/*#goto_main {
     background: url(../images/Lesser_Coat_of_Arms_of_Ukraine.svg) no-repeat center;
-}
+}*/
 header {
     background: gray;
     min-height: 4rem;
