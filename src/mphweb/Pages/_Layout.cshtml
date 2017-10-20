@@ -1,0 +1,101 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" />
+    <title> RazorPages</title>
+    <environment names="Development">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+        <link rel="stylesheet" href="~/css/page.css" />
+    </environment>
+</head>
+<body>
+    <header class="navbar navbar-expand navbar-dark flex-m-column flex-md-row">
+        <div class="navbar-brand" href="/" aria-label="Bootstrap">
+            <img src="../images/Lesser_Coat_of_Arms_of_Ukraine.svg" alt="...">
+            Доморфологічний аналіз тексту
+        </div>
+        <ul class="navbar-nav flex-row ml-md-auto d-md-flex">
+            <li class="nav-item">
+                <div>Copyright © 2016 <a href="mailto:uSofTrod@outlook.com">uSofTrod</a> </div>
+            </li>
+            <li class="nav-item">
+                <div>UK</div>
+            </li>
+            <li class="nav-item">
+                <a href="#">
+                    EN
+                </a> 
+            </li>
+            <li class="nav-item">
+                <a href="#iworking" title="Вихід"></a>
+            </li>
+        </ul>
+        </header>
+
+    <nav class="nav nav-tabs" id="myTab" role="tablist">
+        <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-expanded="true">Home</a>
+        <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile">Profile</a>
+    </nav>
+    <div class="tab-content" id="nav-tabContent">
+        <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                <div class="row no-gutters">
+                    <form class="col-auto">
+                        <div class="row no-gutters">
+                            <div class="form-group col-auto">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" type="checkbox" value="">
+                                    Шаблон для вибірки:
+                                </label>
+                                <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="пр_клад*" pattern="[A-za-zА-Яа-я\sЇїЁёЄєІі_*]+">
+                            </div>
+                            <div class="form-group col-auto">
+                                <div class="row no-gutters">
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input class="form-check-input" type="checkbox" value="">
+                                            пар. клас:
+                                        </label>
+                                    </div>
+                                    <select class="form-control-inline">
+                                        <option>1</option>
+                                        <option>2</option>
+                                    </select>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <label class="form-check-label">
+                                        <input class="form-check-input" type="checkbox" value="">
+                                        інверсний реєстр
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group col-auto">
+                                <button type="button" class="btn btn-primary">ОК</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                    <div class="row no-gutters">
+                        <div class="col-auto">
+                            Содержимое адаптивной ширины
+                        </div>
+                    </div>
+        </div>
+        <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">1...</div>
+        <div class="tab-pane fade" id="nav-dropdown1" role="tabpanel" aria-labelledby="nav-dropdown1-tab">2...</div>
+    </div>
+    <div class="container-fluid" id="main-container">
+        @RenderBody()
+        <hr />
+        <footer>
+        </footer>
+    </div>
+    <environment names="Development">
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/lib/popper.js/dist/umd/popper.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+
+    </environment>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

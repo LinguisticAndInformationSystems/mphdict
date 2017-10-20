@@ -1,0 +1,31 @@
+﻿html, body {
+    width: 100%;
+    height: 100%;
+    display:flex;
+    flex-direction:column;
+}
+
+.nav-tabs {
+    margin: .3rem .3rem 0 .3rem;
+}
+.tab-content {
+    border-bottom: 1px solid #ddd;
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    margin: 0 .3rem .3rem .3rem;
+}
+#nav-tabContent .form-group {
+    border-right: 1px #d4d4d4 dotted;
+    padding: 0 .4rem 0 .4rem;
+    align-items: center;
+}
+#main-container{
+    flex:1 1 auto;
+}
+/*#goto_main {
+    background: url(../images/Lesser_Coat_of_Arms_of_Ukraine.svg) no-repeat center;
+}*/
+header {
+    background: gray;
+    min-height: 4rem;
+}
