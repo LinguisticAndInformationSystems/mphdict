@@ -9,13 +9,26 @@
     padding: 0 .4rem 0 .4rem;
     align-items: center;
 }
-#main-container{
-    flex:1 1 auto;
-}
-/*#goto_main {
-    background: url(../images/Lesser_Coat_of_Arms_of_Ukraine.svg) no-repeat center;
-}*/
 header {
     background: gray;
     min-height: 4rem;
+}
+#wrapper{
+    overflow:hidden;
+}
+.container-fluid {
+    flex: 1 1 auto;
+    overflow-y: auto;
+}
+#wrapper > header, #wrapper > nav, #wrapper > .tab-content, #wrapper > footer {
+    flex: 0 0 auto;
+}
+textarea {
+    resize: none;
+}
+.container-fluid > * {
+    flex: 1 1 auto;
+}
+.tab-content form > div {
+    border-right: 1px #d4d4d4 dotted;
 }
