@@ -1,13 +1,13 @@
 # mphdict
-Digital lexicographic systems Ukrainian language + (the grammatical dictionary, synonymous dictionary +)
+Digital lexicographic systems Ukrainian language + (the grammatical dictionary, synonymous dictionary, etymological dictionary +)
 
 Copyright © 2017 uSofTrod. Contacts: uSofTrod@outlook.com
 
 License: http://opensource.org/licenses/MIT
 
-Цифрові лексикографічні системи (граматичний словник, словник синонімів)
+Цифрові лексикографічні системи української мови +
 
-Проект містить SQLite бази даних граматичних словників, що зберігають інформацію про слова, всі словозмінні класи, властиві їм квазіфлексії, акцентуаційні класи та інші дані, бази даних словників синонімів, бібліотеку роботи з базами (mphdict project) та веб-систему словників (mphweb project).
+Проект містить SQLite бази даних граматичних словників, що зберігають інформацію про слова, всі словозмінні класи, властиві їм квазіфлексії, акцентуаційні класи та інші дані, бази даних словників синонімів, базу даних етимологічного словника, сформовану на основі томів 1–6 етимологічного словника української мови Інституту мовознавства ім. О.О. Потебні НАН України, що містить відомості про етимологію слів української мови,бібліотеку роботи з базами (mphdict project) та веб-систему словників (mphweb project).
 
 Детальніше
 
