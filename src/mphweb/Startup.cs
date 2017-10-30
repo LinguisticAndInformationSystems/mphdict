@@ -62,7 +62,7 @@ namespace mphweb
             services.AddTransient<synsetsObj>();
             services.AddTransient<etymObj>();
             services.AddScoped<RazorViewToStringRenderer, RazorViewToStringRenderer>();
-
+            
             services.AddSingleton<IConfiguration>(Configuration);
             services
                 .AddEntityFrameworkSqlite()
@@ -77,7 +77,7 @@ namespace mphweb
             services.AddLocalization(options => options.ResourcesPath = "Resources");
             // Add framework services.
             services.AddMvc().AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix).AddDataAnnotationsLocalization();
-            //services.AddMvc();
+            services.AddSignalR();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -136,6 +136,10 @@ namespace mphweb
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=inflection}/{action=Index}/{id?}");
+            });
+            app.UseSignalR(routes =>
+            {
+                routes.MapHub<TextAnalyzeHub>("analyse");
             });
         }
     }

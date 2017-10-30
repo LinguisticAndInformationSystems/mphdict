@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace mphweb.Pages
 {
-    public class BMorphAnalyzeModel : PageModel
+    public class TextAnalyzeModel : PageModel
     {
         public void OnGet()
         {

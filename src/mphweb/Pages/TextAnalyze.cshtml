@@ -1,14 +1,14 @@
 ﻿@page
-@model BMorphAnalyzeModel
+@model TextAnalyzeModel
 @{
     <form class="row pb-2">
             <div class="col-md-6 d-flex flex-column">
                 <label>Вихідний текст</label>
-                <textarea class="form-control h-100"></textarea>
+                <textarea id="initialText" class="form-control h-100"></textarea>
             </div>
             <div class="col-md-6  d-flex flex-column">
                 <label>Результат</label>
-                <textarea class="form-control h-100"></textarea>
+                <textarea id="analyseResult" class="form-control h-100"></textarea>
             </div>
         
     </form>
