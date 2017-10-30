@@ -98,6 +98,12 @@
             @RenderBody()
         </div>
         <footer></footer>
+        @*@section scripts {*@
+            <script type="text/javascript">
+    var basePath = '@(Url.Action("", ""))';
+            </script>
+        @*}
+        @RenderSection("scripts", required: false)*@
         <environment names="Development">
             <script src="~/lib/jquery/dist/jquery.js"></script>
             <script src="~/lib/popper.js/dist/umd/popper.js"></script>
@@ -105,7 +111,8 @@
             <script src="js/signalr-client-1.0.0-alpha2-final.min.js"></script>
             <script src="js/text-analyse.js"></script>
         </environment>
-        @RenderSection("Scripts", required: false)
+
+        @*@RenderSection("Scripts", required: false)*@
     </div>
 </body>
 </html>

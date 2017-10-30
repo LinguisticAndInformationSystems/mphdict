@@ -139,7 +139,7 @@ namespace mphweb
             });
             app.UseSignalR(routes =>
             {
-                routes.MapHub<TextAnalyzeHub>("analyse");
+                routes.MapHub<TextAnalyzeHub>("TextAnalyze/analyse");
             });
         }
     }

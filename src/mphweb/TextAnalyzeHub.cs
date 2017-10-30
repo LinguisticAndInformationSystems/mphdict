@@ -11,7 +11,8 @@ namespace mphweb
         public async Task Send(string message)
         {
             //first argument - recipient method name 
-            await this.Clients.All.InvokeAsync("Send", message);
+            //await this.Clients.All.InvokeAsync("Send", message);
+            await this.Clients.Client(Context.ConnectionId).InvokeAsync("Send", message);
         }
     }
 }

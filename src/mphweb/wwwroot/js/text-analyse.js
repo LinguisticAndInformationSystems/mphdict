@@ -1,16 +1,12 @@
-﻿let hubUrl = 'http://localhost:59737/analyse';
-let httpConnection = new signalR.HttpConnection(hubUrl);
-let hubConnection = new signalR.HubConnection(httpConnection);
-var analyseObj = (function () {
+﻿var analyseObj = (function () {
     "use strict";
-    var pcls_search;
-    var pclass_list;
-    var entry;
-    var lang_chb;
-    var is_head_chb;
+    let hubUrl = basePath+'/analyse';
+    let httpConnection = new signalR.HttpConnection(hubUrl);
+    let hubConnection = new signalR.HubConnection(httpConnection);
     function _ready() {
         hubConnection.on("Send", function (data) {
-            document.getElementById("analyseResult").innerText = data;
+            var analyseResult = document.getElementById("analyseResult");
+            analyseResult.value = data;
         });
         document.getElementById("performBtn").addEventListener("click", function (e) {
             let message = document.getElementById("initialText").value;
