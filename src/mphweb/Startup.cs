@@ -79,7 +79,7 @@ namespace mphweb
             services.AddMvc().AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix).AddDataAnnotationsLocalization()
                 .AddRazorPagesOptions(options =>
                 {
-                    options.Conventions.AddPageRoute("/TextAnalyze", "{culture}/TextAnalyze");
+                    options.Conventions.AddPageRoute("/TextAnalyze", "{culture:regex(^[a-z]{{2}}(?:-[A-Z]{{2}})?$)?}/TextAnalyze");
                 });
             services.AddSignalR();
         }
