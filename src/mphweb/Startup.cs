@@ -79,7 +79,7 @@ namespace mphweb
             services.AddMvc().AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix).AddDataAnnotationsLocalization()
                 .AddRazorPagesOptions(options =>
                 {
-                    options.Conventions.AddPageRoute("/TextAnalyze", "{culture:regex(^[a-z]{{2}}(?:-[A-Z]{{2}})?$)?}/TextAnalyze");
+                    options.Conventions.AddPageRoute("/TextAnalyze", "{culture:regex(^[a-z]{{2}}(?:-[A-z]{{2}})?$)?}/TextAnalyze");
                 });
             services.AddSignalR();
         }
@@ -135,7 +135,7 @@ namespace mphweb
                     defaults: new { controller = "Home", action = "ShowStructure" },
                     constraints: new
                     {
-                        culture = new RegexRouteConstraint("^[a-z]{2}(?:-[A-Z]{2})?$")
+                        culture = new RegexRouteConstraint("^[a-z]{2}(?:-[A-z]{2})?$")
                     });
                 routes.MapRoute(
                     name: "default",

@@ -29,7 +29,7 @@ namespace mphweb.Providers
 
             var cultureSegmentIndex = parts.Contains("api") ? 1 : 0;
             var hasCulture = Regex.IsMatch(
-            parts[cultureSegmentIndex], @"^[a-z]{2}(?:-[A-Z]{2})?$");
+            parts[cultureSegmentIndex], @"^[a-z]{2}(?:-[A-z]{2})?$");
             if (!hasCulture)
             {
                 //return Task.FromResult<ProviderCultureResult>(null);
