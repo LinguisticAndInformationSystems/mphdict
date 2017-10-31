@@ -14,5 +14,10 @@ namespace mphweb.Controllers
             RouteData.Values["culture"] = lang;
             return Redirect($"{Url.Action(a, c)}{/*System.Net.WebUtility.HtmlEncode(*/qp/*)*/}");
         }
+        public IActionResult ChangeRPageLang(string lang, string page, string qp)
+        {
+            RouteData.Values["culture"] = lang;
+            return Redirect(Url.Page(page));
+        }
     }
 }

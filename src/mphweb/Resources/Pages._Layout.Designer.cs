@@ -22,24 +22,24 @@ namespace mphweb.Resources {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class Views_Shared__dLayout {
+    internal class Pages__Layout {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Views_Shared__dLayout() {
+        internal Pages__Layout() {
         }
         
         /// <summary>
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Resources.ResourceManager ResourceManager {
+        internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("mphweb.Resources.Views.Shared._dLayout", typeof(Views_Shared__dLayout).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("mphweb.Resources.Pages._Layout", typeof(Pages__Layout).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -51,7 +51,7 @@ namespace mphweb.Resources {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Globalization.CultureInfo Culture {
+        internal static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -61,38 +61,20 @@ namespace mphweb.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Іншомовні цифрові лексикографічні системи.
+        ///   Looks up a localized string similar to Цифрове лексикографічне надбання України.
         /// </summary>
-        public static string bname_ru {
+        internal static string bname {
             get {
-                return ResourceManager.GetString("bname_ru", resourceCulture);
+                return ResourceManager.GetString("bname", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to _Цифрове лексикографічне надбання України_.
+        ///   Looks up a localized string similar to Аналіз тексту.
         /// </summary>
-        public static string bname_ua {
+        internal static string dict_name {
             get {
-                return ResourceManager.GetString("bname_ua", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Словники російської мови.
-        /// </summary>
-        public static string dict_ru_name {
-            get {
-                return ResourceManager.GetString("dict_ru_name", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Словники української мови.
-        /// </summary>
-        public static string dict_ua_name {
-            get {
-                return ResourceManager.GetString("dict_ua_name", resourceCulture);
+                return ResourceManager.GetString("dict_name", resourceCulture);
             }
         }
     }

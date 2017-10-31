@@ -76,7 +76,11 @@ namespace mphweb
 
             services.AddLocalization(options => options.ResourcesPath = "Resources");
             // Add framework services.
-            services.AddMvc().AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix).AddDataAnnotationsLocalization();
+            services.AddMvc().AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix).AddDataAnnotationsLocalization()
+                .AddRazorPagesOptions(options =>
+                {
+                    options.Conventions.AddPageRoute("/TextAnalyze", "{culture}/TextAnalyze");
+                });
             services.AddSignalR();
         }
 

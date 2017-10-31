@@ -1,118 +1,112 @@
-﻿<!DOCTYPE html>
-<html  class="h-100">
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" />
-    <title> RazorPages</title>
-    <environment names="Development">
-        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
-        <link rel="stylesheet" href="~/css/page.css" />
-    </environment>
-</head>
-<body class="h-100">
-    <div id="wrapper" class="h-100 d-flex flex-column">
-        <header class="navbar flex-column flex-sm-row justify-content-start align-items-center">
-            <div class="navbar-brand" href="/" aria-label="Bootstrap">
-                <img src="../images/Lesser_Coat_of_Arms_of_Ukraine.svg" alt="...">
-            </div>
-            <div class="navbar-nav text-white align-items-center align-items-sm-start">
-                <div class="h5 text-uppercase text-center text-sm-left">Цифрове лексикографічне надбання україни</div>
-                <div class="h6 text-uppercase text-center text-sm-left">Доморфологічний аналіз тексту</div>
-            </div>
-            <ul class="navbar-nav flex-row flex-sm-nowrap ml-auto">
-                <li class="nav-item mr-2">
-                    <div class="text-white">Copyright © 2016 <a class="text-white" href="mailto:uSofTrod@outlook.com">uSofTrod</a></div>
-                    <div><a class="text-white" href="https://opensource.org/licenses/MIT">The MIT License</a> </div>
-                </li>
-                <li class="nav-item">
-                    <div class="text-white">UK</div>
-                    <a href="#">
-                        EN
-                    </a>
-                </li>
-            </ul>
-        </header>
-        <nav class="nav nav-tabs" id="myTab" role="tablist">
-            <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-expanded="true">Home</a>
-            <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile">Profile</a>
-        </nav>
-        <div class="tab-content border border-top-0" id="nav-tabContent">
-            <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-                <div class="row no-gutters">
-                    <div class="col-sm-auto col">
-                        <form class="row align-items-center m-0">
+﻿@using Microsoft.AspNetCore.Localization
+@using Microsoft.AspNetCore.Mvc.Localization
+@using System.Net
+@inject IViewLocalizer Localizer
+    <!DOCTYPE html>
+    <html class="h-100">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" />
+        <title> RazorPages</title>
+        <environment names="Development">
+            <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+            <link rel="stylesheet" href="~/css/page.css" />
+        </environment>
+    </head>
+    <body class="h-100">
+        @{
+            var requestCulture = Context.Features.Get<IRequestCultureFeature>();
+        }
+        <div id="wrapper" class="h-100 d-flex flex-column">
+            <header class="navbar flex-column flex-sm-row justify-content-start align-items-center">
+                <div class="navbar-brand" href="/" aria-label="Bootstrap">
+                    <img src="../images/Lesser_Coat_of_Arms_of_Ukraine.svg" alt="...">
+                </div>
+                <div class="navbar-nav text-white align-items-center align-items-sm-start">
+                    <div class="h5 text-uppercase text-center text-sm-left">@Localizer["bname"] </div>
+                    <div class="h6 text-uppercase text-center text-sm-left">@Localizer["dict_name"]</div>
+                </div>
+                <ul class="navbar-nav flex-row flex-sm-nowrap ml-auto">
+                    <li class="nav-item mr-2">
+                        <div class="text-white">Copyright © 2016 <a class="text-white" href="mailto:uSofTrod@outlook.com">uSofTrod</a></div>
+                        <div><a class="text-white" href="https://opensource.org/licenses/MIT">The MIT License</a> </div>
+                    </li>
+                    <li class="nav-item">
+                        @if (requestCulture.RequestCulture.UICulture.Name == "uk")
+                        {
+                            string p = string.Concat(Url.Action("ChangeRPageLang", "Culture"), $"?qp={WebUtility.UrlEncode(Context.Request.QueryString.Value)}", $"&page={ViewContext.RouteData.Values["page"]}&lang=en");
+                            <div class="text-white">UK</div>
+                            <a href="@p">
+                                EN
+                            </a>
+                                }
+                                else
+                                {
+                                    string p = string.Concat(Url.Action("ChangeRPageLang", "Culture"), $"?qp={WebUtility.UrlEncode(Context.Request.QueryString.Value)}", $"&page={ViewContext.RouteData.Values["page"]}&lang=uk");
+                                                <a href="@p">
+                                                    UK
+                                                </a>
+                    
+                                                <div class="text-white">EN</div>
+                        }
+                    </li>
+                </ul>
+            </header>
+            <nav class="nav nav-tabs" id="myTab" role="tablist">
+                <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-expanded="true">Home</a>
+                <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile">Profile</a>
+            </nav>
+            <div class="tab-content border border-top-0" id="nav-tabContent">
+                <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                    <div class="row no-gutters">
+                        <div class="col-sm-auto col">
+                            <form class="row align-items-stretch m-0 py-2">
                                 <div class="col-sm-auto col-12">
                                     <div class="form-check mb-0">
                                         <label class="form-check-label">
-                                            <input class="form-check-input" type="checkbox" value="">
-                                            інверсний реєстр
+                                            <input class="form-check-input" type="radio" name="type" value="">
+                                            доморфологічний аналіз
                                         </label>
                                     </div>
-                                    <input type="text" class="form-control p-0" id="formGroupExampleInput2" placeholder="пр_клад*" pattern="[A-za-zА-Яа-я\sЇїЁёЄєІі_*]+">
-                                </div>
-                                <div class="col-sm-auto col-12">
-                                    <div class="form-check mb-0">
+                                    <div class="form-check mb-0 disabled">
                                         <label class="form-check-label">
-                                            <input class="form-check-input" type="checkbox" value="">
-                                            інверсний реєстр
+                                            <input class="form-check-input" type="radio" name="type" disabled value="">
+                                            морфологічний аналіз
                                         </label>
                                     </div>
-                                        <div class="form-check mb-0">
-                                            <label class="form-check-label">
-                                                <input class="form-check-input" type="checkbox" value="">
-                                                пар. клас:
-                                            </label>
-                                            <select class="form-control-inline align-self-center">
-                                                <option>1</option>
-                                                <option>2</option>
-                                            </select>
-                                        </div>
                                 </div>
-                                <div class="col-sm-auto col-12  align-self-stretch d-flex align-items-end">
-                                <div class="row no-gutters">
-                                    <div class="form-check mb-0">
-                                        <label class="form-check-label">
-                                            <input class="form-check-input" type="checkbox" value="">
-                                        </label>
-                                        <select class="form-control-inline">
-                                            <option>дієприкметник</option>
-                                            <option>іменник</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                                <div class="col-sm-auto col-12">
+                                <div class="col-sm-auto col-12 d-flex align-items-center">
                                     <button id="performBtn" type="button" class="btn btn-secondary btn-sm">ОК</button>
                                 </div>
-                        </form>
-                        <div class="text-center bg-light text-info">
-                            Робота з реєстром
+                            </form>
+                            <div class="menu-group-name text-center text-info">
+                                Налаштування
+                            </div>
                         </div>
-</div>
+                    </div>
                 </div>
+                <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">1...</div>
+                <div class="tab-pane fade" id="nav-dropdown1" role="tabpanel" aria-labelledby="nav-dropdown1-tab">2...</div>
             </div>
-            <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">1...</div>
-            <div class="tab-pane fade" id="nav-dropdown1" role="tabpanel" aria-labelledby="nav-dropdown1-tab">2...</div>
-        </div>
-        <div class="container-fluid d-flex align-items-stretch" id="main-container">
-            @RenderBody()
-        </div>
-        <footer></footer>
-        @*@section scripts {*@
+            <div class="container-fluid d-flex align-items-stretch" id="main-container">
+                @RenderBody()
+            </div>
+            <footer></footer>
+            @*@section scripts {*@
             <script type="text/javascript">
     var basePath = '@(Url.Action("", ""))';
             </script>
-        @*}
-        @RenderSection("scripts", required: false)*@
-        <environment names="Development">
-            <script src="~/lib/jquery/dist/jquery.js"></script>
-            <script src="~/lib/popper.js/dist/umd/popper.js"></script>
-            <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
-            <script src="js/signalr-client-1.0.0-alpha2-final.min.js"></script>
-            <script src="js/text-analyse.js"></script>
-        </environment>
+            @*}
+                @RenderSection("scripts", required: false)*@
+            <environment names="Development">
+                <script src="~/lib/jquery/dist/jquery.js"></script>
+                <script src="~/lib/popper.js/dist/umd/popper.js"></script>
+                <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+                <script src="js/signalr-client-1.0.0-alpha2-final.min.js"></script>
+                <script src="js/text-analyse.js"></script>
+            </environment>
 
-        @*@RenderSection("Scripts", required: false)*@
-    </div>
-</body>
+            @*@RenderSection("Scripts", required: false)*@
+        </div>
+    </body>
 </html>

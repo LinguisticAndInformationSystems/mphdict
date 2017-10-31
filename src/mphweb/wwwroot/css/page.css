@@ -2,12 +2,11 @@
     margin: .3rem .3rem 0 .3rem;
 }
 .tab-content {
-    border-color:#ddd;
+    border-color:#ddd!important;
     margin: 0 .3rem .3rem .3rem;
 }
-#nav-tabContent .form-group {
-    padding: 0 .4rem 0 .4rem;
-    align-items: center;
+.menu-group-name {
+    background-color: #eeeeee;
 }
 header {
     background: gray;

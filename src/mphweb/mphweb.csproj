@@ -44,11 +44,42 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Resources\Pages - Copy._Layout.Designer.cs">
+      <DependentUpon>Pages - Copy._Layout.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Update="Resources\Pages - Copy._Layout.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Pages._Layout.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Pages._Layout.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Pages._Layout.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Views.Shared._dLayout.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Views.Shared._dLayout.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Resources\Pages._Layout.en.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Pages._Layout.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Pages._Layout.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Update="Resources\Views.Shared._MainControlPanel.uk.resx">
       <Generator>ResXFileCodeGenerator</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Resources\Views.Shared._dLayout.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Views.Shared._dLayout.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="Resources\Views.Shared._dLayout.en.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
