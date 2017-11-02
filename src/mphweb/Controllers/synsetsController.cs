@@ -37,6 +37,7 @@ namespace mphweb.Controllers
                 incp.idset = w.id_set;
                 incp.wid = w.id;
                 dp.entry = await db.getEntry(incp.idset);
+                dp.w = dp.entry != null ? (from c in dp.entry._wlist where c.id == incp.wid select c.word).FirstOrDefault():"";
                 dp.count = w.CountOfWords;
                 int count_plus = dp.count % 100;
                 dp.maxpage = count_plus > 0 ? (dp.count / 100) + 1 : (dp.count / 100);
@@ -59,7 +60,7 @@ namespace mphweb.Controllers
             if (incp.idset != 0)
             {
                 dp.entry = await db.getEntry(incp.idset);
-                dp.w = (from c in dp.entry._wlist where c.id == incp.wid select c.word).FirstOrDefault(); //await db.getWord(incp.wid);
+                dp.w = dp.entry != null ? (from c in dp.entry._wlist where c.id == incp.wid select c.word).FirstOrDefault():""; //await db.getWord(incp.wid);
                 dp.count = await db.CountWords(f);
                 int count_plus = dp.count % 100;
                 dp.maxpage = count_plus > 0 ? (dp.count / 100) + 1 : (dp.count / 100);
@@ -118,8 +119,7 @@ namespace mphweb.Controllers
             dps.count=count;
             dps.maxpage = maxpage;
             dps.entry = await db.getEntry(incp.idset);
-            if (dps.entry != null) dps.w = (from c in dps.entry._wlist where c.id == incp.wid select c.word).FirstOrDefault();
-            else dps.w = "";
+            dps.w = dps.entry != null? (from c in dps.entry._wlist where c.id == incp.wid select c.word).FirstOrDefault():"";
             ViewBag.dp = new dictParams() { syn = dps, vtype = viewtype.synsets };
             return View("Index", dps);
         }

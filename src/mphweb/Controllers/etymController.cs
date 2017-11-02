@@ -27,6 +27,7 @@ namespace mphweb.Controllers
                 incp.idclass = w.id_e_classes;
                 incp.wid = w.id;
                 dp.entry = await db.getEntry(incp.idclass);
+                dp.w = dp.entry != null ? dp.entry.e_classes.Where(c => c.id == incp.idclass).FirstOrDefault().etymons.Where(c => c.id == incp.wid).FirstOrDefault().word:"";
                 dp.count = w.CountOfWords;
                 int count_plus = dp.count % 100;
                 dp.maxpage = count_plus > 0 ? (dp.count / 100) + 1 : (dp.count / 100);
@@ -49,7 +50,8 @@ namespace mphweb.Controllers
             if (incp.idclass != 0)
             {
                 dp.entry = await db.getEntry(incp.idclass);
-                dp.w = await db.getWord(incp.wid);
+                //dp.w = await db.getWord(incp.wid);
+                dp.w = dp.entry != null ? dp.entry.e_classes.Where(c => c.id == incp.idclass).FirstOrDefault().etymons.Where(c => c.id == incp.wid).FirstOrDefault().word:"";
                 dp.count = await db.CountWords(f);
                 int count_plus = dp.count % 100;
                 dp.maxpage = count_plus > 0 ? (dp.count / 100) + 1 : (dp.count / 100);
@@ -107,7 +109,7 @@ namespace mphweb.Controllers
             dps.count = count;
             dps.maxpage = maxpage;
             dps.entry = await db.getEntry(incp.idclass);
-            dps.w = await db.getWord(incp.wid);
+            dps.w = dps.entry!=null? dps.entry.e_classes.Where(c => c.id == incp.idclass).FirstOrDefault().etymons.Where(c => c.id == incp.wid).FirstOrDefault().word:"";
             ViewBag.dp = new dictParams() { etym = dps, vtype = viewtype.etym };
             return View("Index", dps);
         }
