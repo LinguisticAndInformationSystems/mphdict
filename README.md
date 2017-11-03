@@ -37,15 +37,15 @@ How to start
 
 https://www.microsoft.com/net/core/platform
 
-«База даних "mph_ua.db" доступна під ліцензією Open Database License http://opendatacommons.org/licenses/odbl/1.0/. Будь-які права на вміст (контент) цієї бази даних ліцензовано під ліцензією Database Contents License https://opendatacommons.org/licenses/dbcl/1.0/».
+База даних "mph_ua.db" доступна під ліцензією Open Database License http://opendatacommons.org/licenses/odbl/1.0/. Будь-які права на вміст (контент) цієї бази даних ліцензовано під ліцензією Database Contents License https://opendatacommons.org/licenses/dbcl/1.0/.
 
-«База даних "mph_ru.db" доступна під ліцензією Open Database License http://opendatacommons.org/licenses/odbl/1.0/. Будь-які права на вміст (контент) цієї бази даних ліцензовано під ліцензією Database Contents License https://opendatacommons.org/licenses/dbcl/1.0/».
+База даних "mph_ru.db" доступна під ліцензією Open Database License http://opendatacommons.org/licenses/odbl/1.0/. Будь-які права на вміст (контент) цієї бази даних ліцензовано під ліцензією Database Contents License https://opendatacommons.org/licenses/dbcl/1.0/.
 
-«База даних "synsets_ua.db" доступна під ліцензією Open Database License http://opendatacommons.org/licenses/odbl/1.0/. Будь-які права на вміст (контент) цієї бази даних ліцензовано під ліцензією Database Contents License https://opendatacommons.org/licenses/dbcl/1.0/».
+База даних "synsets_ua.db" доступна під ліцензією Open Database License http://opendatacommons.org/licenses/odbl/1.0/. Будь-які права на вміст (контент) цієї бази даних ліцензовано під ліцензією Database Contents License https://opendatacommons.org/licenses/dbcl/1.0/.
 
-«База даних "synsets_ru.db" доступна під ліцензією Open Database License http://opendatacommons.org/licenses/odbl/1.0/. Будь-які права на вміст (контент) цієї бази даних ліцензовано під ліцензією Database Contents License https://opendatacommons.org/licenses/dbcl/1.0/».
+База даних "synsets_ru.db" доступна під ліцензією Open Database License http://opendatacommons.org/licenses/odbl/1.0/. Будь-які права на вміст (контент) цієї бази даних ліцензовано під ліцензією Database Contents License https://opendatacommons.org/licenses/dbcl/1.0/.
 
-«База даних "etym.db" доступна під ліцензією Open Database License http://opendatacommons.org/licenses/odbl/1.0/. Будь-які права на вміст (контент) цієї бази даних ліцензовано під ліцензією Database Contents License https://opendatacommons.org/licenses/dbcl/1.0/».
+База даних "etym.db" доступна під ліцензією Open Database License http://opendatacommons.org/licenses/odbl/1.0/. Будь-які права на вміст (контент) цієї бази даних ліцензовано під ліцензією Database Contents License https://opendatacommons.org/licenses/dbcl/1.0/.
 
 Warranty Disclaimer: No Warranty!
 
