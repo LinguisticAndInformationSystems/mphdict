@@ -261,7 +261,7 @@ namespace mphdict
                     q = q.OrderBy(c => c.reverse).ThenBy(c => c.field2).Skip(start * pageSize).Take(pageSize);
                 else
                     q = q.OrderBy(c=>c.digit).ThenBy(c=>c.field2).Skip(start * pageSize).Take(pageSize);
-
+                //var sql = q.ToSql();
                 return await q.ToArrayAsync();
             }
             catch (Exception ex)

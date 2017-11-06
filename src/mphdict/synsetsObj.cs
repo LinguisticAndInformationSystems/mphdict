@@ -182,7 +182,6 @@ namespace mphdict
                 var q = (from c in db.wlist.AsNoTracking() select c);
                 q = setWordListQueryFilter(f, q);
                 q = q.OrderBy(c => c.digit).ThenBy(c => c.homonym).Skip(start * pageSize).Take(pageSize);
-
                 return await q.ToArrayAsync();
             }
             catch (Exception ex)
