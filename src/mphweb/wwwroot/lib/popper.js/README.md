@@ -1,3 +1,5 @@
+<!-- IGNORE THE HTML BLOCK BELOW, THE INTERESTING PART IS AFTER IT -->
+
 <h1 align="center">Popper.js</h1>
 
 <p align="center">
@@ -5,22 +7,24 @@
 </p>
 
 <p align="center">
-    <a href="https://travis-ci.org/FezVrasta/popper.js/branches" target="_blank"><img src="https://travis-ci.org/FezVrasta/popper.js.svg?branch=master" alt="Build Status"/></a>
-    <img src="http://img.badgesize.io/https://unpkg.com/popper.js/dist/popper.min.js?compression=gzip" alt="Stable Release Size"/>
+    <img src="http://badge-size.now.sh/https://unpkg.com/popper.js/dist/popper.min.js?compression=brotli" alt="Stable Release Size"/>
+  <img src="http://badge-size.now.sh/https://unpkg.com/popper.js/dist/popper.min.js?compression=gzip" alt="Stable Release Size"/>
     <a href="https://www.bithound.io/github/FezVrasta/popper.js"><img src="https://www.bithound.io/github/FezVrasta/popper.js/badges/score.svg" alt="bitHound Overall Score"></a>
     <a href="https://codeclimate.com/github/FezVrasta/popper.js/coverage"><img src="https://codeclimate.com/github/FezVrasta/popper.js/badges/coverage.svg" alt="Istanbul Code Coverage"/></a>
-    <a href="https://gitter.im/FezVrasta/popper.js" target="_blank"><img src="https://img.shields.io/gitter/room/nwjs/nw.js.svg" alt="Get support or discuss"/></a>
+    <a href="https://spectrum.chat/popper-js" target="_blank"><img src="https://img.shields.io/badge/chat-on_spectrum-6833F9.svg?logo=data%3Aimage%2Fsvg%2Bxml%3Bbase64%2CPHN2ZyBpZD0iTGl2ZWxsb18xIiBkYXRhLW5hbWU9IkxpdmVsbG8gMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2aWV3Qm94PSIwIDAgMTAgOCI%2BPGRlZnM%2BPHN0eWxlPi5jbHMtMXtmaWxsOiNmZmY7fTwvc3R5bGU%2BPC9kZWZzPjx0aXRsZT5zcGVjdHJ1bTwvdGl0bGU%2BPHBhdGggY2xhc3M9ImNscy0xIiBkPSJNNSwwQy40MiwwLDAsLjYzLDAsMy4zNGMwLDEuODQuMTksMi43MiwxLjc0LDMuMWgwVjcuNThhLjQ0LjQ0LDAsMCwwLC42OC4zNUw0LjM1LDYuNjlINWM0LjU4LDAsNS0uNjMsNS0zLjM1UzkuNTgsMCw1LDBaTTIuODMsNC4xOGEuNjMuNjMsMCwxLDEsLjY1LS42M0EuNjQuNjQsMCwwLDEsMi44Myw0LjE4Wk01LDQuMThhLjYzLjYzLDAsMSwxLC42NS0uNjNBLjY0LjY0LDAsMCwxLDUsNC4xOFptMi4xNywwYS42My42MywwLDEsMSwuNjUtLjYzQS42NC42NCwwLDAsMSw3LjE3LDQuMThaIi8%2BPC9zdmc%2B" alt="Get support or discuss"/></a>
     <br />
-    <a href="https://saucelabs.com/u/popperjs" target="_blank"><img src="https://badges.herokuapp.com/browsers?labels=none&googlechrome=latest&firefox=latest&microsoftedge=latest&iexplore=11,10&safari=latest&iphone=latest" alt="SauceLabs Reports"/></a>
+    <a href="https://travis-ci.org/FezVrasta/popper.js/branches" target="_blank"><img src="https://travis-ci.org/FezVrasta/popper.js.svg?branch=master" alt="Build Status"/></a>
+    <a href="https://saucelabs.com/u/popperjs" target="_blank"><img src="https://badges.herokuapp.com/browsers?labels=none&googlechrome=latest&firefox=latest&microsoftedge=latest&iexplore=11,10&safari=latest" alt="SauceLabs Reports"/></a>
 </p>
 
 <img src="https://raw.githubusercontent.com/FezVrasta/popper.js/master/popperjs.png" align="right" width=250 />
 
+<!-- 🚨 HEY! HERE BEGINS THE INTERESTING STUFF 🚨 -->
 
 ## Wut? Poppers?
 
 A popper is an element on the screen which "pops out" from the natural flow of your application.  
-Common examples of poppers are tooltips, popovers and drop-downs.
+Common examples of poppers are tooltips, popovers, and drop-downs.
 
 
 ## So, yet another tooltip library?
@@ -34,7 +38,7 @@ The engine is completely modular and most of its features are implemented as **m
 The whole code base is written in ES2015 and its features are automatically tested on real browsers thanks to [SauceLabs](https://saucelabs.com/) and [TravisCI](https://travis-ci.org/).
 
 Popper.js has zero dependencies. No jQuery, no LoDash, nothing.  
-It's used by big companies like [Twitter in Bootstrap v4](https://getbootstrap.com/), [Microsoft in WebClipper](https://github.com/OneNoteDev/WebClipper) and [Atlassian in AtlasKit](https://aui-cdn.atlassian.com/atlaskit/registry/).
+It's used by big companies like [Twitter in Bootstrap v4](https://getbootstrap.com/), [Microsoft in WebClipper](https://github.com/OneNoteDev/WebClipper), and [Atlassian in AtlasKit](https://aui-cdn.atlassian.com/atlaskit/registry/).
 
 ### Popper.js
 
@@ -68,37 +72,39 @@ Find [the documentation here](docs/_includes/tooltip-documentation.md).
 ## Installation
 Popper.js is available on the following package managers and CDNs:
 
-| Source |                                                                                  |
-|:-------|:---------------------------------------------------------------------------------|
-| npm    | `npm install popper.js --save`                                                   |
-| yarn   | `yarn add popper.js`                                                             |
-| NuGet  | `PM> Install-Package popper.js`                                                  |
-| Bower  | `bower install popper.js --save`                     |
-| unpkg  | [`https://unpkg.com/popper.js`](https://unpkg.com/popper.js)                     |
-| cdnjs  | [`https://cdnjs.com/libraries/popper.js`](https://cdnjs.com/libraries/popper.js) |
+| Source           |                                                                                                                |
+|:-----------------|:---------------------------------------------------------------------------------------------------------------|
+| npm              | `npm install popper.js --save`                                                                                 |
+| yarn             | `yarn add popper.js`                                                                                           |
+| NuGet            | `PM> Install-Package popper.js`                                                                                |
+| Bower            | `bower install popper.js --save`                                                                               |
+| unpkg            | [`https://unpkg.com/popper.js`](https://unpkg.com/popper.js)                                                   |
+| unpkg, minified  | [`https://unpkg.com/popper.js/dist/umd/popper.min.js`](https://unpkg.com/popper.js/dist/umd/popper.min.js)     |
 
 Tooltip.js as well:
 
-| Source |                                                                                  |
-|:-------|:---------------------------------------------------------------------------------|
-| npm    | `npm install tooltip.js --save`                                                  |
-| yarn   | `yarn add tooltip.js`                                                            |
-| Bower* | `bower install tooltip.js=https://unpkg.com/tooltip.js --save`                   |
-| unpkg  | [`https://unpkg.com/tooltip.js`](https://unpkg.com/tooltip.js)                   |
-| cdnjs  | [`https://cdnjs.com/libraries/popper.js`](https://cdnjs.com/libraries/popper.js) |
+| Source           |                                                                                                                |
+|:-----------------|:---------------------------------------------------------------------------------------------------------------|
+| npm              | `npm install tooltip.js --save`                                                                                |
+| yarn             | `yarn add tooltip.js`                                                                                          |
+| Bower*           | `bower install tooltip.js=https://unpkg.com/tooltip.js --save`                                                 |
+| unpkg            | [`https://unpkg.com/tooltip.js`](https://unpkg.com/tooltip.js)                                                 |
+| unpkg, minified  | [`https://unpkg.com/tooltip.js/dist/umd/tooltip.min.js`](https://unpkg.com/tooltip.js/dist/umd/tooltip.min.js) |
 
 \*: Bower isn't officially supported, it can be used to install Tooltip.js only trough the unpkg.com CDN. This method has the limitation of not being able to define a specific version of the library. Bower and Popper.js suggests to use npm or Yarn for your projects.  
 For more info, [read the related issue](https://github.com/FezVrasta/popper.js/issues/390).
 
 ### Dist targets
 
-Popper.js is currently shipped with 3 targets in mind: UMD, ESM and ESNext.
+Popper.js is currently shipped with 3 targets in mind: UMD, ESM, and ESNext.  
+No idea what am I talking about? You are looking for UMD probably.
 
-- UMD - Universal Module Definition: AMD, RequireJS and globals;
+- UMD - Universal Module Definition: AMD, RequireJS, and globals;
 - ESM - ES Modules: For webpack/Rollup or browser supporting the spec;
-- ESNext: Available in `dist/`, can be used with webpack and `babel-preset-env`;
+- ESNext: Available in `/dist`, can be used with webpack and `babel-preset-env`;
 
-Make sure to use the right one for your needs. If you want to import it with a `<script>` tag, use UMD.
+Make sure to use the right one for your needs. **If you want to import it with a `<script>` tag, use UMD.**  
+If you can't find the `/dist` folder in the Git repository, this is because the distribution files are shipped only to Bower, npm or our CDNs. You can still find them visiting `https://unpkg.com/popper.js/dist/` (or `https://unpkg.com/tooltip.js/dist/`)
 
 ## Usage
 
@@ -171,11 +177,52 @@ new Popper(reference, popper, {
         applyReactStyle: {
             enabled: true,
             fn: applyReactStyle,
-            order: 800,
+            order: 900,
         },
     },
 });
 
+```
+
+### How to use Popper.js in Jest
+
+It is recommended that users mock Popper.js for use in Jest tests due to some limitations of JSDOM.
+
+
+The simplest way to mock Popper.js is to place the following code in `__mocks__/popper.js.js` adjacent to your `node_modules` directory.  Jest will pick it up automatically.
+
+```js
+import PopperJs from 'popper.js';
+
+export default class Popper {
+  static placements = PopperJs.placements;
+
+  constructor() {
+    return {
+      destroy: () => {},
+      scheduleUpdate: () => {}
+    };
+  }
+}
+```
+
+Alternatively, you can manually mock Popper.js for a particular test.
+
+```js
+jest.mock('popper.js', () => {
+  const PopperJS = jest.requireActual('popper.js');
+
+  return class Popper {
+    static placements = PopperJS.placements;
+
+    constructor() {
+      return {
+        destroy: () => {},
+        scheduleUpdate: () => {}
+      };
+    }
+  };
+});
 ```
 
 ### Migration from Popper.js v0
@@ -213,4 +260,4 @@ I want to thank some friends and projects for the work they did:
 - **you** for the star you'll give to this project and for being so awesome to give this project a try 🙂
 
 ### Copyright and license
-Code and documentation copyright 2016 **Federico Zivolo**. Code released under the [MIT license](LICENSE.md). Docs released under Creative Commons.
+Code and documentation copyright 2016 **Federico Zivolo**. Code released under the [MIT license](https://github.com/FezVrasta/popper.js/blob/master/LICENSE.md). Docs released under Creative Commons.

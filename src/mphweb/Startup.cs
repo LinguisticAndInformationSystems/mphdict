@@ -141,10 +141,10 @@ namespace mphweb
                     name: "default",
                     template: "{controller=inflection}/{action=Index}/{id?}");
             });
-            app.UseSignalR(routes =>
-            {
-                routes.MapHub<TextAnalyzeHub>("TextAnalyze/analyse");
-            });
+            //app.UseSignalR(routes =>
+            //{
+            //    routes.MapHub<TextAnalyzeHub>("TextAnalyze/analyse");
+            //});
         }
     }
     public static class ApplicationLogging
