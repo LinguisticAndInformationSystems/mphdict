@@ -1,7 +1,7 @@
 # mphdict
 Digital lexicographic systems Ukrainian language + (the grammatical dictionary, synonymous dictionary, etymological dictionary +)
 
-Copyright © 2017 uSofTrod. Contacts: uSofTrod@outlook.com
+Copyright © 2016-2018 uSofTrod. Contacts: uSofTrod@outlook.com
 
 License: http://opensource.org/licenses/MIT
 
@@ -25,11 +25,11 @@ https://www.facebook.com/USofTrod-180689769033511/
 
 Required software
 
-.NET Core 2.0
+.NET Core 2.1
 
 https://github.com/dotnet/core/
 
-ASP.NET Core 2.0
+ASP.NET Core 2.1
 
 https://github.com/aspnet/home
 
