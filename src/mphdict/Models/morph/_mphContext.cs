@@ -1,6 +1,7 @@
 ﻿// Copyright © 2016 uSofTrod. Contacts: <uSofTrod@outlook.com>
 // License: http://opensource.org/licenses/MIT
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Metadata.Conventions.Internal;
 using mphdict.Models.SynonymousSets.Mapping;
@@ -15,7 +16,7 @@ namespace mphdict.Models.morph
 {
     public class mphContext : DbContext
     {
-        private string _schema = string.Empty; // "ukgram";
+        public string _schema { get; } = string.Empty;
 
         public DbSet<alphadigit> alphadigits { get; set; }
         public DbSet<word_param> words_list { get; set; }
@@ -30,6 +31,11 @@ namespace mphdict.Models.morph
         //public DbSet<allang> allangs { get; set; }
         public DbSet<langid> lang { get; set; }
 
+        public mphContext(string schema)
+        {
+            _schema = schema;
+        }
+
         public mphContext(DbContextOptions<mphContext> options)
             : base(options)
         {
@@ -43,11 +49,10 @@ namespace mphdict.Models.morph
             _schema = schema;
         }
 
-        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        //{
-        //    //optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=MyDatabase;Trusted_Connection=True;");
-        //}
-        //}
+        protected override void OnConfiguring(DbContextOptionsBuilder options)
+        => options
+            .ReplaceService<IModelCacheKeyFactory, MyModelCacheKeyFactory>();
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -92,45 +97,35 @@ namespace mphdict.Models.morph
         }
 
         #region for working with multiple schemas
-        private static ConcurrentDictionary<string, IModel> modelCache = new ConcurrentDictionary<string, IModel>();
-        public static mphContext Create(DbContextOptionsBuilder<mphContext> optionsBuilder, string schema)
+        class MyModelCacheKeyFactory : IModelCacheKeyFactory
         {
-
-            IModel compiledModel;
-            if (schema == null || schema.Trim().Length == 0) schema = "/";
-            compiledModel = modelCache.GetOrAdd(schema, (t) => GetCompiled(optionsBuilder, t));
-
-            optionsBuilder.UseModel(compiledModel);
-
-            return new mphContext(optionsBuilder.Options, schema);
+            public object Create(DbContext context)
+                => new MyModelCacheKey(context);
         }
-        private static IModel GetCompiled(DbContextOptionsBuilder<mphContext> optionsBuilder, string schema)
+        class MyModelCacheKey : ModelCacheKey
         {
-            //https://github.com/aspnet/EntityFramework/issues/3909
-            //var serviceCollection = new ServiceCollection();
-            //serviceCollection.AddEntityFramework().AddSqlServer();
-            //var serviceProvider = serviceCollection.BuildServiceProvider();
-            var coreConventionSetBuilder = new CoreConventionSetBuilder(null);
-            //var sqlConventionSetBuilder = new SqlServerConventionSetBuilder(new SqlServerTypeMapper());
-            //var conventionSet = sqlConventionSetBuilder.AddConventions(coreConventionSetBuilder.CreateConventionSet());
+            string _schema;
 
-            var conventionSet = coreConventionSetBuilder.CreateConventionSet();
-            var builder = new ModelBuilder(conventionSet);
-            builder.Entity<alphadigit>();
-            builder.Entity<langid>();
-            builder.Entity<word_param>();
-            builder.Entity<gr>();
-            builder.Entity<indents>();
-            builder.Entity<accent>();
-            builder.Entity<parts>();
-            builder.Entity<flexes>();
-            builder.Entity<accents_class>();
-            builder.Entity<minor_acc>();
-            //Cal Manually OnModelCreating from base class to create model objects relatet di Asp.Net identity (not nice)
-            (new mphContext(optionsBuilder.Options, schema)).OnModelCreating(builder);
-            //builder.Entity<Invoice>().ToTable("REGION", schema);
+            public MyModelCacheKey(DbContext context)
+                : base(context)
+            {
+                _schema = (context as mphContext)?._schema;
+            }
 
-            return builder.Model;
+            protected override bool Equals(ModelCacheKey other)
+                => base.Equals(other)
+                    && (other as MyModelCacheKey)?._schema == _schema;
+
+            public override int GetHashCode()
+            {
+                var hashCode = base.GetHashCode() * 397;
+                if (_schema != null)
+                {
+                    hashCode ^= _schema.GetHashCode();
+                }
+
+                return hashCode;
+            }
         }
         #endregion
         public IEnumerable<T> Local<T>(DbSet<T> set)

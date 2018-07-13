@@ -4,6 +4,7 @@ using mphdict.Models.morph;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using uSofTrod.generalTypes.Models;
 
@@ -39,7 +40,7 @@ namespace mphdict
         }
         public mphContext getContext()
         {
-            return db != null ? db : (options != null ? new mphContext(options, schema) : (optionsBuilder != null ? mphContext.Create(optionsBuilder, schema) : null));
+            return db != null ? db : (options != null ? new mphContext(options, schema) : null /*(optionsBuilder != null ? mphContext.Create(optionsBuilder, schema) : null)*/);
         }
 
         public void removeData()
@@ -208,6 +209,63 @@ namespace mphdict
             finally
             {
                 if ((db == null) && (context != null)) context.Dispose();
+            }
+        }
+        public void generateWordsForms()
+        {
+            StringBuilder t=new StringBuilder();
+            var context = getContext();
+            try {
+                foreach (word_param item in (from c in context.words_list.AsNoTracking() where c.isdel == false orderby c.digit, c.field2, c.reestr select c).ToArray()) {
+                    var type = (from c in context.indents.AsNoTracking() where c.type == item.type select c).FirstOrDefault(); // context.Local
+                    var flexes = (from c in context.flexes.AsNoTracking() where c.type == item.type orderby c.field2, c.digit select c).ToArray(); // context.Local
+                    var w = item.reestr.Replace("\"", "");
+                    StringBuilder wt = new StringBuilder();
+                    if (item.type != 0)
+                    {
+                        var wbase = w.Substring(0, w.Length - (int)type.indent);
+                        foreach (flexes fi in flexes)
+                        {
+                            wt.Append(item.nom_old);
+                            wt.Append(";");
+                            wt.Append(w);
+                            wt.Append(";");
+                            wt.Append(item.field2);
+                            wt.Append(";");
+                            wt.Append(item.type);
+                            wt.Append(";");
+                            wt.Append(wbase + fi.flex);
+                            wt.Append(";");
+                            wt.Append(fi.field2);
+                            wt.Append(Environment.NewLine);
+                        }
+                    }
+                    else {
+                        wt.Append(item.nom_old);
+                        wt.Append(";");
+                        wt.Append(w);
+                        wt.Append(";");
+                        wt.Append(item.field2);
+                        wt.Append(";");
+                        wt.Append(item.type);
+                        wt.Append(";");
+                        wt.Append(w);
+                        wt.Append(";");
+                        wt.Append("0");
+                        wt.Append(Environment.NewLine);
+                   }
+                    t.Append(wt);
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(new EventId(0), ex, ex.Message);
+                return;
+            }
+            finally
+            {
+                if ((db == null) && (context != null)) context.Dispose();
+                System.IO.File.WriteAllText("c:\\app\\db\\wf.csv", t.ToString(), Encoding.UTF8);
             }
         }
         public mphODInfo getObj()

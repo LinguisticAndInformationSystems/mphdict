@@ -28,11 +28,10 @@ namespace mphcon
             Console.OutputEncoding = Encoding.Unicode;
             Console.InputEncoding = Encoding.Unicode;
 
-            ConfigurationBuilder configurationBuilder = new ConfigurationBuilder();
-            configurationBuilder.SetBasePath(Directory.GetCurrentDirectory());
-            configurationBuilder.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
-            Configuration = configurationBuilder.Build();
-
+            var builder = new ConfigurationBuilder();
+            builder.SetBasePath(Directory.GetCurrentDirectory());
+            builder.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+            Configuration = builder.Build();
             p = new Program();
             p.InitializeServices();
 
@@ -48,6 +47,7 @@ namespace mphcon
                         break;
                 }
             }
+            generateWordsForms();
             //compress_ill();
             //prepare_ill_synsets();
             //forming_nrw_synsets();
@@ -81,7 +81,6 @@ namespace mphcon
         {
             p.container.GetService<mphDb>().removeData();
         }
-        
         static void viewWords()
         {
             mphContext context = p.container.GetService<mphDb>().getContext();
@@ -90,6 +89,15 @@ namespace mphcon
             {
                 Console.WriteLine($"{item.nom_old}\t\t {item.reestr}\t {item.field2}");
             }
+        }
+
+        static void generateWordsForms()
+        {
+            //DbContextOptionsBuilder<mphContext> DbContextOptions = new DbContextOptionsBuilder<mphContext>().
+            //UseSqlite($"Filename={Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).FullName, $"data/mph_{Configuration.GetConnectionString("sqlitedb")}.db")}");
+            //mphDb sourceContext = new mphDb(DbContextOptions, "", ApplicationLogging.LoggerFactory);
+            var context = p.container.GetService<mphDb>();
+            context.generateWordsForms();
         }
         static void testAdd()
         {
@@ -135,13 +143,13 @@ namespace mphcon
             services.AddTransient<synsetsObj>();
             services.AddSingleton<ILoggerFactory>(ApplicationLogging.LoggerFactory);
 
+            //services
+                //.AddEntityFrameworkSqlServer()
+                //.AddDbContext<synsetsContext>(options => options.UseSqlServer(Configuration.GetConnectionString("gramSqlDb")));
             services
-                .AddEntityFrameworkSqlServer()
-                .AddDbContext<synsetsContext>(options => options.UseSqlServer(Configuration.GetConnectionString("gramSqlDb")));
-            //services.AddEntityFramework()
-            //    .AddEntityFrameworkSqlite()
-            //    //.AddDbContext<mphContext>(options => options.UseSqlite($"Filename={Path.Combine(Directory.GetCurrentDirectory(), "mph_c.db")}"));
-            //    .AddDbContext<mphContext>(options => options.UseSqlite($"Filename={Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).FullName, $"data/{Configuration.GetConnectionString("sqlitedb")}")}"));
+                .AddEntityFrameworkSqlite()
+                //.AddDbContext<mphContext>(options => options.UseSqlite($"Filename={Path.Combine(Directory.GetCurrentDirectory(), "mph_c.db")}"));
+                .AddDbContext<mphContext>(options => options.UseSqlite($"Filename={Path.Combine("C:\\app\\db", $"mph_{Configuration.GetConnectionString("sqlitedb")}.db")}"));
 
             container = services.BuildServiceProvider();
         }

@@ -1,6 +1,7 @@
 ﻿// Copyright © 2016 uSofTrod. Contacts: <uSofTrod@outlook.com>
 // License: http://opensource.org/licenses/MIT
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Metadata.Conventions.Internal;
 using mphdict.Models.Etym.Mapping;
@@ -15,7 +16,7 @@ namespace mphdict.Models.Etym
 {
     public class etymContext: DbContext
     {
-        private string _schema = string.Empty; // "dbo" 
+        public string _schema { get; } = string.Empty;
 
         public DbSet<bibl> bibls { get; set; }
         public DbSet<e_classes> e_classes { get; set; }
@@ -24,6 +25,10 @@ namespace mphdict.Models.Etym
         public DbSet<links> links { get; set; }
         public DbSet<root> roots { get; set; }
 
+        public etymContext(string schema)
+        {
+            _schema = schema;
+        }
         public etymContext(DbContextOptions<etymContext> options) 
             : base(options)
         {
@@ -37,11 +42,9 @@ namespace mphdict.Models.Etym
             _schema = schema;
         }
 
-        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        //{
-        //    //optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=MyDatabase;Trusted_Connection=True;");
-        //}
-        //}
+        protected override void OnConfiguring(DbContextOptionsBuilder options)
+        => options
+            .ReplaceService<IModelCacheKeyFactory, MyModelCacheKeyFactory>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -72,41 +75,35 @@ namespace mphdict.Models.Etym
         }
 
         #region for working with multiple schemas
-        private static ConcurrentDictionary<string, IModel> modelCache = new ConcurrentDictionary<string, IModel>();
-        public static etymContext Create(DbContextOptionsBuilder<etymContext> optionsBuilder, string schema)
+        class MyModelCacheKeyFactory : IModelCacheKeyFactory
         {
-
-            IModel compiledModel;
-            if (schema == null || schema.Trim().Length == 0) schema = "/";
-            compiledModel = modelCache.GetOrAdd(schema, (t) => GetCompiled(optionsBuilder, t));
-
-            optionsBuilder.UseModel(compiledModel);
-
-            return new etymContext(optionsBuilder.Options, schema);
+            public object Create(DbContext context)
+                => new MyModelCacheKey(context);
         }
-        private static IModel GetCompiled(DbContextOptionsBuilder<etymContext> optionsBuilder, string schema)
+        class MyModelCacheKey : ModelCacheKey
         {
-            //https://github.com/aspnet/EntityFramework/issues/3909
-            //var serviceCollection = new ServiceCollection();
-            //serviceCollection.AddEntityFramework().AddSqlServer();
-            //var serviceProvider = serviceCollection.BuildServiceProvider();
-            var coreConventionSetBuilder = new CoreConventionSetBuilder(null);
-            //var sqlConventionSetBuilder = new SqlServerConventionSetBuilder(new SqlServerTypeMapper());
-            //var conventionSet = sqlConventionSetBuilder.AddConventions(coreConventionSetBuilder.CreateConventionSet());
+            string _schema;
 
-            var conventionSet = coreConventionSetBuilder.CreateConventionSet();
-            var builder = new ModelBuilder(conventionSet);
-            builder.Entity<bibl>();
-            builder.Entity<e_classes>();
-            builder.Entity<etymons>();
-            builder.Entity<lang_all>();
-            builder.Entity<links>();
-            builder.Entity<root>();
-            //Cal Manually OnModelCreating from base class to create model objects relatet di Asp.Net identity (not nice)
-            (new etymContext(optionsBuilder.Options, schema)).OnModelCreating(builder);
-            //builder.Entity<Invoice>().ToTable("REGION", schema);
+            public MyModelCacheKey(DbContext context)
+                : base(context)
+            {
+                _schema = (context as etymContext)?._schema;
+            }
 
-            return builder.Model;
+            protected override bool Equals(ModelCacheKey other)
+                => base.Equals(other)
+                    && (other as MyModelCacheKey)?._schema == _schema;
+
+            public override int GetHashCode()
+            {
+                var hashCode = base.GetHashCode() * 397;
+                if (_schema != null)
+                {
+                    hashCode ^= _schema.GetHashCode();
+                }
+
+                return hashCode;
+            }
         }
         #endregion
         public IEnumerable<T> Local<T>(DbSet<T> set)
