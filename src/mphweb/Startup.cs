@@ -1,40 +1,44 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Razor;
+using Microsoft.AspNetCore.Routing.Constraints;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using System.IO;
-using Serilog;
-using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore;
-using mphdict.Models.morph;
 using mphdict;
-using mphdict.Models.SynonymousSets;
-using System.Globalization;
-using Microsoft.AspNetCore.Localization;
-using mphweb.Providers;
-using Microsoft.AspNetCore.Routing.Constraints;
-using Microsoft.AspNetCore.Mvc.Razor;
-using Mvc.RenderViewToString;
 using mphdict.Models.Etym;
+using mphdict.Models.morph;
+using mphdict.Models.SynonymousSets;
+using mphweb.Providers;
+using Mvc.RenderViewToString;
 
 namespace mphweb
 {
     public class Startup
     {
+        //public Startup(IConfiguration configuration)
+        //{
+        //    Configuration = configuration;
+        //}
         public static string ContentRootPath;
 
         public Startup(IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder()
-                .SetBasePath(env.ContentRootPath)
-                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
-                .AddEnvironmentVariables();
+               .SetBasePath(env.ContentRootPath)
+               .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+               .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
+               .AddEnvironmentVariables();
             builder.AddInMemoryCollection(new Dictionary<string, string>
             {
                 {"start_ua_word", "вітання"},
@@ -43,36 +47,33 @@ namespace mphweb
 
             Configuration = builder.Build();
 
-            var logFile = Path.Combine(env.ContentRootPath, "logs/log-{Date}.txt");
-            Serilog.Log.Logger = new Serilog.LoggerConfiguration()
-                .MinimumLevel.Error()
-                //.WriteTo.RollingFile(new Serilog.Formatting.Json.JsonFormatter(), logFile)
-                .WriteTo.RollingFile(logFile, outputTemplate: "{Timestamp:dd-MM-yyyy HH:mm:ss.fff zzz} [{Level}] {Message}{NewLine}{Exception}")
-                .CreateLogger();
             ContentRootPath = env.ContentRootPath;
         }
 
-        public IConfigurationRoot Configuration { get; }
+        public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //services.Configure<CookiePolicyOptions>(options =>
+            //{
+            //    // This lambda determines whether user consent for non-essential cookies is needed for a given request.
+            //    options.CheckConsentNeeded = context => true;
+            //    options.MinimumSameSitePolicy = SameSiteMode.None;
+            //});
+
             //string connection = Configuration.GetConnectionString("EtymDBWebContext");
             services.AddTransient<mphObj>();
             services.AddTransient<synsetsObj>();
             services.AddTransient<etymObj>();
             services.AddScoped<RazorViewToStringRenderer, RazorViewToStringRenderer>();
-            
+
             services.AddSingleton<IConfiguration>(Configuration);
             services
-                .AddEntityFrameworkSqlite()
-                //.AddDbContext<mphContext>(options => options.UseSqlite($"Filename={Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).FullName, $"data/{Configuration.GetConnectionString("sqlitedb")}")}"));
-                .AddDbContext<mphContext>(options => options.UseSqlite($"Filename={Path.Combine(Directory.GetParent(Startup.ContentRootPath).FullName, $"data/mph_{Configuration.GetConnectionString("sqlitedb")}.db")}"))
-                .AddDbContext<synsetsContext>(options => options.UseSqlite($"Filename={Path.Combine(Directory.GetParent(Startup.ContentRootPath).FullName, $"data/synsets_{Configuration.GetConnectionString("sqlitedb")}.db")}"))
-                .AddDbContext<etymContext>(options => options.UseSqlite($"Filename={Path.Combine(Directory.GetParent(Startup.ContentRootPath).FullName, $"data/etym.db")}"));
-                //.AddDbContext<etymContext>(options => options.UseSqlServer(connection));
-            //services.AddEntityFramework()
-            //    .AddEntityFrameworkSqlServer()
+                //.AddEntityFrameworkSqlite()
+                .AddDbContext<mphContext>(options => options.UseSqlite($"Filename={Path.Combine(Directory.GetParent(Startup.ContentRootPath).FullName, $"data/mph_{Configuration.GetConnectionString("sqlitedb")}.db")}"), ServiceLifetime.Transient, ServiceLifetime.Transient)
+                .AddDbContext<synsetsContext>(options => options.UseSqlite($"Filename={Path.Combine(Directory.GetParent(Startup.ContentRootPath).FullName, $"data/synsets_{Configuration.GetConnectionString("sqlitedb")}.db")}"), ServiceLifetime.Transient, ServiceLifetime.Transient)
+                .AddDbContext<etymContext>(options => options.UseSqlite($"Filename={Path.Combine(Directory.GetParent(Startup.ContentRootPath).FullName, $"data/etym.db")}"), ServiceLifetime.Transient, ServiceLifetime.Transient);
 
             services.AddLocalization(options => options.ResourcesPath = "Resources");
             // Add framework services.
@@ -80,13 +81,15 @@ namespace mphweb
                 .AddRazorPagesOptions(options =>
                 {
                     options.Conventions.AddPageRoute("/TextAnalyze", "{culture:regex(^[a-z]{{2}}(?:-[A-z]{{2}})?$)?}/TextAnalyze");
-                });
-            services.AddSignalR();
+                }).SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        //public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+
+            #region adding Localization support
             var supportedCultures = new List<CultureInfo>
             {
                 new CultureInfo("uk"),
@@ -102,20 +105,17 @@ namespace mphweb
             };
             localizationOptions.RequestCultureProviders.Insert(0, new UrlRequestCultureProvider(localizationOptions));
             app.UseRequestLocalization(localizationOptions);
+            #endregion
 
-            ApplicationVariables.services=app.ApplicationServices;
-            //loggerFactory.AddConsole(Configuration.GetSection("Logging"));
-            //loggerFactory.AddDebug();
-            loggerFactory.AddSerilog();
+            #region adding logger support
             ApplicationLogging.LoggerFactory = loggerFactory;
+            #endregion
 
-            //Microsoft.Extensions.Logging.ILogger Logger = ApplicationLogging.CreateLogger<Startup>();
-            //Logger.LogError(new EventId(0), new Exception(), $"Filename={Path.Combine(Directory.GetParent(Startup.ContentRootPath).FullName, $"data/mph_{Configuration.GetConnectionString("sqlitedb")}.db")}");
+            ApplicationVariables.services = app.ApplicationServices;
 
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseBrowserLink();
             }
             else
             {
@@ -126,6 +126,7 @@ namespace mphweb
             app.UseStatusCodePagesWithReExecute("/error/statuscodeinfo/{0}");
 
             app.UseStaticFiles();
+            //app.UseCookiePolicy();
 
             app.UseMvc(routes =>
             {
@@ -141,9 +142,11 @@ namespace mphweb
                     name: "default",
                     template: "{controller=inflection}/{action=Index}/{id?}");
             });
-            //app.UseSignalR(routes =>
+            //app.UseMvc(routes =>
             //{
-            //    routes.MapHub<TextAnalyzeHub>("TextAnalyze/analyse");
+            //    routes.MapRoute(
+            //        name: "default",
+            //        template: "{controller=Home}/{action=Index}/{id?}");
             //});
         }
     }

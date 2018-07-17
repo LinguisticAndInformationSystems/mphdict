@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.PlatformAbstractions;
-using mphdict.Models.morph;
-using mphdict;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using uSofTrod.generalTypes.Models;
 using Microsoft.AspNetCore;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
+using mphdict;
+using Serilog;
+using uSofTrod.generalTypes.Models;
 
 namespace mphweb
 {
@@ -17,37 +18,42 @@ namespace mphweb
     {
         public static void Main(string[] args)
         {
-            //BuildWebHost(args).Run();
+            var ContentRootPath = Directory.GetCurrentDirectory();
+            var logFile = Path.Combine(ContentRootPath, "logs/log-{Date}.txt");
 
-            var host = new WebHostBuilder()
-                .UseKestrel()
-                .UseContentRoot(Directory.GetCurrentDirectory())
-                .UseIISIntegration()
-                .UseStartup<Startup>()
-                .Build();
+            Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Error()
+                .WriteTo.RollingFile(logFile, outputTemplate: "{Timestamp:dd-MM-yyyy HH:mm:ss.fff zzz} [{Level}] {Message}{NewLine}{Exception}")
+                .CreateLogger();
 
-            host.Run();
+            CreateWebHostBuilder(args).Build().Run();
         }
-        public static IWebHost BuildWebHost(string[] args) =>
+
+        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
-                .Build();
+                .UseSerilog()
+                //.UseDefaultServiceProvider(options =>
+                //options.ValidateScopes = false)
+                ;
     }
+
     public enum viewtype { dict, synsets, pclass, aclass, analyze, etym, error };
     public static class variables
     {
         private static SelectList _pclass;
         public static SelectList pclass
         {
-            get {
+            get
+            {
                 if (_pclass == null)
                 {
-                    _pclass= new SelectList(((mphObj)ApplicationVariables.services.GetService(typeof(mphObj))).pclass);
+                    _pclass = new SelectList(((mphObj)ApplicationVariables.services.GetService(typeof(mphObj))).pclass);
                 }
                 return _pclass;
             }
         }
-        private static SelectList _pofs =null;
+        private static SelectList _pofs = null;
         public static SelectList pofs
         {
             get
@@ -62,7 +68,8 @@ namespace mphweb
                         t[1].CopyTo(tpofs, t[0].Length);
                         _pofs = new SelectList(tpofs, "id", "name", null, "category");
                     }
-                    catch (Exception ex) {
+                    catch (Exception ex)
+                    {
                         _pofs = null;
                     }
                 }
@@ -172,6 +179,5 @@ namespace mphweb
                 return _etympofs;
             }
         }
-
     }
 }

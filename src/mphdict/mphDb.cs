@@ -234,6 +234,8 @@ namespace mphdict
                             wt.Append(";");
                             wt.Append(item.type);
                             wt.Append(";");
+                            wt.Append(item.part);
+                            wt.Append(";");
                             wt.Append(wbase + fi.flex);
                             wt.Append(";");
                             wt.Append(fi.field2);
@@ -248,6 +250,8 @@ namespace mphdict
                         wt.Append(item.field2);
                         wt.Append(";");
                         wt.Append(item.type);
+                        wt.Append(";");
+                        wt.Append(item.part);
                         wt.Append(";");
                         wt.Append(w);
                         wt.Append(";");

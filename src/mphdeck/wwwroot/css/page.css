@@ -1,0 +1,33 @@
+﻿.nav-tabs {
+    margin: .3rem .3rem 0 .3rem;
+}
+.tab-content {
+    border-color:#ddd!important;
+    margin: 0 .3rem .3rem .3rem;
+}
+.menu-group-name {
+    background-color: #eeeeee;
+}
+header {
+    background: gray;
+    min-height: 4rem;
+}
+#wrapper{
+    overflow:hidden;
+}
+.container-fluid {
+    flex: 1 1 auto;
+    overflow-y: auto;
+}
+#wrapper > header, #wrapper > nav, #wrapper > .tab-content, #wrapper > footer {
+    flex: 0 0 auto;
+}
+textarea {
+    resize: none;
+}
+.container-fluid > * {
+    flex: 1 1 auto;
+}
+.tab-content form > div {
+    border-right: 1px #d4d4d4 dotted;
+}
