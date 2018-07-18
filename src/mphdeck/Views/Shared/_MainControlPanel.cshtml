@@ -1,0 +1,352 @@
+﻿@using mphdict.Models.morph
+@using mphdeck.Resources
+@model mphdeck.Models.dictParams
+
+@using Microsoft.AspNetCore.Mvc.Localization
+
+@inject IViewLocalizer Localizer
+
+<div id="main-tab">
+    @if (Model.vtype == viewtype.error)
+    {
+        <div class="tab-item">Помилка</div>
+        <a asp-action="Index" asp-controller="inflection"
+           class="tab-item group-not-active-tab">
+            @Localizer["tab_gram_name"]
+        </a>
+        <a asp-action="Index" asp-controller="flexes"
+           class="tab-item group-not-active-tab">
+            @Localizer["tab_inflectional_classes_name"]
+        </a>
+        <a asp-action="Index" asp-controller="synsets"
+           class="tab-item group-not-active-tab">
+            @Localizer["tab_synsets_name"]
+        </a>
+        <a asp-action="Index" asp-controller="synsets"
+           class="tab-item group-not-active-tab">
+            @Localizer["tab_etym_name"]
+        </a>
+    }
+    else
+    {
+        string wlink = "";
+
+        if (Model.vtype == viewtype.dict)
+        {
+            <div class="tab-item">@Localizer["tab_gram_name"]</div>
+        }
+        else
+        {
+            if (@Model.gr != null)
+            {
+            <a asp-action="Index" asp-controller="inflection"
+               asp-route-wid="@Model.gr.incp.wid" asp-route-currentPage="@Model.gr.incp.currentPage" asp-route-wordSearch="@Model.gr.incp.wordSearch"
+               asp-route-str="@Model.gr.f.str" asp-route-isStrFiltering="@Model.gr.f.isStrFiltering" asp-route-isInverse="@Model.gr.f.isInverse" asp-route-ispclass="@Model.gr.f.ispclass" asp-route-pclass="@Model.gr.f.pclass" asp-route-ispofs="@Model.gr.f.ispofs" asp-route-pofs="@Model.gr.f.pofs"
+               class="tab-item group-not-active-tab">
+                @Localizer["tab_gram_name"]
+            </a>
+            }
+            else
+            {
+                if (Model.vtype == viewtype.synsets) { wlink = Model.syn?.w?.Replace("\"", "\x301"); }
+                else if (Model.vtype == viewtype.etym) { wlink = Model.etym?.w; }
+                <a asp-action="Search" asp-controller="inflection" asp-route-wordSearch="@wlink"
+                   class="tab-item group-not-active-tab">
+                    @Localizer["tab_gram_name"]
+                </a>
+            }
+        }
+        @if (Model.vtype == viewtype.pclass)
+        {
+            <div class="tab-item">@Localizer["tab_inflectional_classes_name"]</div>
+        }
+        else
+        {
+            if (@Model.gr != null)
+            {
+            <a asp-action="Index" asp-controller="flexes"
+               asp-route-wid="@Model.gr.incp.wid" asp-route-currentPage="@Model.gr.incp.currentPage" asp-route-wordSearch="@Model.gr.incp.wordSearch"
+               asp-route-str="@Model.gr.f.str" asp-route-isStrFiltering="@Model.gr.f.isStrFiltering" asp-route-isInverse="@Model.gr.f.isInverse" asp-route-ispclass="@Model.gr.f.ispclass" asp-route-pclass="@Model.gr.f.pclass" asp-route-ispofs="@Model.gr.f.ispofs" asp-route-pofs="@Model.gr.f.pofs"
+               class="tab-item group-not-active-tab">
+                @Localizer["tab_inflectional_classes_name"]
+            </a>
+            }
+            else
+            {
+                <a asp-action="Index" asp-controller="flexes"
+                   class="tab-item group-not-active-tab">
+                    @Localizer["tab_inflectional_classes_name"]
+                </a>
+            }
+        }
+        if (Model.vtype == viewtype.synsets)
+        {
+            <div class="tab-item">@Localizer["tab_synsets_name"]</div>
+        }
+        else
+        {
+            if (Model.vtype == viewtype.dict) { wlink = Model.gr.entry?.reestr?.Replace("\"", "\x301"); }
+            else if (Model.vtype == viewtype.etym) { wlink = Model.etym?.w; }
+            <a asp-action="Search" asp-controller="synsets" asp-route-wordSearch="@wlink"
+               class="tab-item group-not-active-tab">
+                @Localizer["tab_synsets_name"]
+            </a>
+        }
+        if (Model.vtype == viewtype.etym)
+        {
+            <div class="tab-item">@Localizer["tab_etym_name"]</div>
+        }
+        else
+        {
+            if (Model.vtype == viewtype.dict) { wlink = Model.gr.entry?.reestr?.Replace("\"", "\x301"); }
+            else if (Model.vtype == viewtype.synsets) { wlink = Model.syn?.w?.Replace("\"", "\x301"); }
+            <a asp-action="Search" asp-controller="etym" asp-route-wordSearch="@wlink"
+               class="tab-item group-not-active-tab">
+                @Localizer["tab_etym_name"]
+            </a>
+        }
+
+    }
+    <div class="tab-item tab-item-empty"></div>
+</div>
+
+<section id="main-control">
+    <button id="left-control" class="btn">‹</button>
+    <div id="menu-container">
+        @switch (Model.vtype)
+        {
+            case viewtype.dict:
+                @if (Model != null)
+                {
+                    var f = Model.gr.f;
+                    var incp = Model.gr.incp;
+                    <div class="menu-group">
+                        <form id="query-control" asp-action="Index" asp-controller="inflection" method="get">
+                            <div class="menu-group-content">
+                                <div id="query-param" class="query-param">
+                                    <div id="query-param-val" class="query-param-val">
+                                        <input asp-for="@f.isStrFiltering" />
+                                        <label asp-for="@f.str">Шаблон для вибірки:</label>
+                                    </div>
+                                    <div class="query-param-val">
+                                        <input asp-for="@f.str" placeholder="пр_клад*" pattern="[A-za-zА-Яа-я\sЇїЁёЄєІі_*]+" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="menu-group-content">
+                                <div class="query-param">
+                                    <div class="query-param-val">
+                                        <input asp-for="@f.isInverse" />
+                                        <label for="f_isInverse">інверсний реєстр</label>
+                                    </div>
+                                    <div class="query-param-val">
+                                        <input asp-for="@f.ispclass" />
+                                        <label asp-for="@f.ispclass">пар. клас:&nbsp;</label>
+                                        <select asp-for="@f.pclass" asp-items="@variables.pclass"></select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="menu-group-content">
+                                <div class="query-param">
+                                    <div class="query-param-val">
+                                        &nbsp;
+                                    </div>
+                                    <div class="query-param-val">
+                                        <input asp-for="@f.ispofs" />
+                                        <select asp-for="@f.pofs" asp-items="@variables.pofs"></select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="menu-group-content">
+                                <button id="filter" title="Оновити" class="btn"></button>
+                            </div>
+                            <input asp-for="@incp.wordSearch" type="hidden" />
+                        </form>
+
+                        <div class="menu-group-name">
+                            Робота з реєстром
+                        </div>
+                    </div>
+                }
+                break;
+            case viewtype.pclass:
+                if (Model.pcls.f != null)
+                {
+                    var pclsf = Model.pcls.f;
+                    <div class="menu-group">
+                        <div class="menu-group-content">
+                            <div class="query-param">
+                                <div class="query-param-val">
+                                    &nbsp;
+                                </div>
+                                <div class="query-param-val query-param-val-search-pcls">
+                                    <label for="f_isInverse">Клас:&nbsp;</label>
+                                    <input id="search-pcls" type="number" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="menu-group-name">
+                            Робота зі списком
+                        </div>
+                    </div>
+                    <div class="menu-group">
+                        <form id="query-control-pcls" asp-action="Index" asp-controller="flexes" method="get">
+                            <div class="menu-group-content">
+                                <div class="query-param">
+                                    <div class="query-param-val">
+                                        &nbsp;
+                                    </div>
+                                    <div class="query-param-val">
+                                        <input asp-for="@pclsf.ispofsPcls" />
+                                        <select asp-for="@pclsf.pofsPcls" asp-items="@variables.pofsPcls"></select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="menu-group-content">
+                                <button id="filter_pcls" title="Оновити" class="btn"></button>
+                            </div>
+                            @if (Model != null)
+                            {
+                                @*<input type="hidden" asp-for="@Model.gr.incp.wordSearch" />*@
+                                <input type="hidden" name="@nameof(Model.gr.incp.wordSearch)" value="@(Model.gr.incp.wordSearch)" />
+                                @*<input type="hidden" asp-for="@Model.gr.incp.wid" />*@
+                                <input type="hidden" name="@nameof(Model.gr.incp.wid)" value="@(Model.gr.incp.wid)" />
+                                @*<input type="hidden" asp-for="@Model.gr.incp.currentPage" />*@
+                                <input type="hidden" name="@nameof(Model.gr.incp.currentPage)" value="@(Model.gr.incp.currentPage)" />
+                                @*<input type="hidden" asp-for="@Model.gr.f.isStrFiltering" />*@
+                                <input type="hidden" name="@nameof(Model.gr.f.isStrFiltering)" value="@(Model.gr.f.isStrFiltering.ToString())" />
+                                @*<input type="hidden" asp-for="@Model.gr.f.isInverse" />*@
+                                <input type="hidden" name="@nameof(Model.gr.f.isInverse)" value="@(Model.gr.f.isInverse.ToString())" />
+                                @*<input type="hidden" asp-for="@Model.gr.f.str" />*@
+                                <input type="hidden" name="@nameof(Model.gr.f.str)" value="@(Model.gr.f.str)" />
+                                @*<input type="hidden" asp-for="@Model.gr.f.ispclass" />*@
+                                <input type="hidden" name="@nameof(Model.gr.f.ispclass)" value="@(Model.gr.f.ispclass.ToString())" />
+                                @*<input type="hidden" asp-for="@Model.gr.f.pclass" />*@
+                                <input type="hidden" name="@nameof(Model.gr.f.pclass)" value="@(Model.gr.f.pclass)" />
+                                @*<input type="hidden" asp-for="@Model.gr.f.ispofs" />*@
+                                <input type="hidden" name="@nameof(Model.gr.f.ispofs)" value="@(Model.gr.f.ispofs.ToString())" />
+                                @*<input type="hidden" asp-for="@Model.gr.f.pofs" />*@
+                                <input type="hidden" name="@nameof(Model.gr.f.pofs)" value="@(Model.gr.f.pofs)" />
+                            }
+                        </form>
+                        <div class="menu-group-name">
+                            Відібрати
+                        </div>
+                    </div>
+                }
+                break;
+            case viewtype.synsets:
+               @if (Model != null)
+               {
+                   var f = Model.syn.f;
+                   var incp = Model.syn.incp;
+                    <div class="menu-group">
+                        <form id="query-control" asp-action="Index" asp-controller="synsets" method="get">
+                            <div class="menu-group-content">
+                                <div id="query-param" class="query-param">
+                                    <div id="query-param-val" class="query-param-val">
+                                        <input asp-for="@f.isStrFiltering" />
+                                        <label asp-for="@f.str">Шаблон для вибірки:</label>
+                                        @*<select asp-for="@f.fetchType">
+                                            <option value="0">Починається з</option>
+                                            <option value="1">Містить</option>
+                                            <option value="2">Закінчується на</option>
+                                        </select>*@
+                                    </div>
+                                    <div class="query-param-val">
+                                        <input asp-for="@f.str" placeholder="пр_клад*" pattern="[A-za-zА-Яа-я\sЇїЁёЄєІі_*]+" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="menu-group-content">
+                                <div class="query-param">
+                                    <div class="query-param-val">
+                                        &nbsp;
+                                    </div>
+                                    <div class="query-param-val">
+                                        <input asp-for="@f.ispofs" />
+                                        <select asp-for="@f.pofs" asp-items="@variables.synpofs"></select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="menu-group-content">
+                                <button id="filter" title="Оновити" class="btn"></button>
+                            </div>
+                            <input asp-for="@incp.wordSearch" type="hidden" />
+                        </form>
+
+                        <div class="menu-group-name">
+                            Робота з реєстром
+                        </div>
+                    </div>
+                }
+                break;
+            case viewtype.etym:
+                @if (Model != null)
+                {
+                    var f = Model.etym.f;
+                    var incp = Model.etym.incp;
+                    <div class="menu-group">
+                        <form id="query-control" asp-action="Index" asp-controller="etym" method="get">
+                            <div class="menu-group-content">
+                                <div id="query-param" class="query-param">
+                                    <div id="query-param-val" class="query-param-val">
+                                        <input asp-for="@f.isStrFiltering" />
+                                        <label asp-for="@f.str">Шаблон для вибірки:</label>
+                                        @*<select asp-for="@f.fetchType">
+                                                <option value="0">Починається з</option>
+                                                <option value="1">Містить</option>
+                                                <option value="2">Закінчується на</option>
+                                            </select>*@
+                                    </div>
+                                    <div class="query-param-val">
+                                        <input asp-for="@f.str" placeholder="пр_клад*" pattern="[A-za-zА-Яа-я\sЇїЁёЄєІі_*]+" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="menu-group-content">
+                                <div class="query-param">
+                                    <div class="query-param-val">
+                                        <input asp-for="@f.isHead" />
+                                        <label for="isHead">Показувати лише реєстрові етимони</label>
+                                    </div>
+                                    <div class="query-param-val">
+                                        <input asp-for="@f.isLang"/>
+                                        <select asp-for="@f.langId" asp-items="@variables.etympofs" ></select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="menu-group-content">
+                                <div class="query-param">
+                                    <div class="query-param-val">
+                                        &nbsp;
+                                    </div>
+                                    <div class="query-param-val">
+                                        <input asp-for="@f.isType" />
+                                        <select asp-for="@f.typeId">
+                                            <option value="0">Літературні</option>
+                                            <option value="1">Діалектні</option>
+                                            <option value="2">Омоніми</option>
+                                            <option value="3">Антропоніми</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="menu-group-content">
+                                <button id="filter" title="Оновити" class="btn"></button>
+                            </div>
+                            <input asp-for="@incp.wordSearch" type="hidden" />
+                        </form>
+
+                        <div class="menu-group-name">
+                            Робота з реєстром
+                        </div>
+                    </div>
+                }
+                break;
+            case viewtype.error:
+                break;
+        }
+    </div>
+    <button id="right-control" class="btn">›</button>
+</section>

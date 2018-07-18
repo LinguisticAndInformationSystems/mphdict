@@ -1,0 +1,16 @@
+﻿@using mphdict.Models.morph
+@model mphdeck.Models.etymdictParams
+
+<form asp-action="Search" asp-controller="etym" method="get" >
+    <div id="search-block">
+        <input asp-for="@Model.incp.wordSearch" placeholder="введіть слово для пошуку..." />
+        <button class="btn"></button>
+        <input type="hidden" asp-for="@Model.f.isStrFiltering" />
+        <input type="hidden" asp-for="@Model.f.str" />
+        <input type="hidden" asp-for="@Model.f.isLang" />
+        <input type="hidden" asp-for="@Model.f.langId" />
+        <input type="hidden" asp-for="@Model.f.isType" />
+        <input type="hidden" asp-for="@Model.f.typeId" />
+        <input type="hidden" asp-for="@Model.f.isHead" />
+    </div>
+</form>

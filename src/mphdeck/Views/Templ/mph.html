@@ -1,0 +1,221 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="../../wwwroot/css/reset.css">
+    <link rel="stylesheet" type="text/css" href="../../wwwroot/css/font-awesome.css">
+    <link rel="stylesheet" type="text/css" href="../../wwwroot/css/style.css">
+</head>
+<body>
+    <div id="wrapper">
+        <header>
+            <div id="goto_main">
+
+            </div>
+            <div id="main-name">
+                <div>Лексикографічне надбання України</div>
+                <div><a href="https://github.com/LinguisticAndInformationSystems/mphdict" target="_blank">Граматичний словник української мови</a></div>
+            </div>
+            <div id="main-info">
+                <div>Copyright © 2016 <a href="mailto:uSofTrod@outlook.com">uSofTrod</a> </div>
+                <div><a href="http://opensource.org/licenses/MIT" target="_blank">The MIT License</a> </div>
+            </div>
+
+            <div id="logoff">
+                <a href="#iworking" title="Вихід"></a>
+            </div>
+        </header>
+        <div id="main-tab">
+            <a href="#" class="tab-item group-not-active-tab">
+                Словозмінні класи
+            </a>
+            <div class="tab-item">Словник</div>
+            <div class="tab-item tab-item-empty"></div>
+        </div>
+        <section id="main-control">
+            <button id="left-control" class="btn">‹</button>
+            <div id="menu-container">
+                <div class="menu-group">
+                    <form id="query-control">
+                        <div class="menu-group-content">
+                            <div id="query-param" class="query-param">
+                                <div id="query-param-val" class="query-param-val">
+                                    <input id="is-word-filter" name="is-word-filter" type="checkbox" value="true" />
+                                    <!--<input name="is-word-filter" type="hidden" value="false" />-->
+                                    <select>
+                                        <option selected="selected" value="0">Починається з</option>
+                                        <option value="1">Містить</option>
+                                        <option value="2">Закінчується на</option>
+                                    </select>
+                                </div>
+                                <div class="query-param-val">
+                                    <input id="word-flt" name="word-flt" pattern="[A-za-zА-Яа-я\sЇїЁёЄєІі]+" type="text" value="" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="menu-group-content">
+                            <div class="query-param">
+                                <div class="query-param-val">
+                                    <input id="is-reverse" name="is-reverse" type="checkbox" value="false" />
+                                    <label for="is-reverse">&nbsp;зворотний реєстр</label>
+                                </div>
+                                <div class="query-param-val">
+                                    <input id="is-parclass" name="is-parclass" type="checkbox" value="false" />
+                                    <label for="is-parclass">&nbsp;пар. клас:&nbsp;</label>
+                                    <select>
+                                        <option selected="selected" value="0">1</option>
+                                        <option value="1">2</option>
+                                        <option value="2">3</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="menu-group-content">
+                            <div class="query-param">
+                                <div class="query-param-val">
+                                    &nbsp;
+                                </div>
+                                <div class="query-param-val">
+                                    <input id="is-wordpart" name="is-wordpart" type="checkbox" value="false" />
+                                    <select>
+                                        <option selected="selected" value="0">іменник</option>
+                                        <option value="1">прикметник</option>
+                                        <option value="2">дієслово</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="menu-group-content">
+                            <button id="filter" title="Оновити" class="btn"></button>
+                        </div>
+                    </form>
+                    <div class="menu-group-name">
+                        Робота з реєстром
+                    </div>
+
+                </div>
+                <!--<fieldset>
+                    <legend>Відбір слів з реєстру</legend>
+                        <form id="query-control">
+                            <div id="query-param">
+                                <div id="query-param-val">
+                                    <input id="is-word-filter" name="is-word-filter" type="checkbox" value="true" />
+                                    <input name="is-word-filter" type="hidden" value="false" />
+                                    <select>
+                                        <option selected="selected" value="0">Починається з</option>
+                                        <option value="1">Містить</option>
+                                        <option value="2">Закінчується на</option>
+                                    </select>
+                                </div>
+                                <input id="word-flt" name="word-flt" pattern="[A-za-zА-Яа-я\sЇїЁёЄєІі]+" type="text" value="" />
+                            </div>
+                            <button id="filter" title="Оновити" class="btn"></button>
+                        </form>
+                </fieldset>-->
+            </div>
+            <button id="right-control" class="btn">›</button>
+        </section>
+        <main>
+            <nav>
+                <div id="search-block">
+                    <input type="text" placeholder="введіть слово для пошуку..."/>
+                    <button class="btn"></button>
+                </div>
+                <ul id="portrait-display-type">
+                    <li id="list-view" class="active-sel-tab">
+                        <a href="#">Реєстр</a>
+                    </li>
+                    <li id="entry-view">
+                        <a href="#">Стаття</a>
+                    </li>
+                </ul>
+                <div id="words-list" class="words-list">
+                    <a>Слово <sup>1</sup></a>
+                    <a>Слово <sup>2</sup></a>
+                    <a class="selected-word">Слово <sup>3</sup></a>
+                    <a>Слово 4</a>
+                    <a>Слово 5</a>
+                    <a>Слово 6</a>
+                    <a>Слово 7</a>
+                    <a class="pclass-row">
+                    <div class="pclass-id">1234</div><div class="pclass-gr">іменник</div><div class="pclass-qty">23455</div><div class="indent">12</div><div class="pclass-com">Слово 8</div>
+                    </a>
+                    <a>Слово 9</a>
+                    <a>Слово 10</a>
+                    <a>Слово 11</a>
+                    <a>Слово 12</a>
+                    <a>Слово 13</a>
+                    <a>Слово 14</a>
+                    <a>Слово 15</a>
+                    <a>Слово 16</a>
+                    <a>Слово 17</a>
+                    <a>Слово 18 дуже довге слово дуже довге слово дуже довге слово</a>
+                </div>
+                <form id="paging-control">
+                    <div id="word-count">Кількість слів - 261500</div>
+                    <div id="list-control">
+                        <a class="btn">‹</a>
+                        <div id="page-number">1 з&nbsp;</div>
+                        <a id="last-page">1457</a>
+                        <input type="number" />
+                        <button class="btn"></button>
+                        <a class="btn">›</a>
+                    </div>
+                </form>
+            </nav>
+            <article>
+                <header>
+
+                </header>
+                <section>
+
+                </section>
+                <footer>
+
+                </footer>
+            </article>
+            <aside>
+
+            </aside>
+        </main>
+        <footer id="mainfooter">
+        </footer>
+    </div>
+
+    <div class="modal" id="?" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-header">
+                <div class="head">Про систему</div>
+                <a href="#" title="Закрити" aria-hidden="true"></a>
+            </div>
+            <div class="modal-body">
+                <p style="text-align:center;"><b>КОНТЕНТ ВІКНА</b></p>
+                <p style="text-align:center;"><b>ІНФОРМАЦІЯ ПРО СИСТЕМУ</b></p>
+                <p style="text-align:center;"><b>ДОПОМОГА КОРИСТУВАЧУ</b></p>
+                <p>&nbsp;&nbsp;</p>
+                <p>Система надає on-line доступ до порядку денного пленарного засідання.</p>
+                <p>&nbsp;&nbsp;</p>
+                <p>Система надає on-line доступ до порядку денного пленарного засідання.Система надає on-line доступ до порядку денного пленарного засідання.Система надає on-line доступ до порядку денного пленарного засідання.Система надає on-line доступ до порядку денного пленарного засідання.</p>
+                <p>Система надає on-line доступ до порядку денного пленарного засідання.Система надає on-line доступ до порядку денного пленарного засідання.Система надає on-line доступ до порядку денного пленарного засідання.Система надає on-line доступ до порядку денного пленарного засідання.</p>
+                <p>&nbsp;&nbsp;</p>
+                <p>&nbsp;&nbsp;</p>
+                <p>Система надає on-line доступ до порядку денного пленарного засідання.Система надає on-line доступ до порядку денного пленарного засідання.Система надає on-line доступ до порядку денного пленарного засідання.Система надає on-line доступ до порядку денного пленарного засідання.Система надає on-line доступ до порядку денного пленарного засідання.Система надає on-line доступ до порядку денного пленарного засідання.</p>
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn-blue" id="iOk">Так</a>
+                <a href="#" class="btn-blue" id="iCancel">Вихід</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="iworking" aria-hidden="true">
+        <div class="weqwe">
+            <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+            <span class="sr-only">Loading...</span>
+            <!--<div>Зачекайте, будь ласка, виконується запит...</div>
+            <progress></progress>-->
+        </div>
+    </div>
+</body>
+</html>

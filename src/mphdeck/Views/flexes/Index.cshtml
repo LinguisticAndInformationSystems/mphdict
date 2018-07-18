@@ -1,0 +1,12 @@
+﻿@using mphdict
+@model pclass_info
+@{
+    ViewData["Title"] = "flexes";
+}
+@{await Html.RenderPartialAsync("flxtab", Model);}
+
+@section scripts {
+    <script type="text/javascript">
+    var pclsBasePath = '@(Url.Action("", ""))';
+    </script>
+}

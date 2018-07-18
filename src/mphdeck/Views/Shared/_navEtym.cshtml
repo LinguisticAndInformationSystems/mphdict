@@ -1,0 +1,9 @@
+﻿@model mphdeck.Models.etymdictParams
+
+@if (Model != null)
+{
+    await Html.RenderPartialAsync("_SearchPanelEtym", Model);
+    await Html.RenderPartialAsync("_TabListEntryPanelEtym", Model);
+    @await Component.InvokeAsync(nameof(mphdeck.ViewComponents.wordsListEtym), new { dp = Model })
+    await Html.RenderPartialAsync("_ListControlPanelEtym", Model);
+}

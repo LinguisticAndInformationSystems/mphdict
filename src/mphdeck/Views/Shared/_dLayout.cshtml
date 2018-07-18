@@ -1,0 +1,143 @@
+﻿@using mphdeck.Resources
+@using System.Net
+@using Microsoft.AspNetCore.Localization
+
+@using Microsoft.AspNetCore.Mvc.Localization
+@*@using Microsoft.Extensions.Options
+@using Microsoft.AspNetCore.Builder*@
+
+@inject IViewLocalizer Localizer
+@*@inject IOptions<RequestLocalizationOptions> LocOptions*@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - mphdeck</title>
+    <environment names="Development">
+        <link rel="stylesheet" href="~/css/reset.css">
+        <link rel="stylesheet" href="~/css/font-awesome.css">
+        <link rel="stylesheet" href="~/css/style.css">
+    </environment>
+    <environment names="Staging,Production">
+        <link rel="stylesheet" href="~/css/style.min.css" asp-append-version="true" />
+    </environment>
+</head>
+<body>
+    @{
+        mphdeck.Models.dictParams d = ViewBag.dp;
+        var requestCulture = Context.Features.Get<IRequestCultureFeature>();
+        //List<SelectListItem> cultureItems = ((RequestCultureProvider)requestCulture?.Provider).Options.SupportedUICultures.Select(c => new SelectListItem { Value = c.Name, Text = c.DisplayName })
+        //    .ToList();
+}
+    <div id="wrapper">
+        <header>
+            <div id="goto_main">
+
+            </div>
+            <div id="main-name">
+                <div>
+                    @if (variables.lang.id_lang == 1058)
+                    {
+                        @: @Localizer["bname_ua"]  @*idispl.bname_ua*@
+                }
+                    else
+                    {
+                        @: @Localizer["bname_ru"]  @*@idispl.bname_ru*@
+                }
+                </div>
+                <div>
+                    <a href="https://github.com/LinguisticAndInformationSystems/mphdict" target="_blank">
+                        @if (variables.lang.id_lang == 1058)
+                        {
+                            @: @Localizer["dict_ua_name"]
+                         }
+                        else
+                        {
+                            @: @Localizer["dict_ru_name"]
+                         }
+                    </a>
+                </div>
+            </div>
+            <div id="main-info">
+                <div>Copyright © 2016 <a href="mailto:uSofTrod@outlook.com">uSofTrod</a> </div>
+                <div><a href="http://opensource.org/licenses/MIT" target="_blank">The MIT License</a> </div>
+            </div>
+            <div id="lang-info">
+                @if (requestCulture.RequestCulture.UICulture.Name == "uk")
+                {
+                    //WebUtility.UrlEncode()
+                    string p = string.Concat(Url.Action("ChangeLang", "Culture"), $"?qp={WebUtility.UrlEncode(Context.Request.QueryString.Value)}", $"&c={ViewContext.RouteData.Values["controller"]}&a={ViewContext.RouteData.Values["action"]}&lang=en");
+                    <div>UK</div>
+                    <a href="@p">
+                        EN
+                    </a>
+                }
+                else
+                {
+                    string p = string.Concat(Url.Action("ChangeLang", "Culture"), $"?qp={WebUtility.UrlEncode(Context.Request.QueryString.Value)}", $"&c={ViewContext.RouteData.Values["controller"]}&a={ViewContext.RouteData.Values["action"]}&lang=uk");
+                    <a href="@p">
+                        UK
+                    </a>
+                    <div>EN</div>
+                 }
+
+
+            </div>
+            <div id="logoff">
+                <a href="#iworking" title="Вихід"></a>
+            </div>
+        </header>
+
+        @{await Html.RenderPartialAsync("_MainControlPanel", d);}
+
+        <main>
+            @switch (d.vtype)
+            {
+                case viewtype.dict:
+                    <nav>
+                        @{await Html.RenderPartialAsync("_navDictionary", d.gr);}
+                    </nav>
+                    break;
+                case viewtype.pclass:
+                    <nav class="nav_pclass">
+                        @{await Html.RenderPartialAsync("_navPClass", d.pcls.indents);}
+                    </nav>
+                    break;
+                case viewtype.synsets:
+                    <nav>
+                        @{await Html.RenderPartialAsync("_navSynsets", d.syn);}
+                    </nav>
+                    break;
+                case viewtype.etym:
+                    <nav>
+                         @{await Html.RenderPartialAsync("_navEtym", d.etym);}
+                    </nav>
+                       break;
+                 default:
+                       break;
+             }
+            <article>
+                <header></header>
+                <section>
+                    @RenderBody()
+                </section>
+                <footer></footer>
+            </article>
+            <aside></aside>
+        </main>
+        <footer id="mainfooter"></footer>
+    </div>
+    @*<input type="hidden" id="pathjs" value="" />*@
+    @RenderSection("scripts", required: false)
+    <environment names="Development">
+        <script src="~/js/rls_pb.js" asp-append-version="true"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+    </environment>
+    <environment names="Staging,Production">
+        <script src="~/js/site.min.js" asp-append-version="true"></script>
+    </environment>
+
+</body>
+</html>

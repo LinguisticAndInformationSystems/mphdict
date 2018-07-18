@@ -1,0 +1,39 @@
+﻿@using mphdict.Models.morph
+@model mphdeck.Models.etymdictParams
+
+<form asp-action="toPage" asp-controller="etym" method="get" id="paging-control" >
+    <div id="word-count">Кількість слів - @Model.count</div>
+    <div id="list-control">
+        <a asp-action="toPrev" asp-controller="etym"
+           asp-route-wid="@Model.incp.wid" asp-route-idclass="@Model.incp.idclass" asp-route-currentPage="@Model.incp.currentPage" asp-route-wordSearch="@Model.incp.wordSearch"
+           asp-route-str="@Model.f.str" asp-route-isStrFiltering="@Model.f.isStrFiltering" asp-route-isLang="@Model.f.isLang" asp-route-langId="@Model.f.langId" 
+            asp-route-isType="@Model.f.isType" asp-route-typeId="@Model.f.typeId" asp-route-isHead="@Model.f.isHead"
+           class="btn @(Model.incp.currentPage==0?"disable-nav":"")">‹</a>
+
+        @*<input type="number" asp-for="@Model.incp.currentPage" />*@
+        <input type="number" name="incp.currentPage" id="incp_currentPage" value="@(Model.incp.currentPage+1)" />
+        <input type="hidden" asp-for="@Model.incp.wordSearch" />
+        <input type="hidden" asp-for="@Model.incp.wid" />
+        <input type="hidden" asp-for="@Model.incp.idclass" />
+        <input type="hidden" asp-for="@Model.f.isStrFiltering" />
+        <input type="hidden" asp-for="@Model.f.str" />
+        <input type="hidden" asp-for="@Model.f.isLang" />
+        <input type="hidden" asp-for="@Model.f.langId" />
+        <input type="hidden" asp-for="@Model.f.isType" />
+        <input type="hidden" asp-for="@Model.f.typeId" />
+        <input type="hidden" asp-for="@Model.f.isHead" />
+
+        <div id="page-number">&nbsp;з&nbsp;</div>
+        <a id="last-page" asp-action="Index" asp-controller="etym"
+           asp-route-wid="@Model.incp.wid" asp-route-idclass="@Model.incp.idclass" asp-route-currentPage="@(Model.maxpage-1)" asp-route-wordSearch="@Model.incp.wordSearch"
+           asp-route-str="@Model.f.str" asp-route-isStrFiltering="@Model.f.isStrFiltering" asp-route-isLang="@Model.f.isLang" 
+           asp-route-langId="@Model.f.langId" asp-route-isType="@Model.f.isType" asp-route-typeId="@Model.f.typeId" asp-route-isHead="@Model.f.isHead" >@(Model.maxpage)</a>
+        <button class="btn"></button>
+
+        <a asp-action="toNext" asp-controller="etym"
+           asp-route-wid="@Model.incp.wid" asp-route-idclass="@Model.incp.idclass" asp-route-currentPage="@Model.incp.currentPage" asp-route-wordSearch="@Model.incp.wordSearch"
+           asp-route-str="@Model.f.str" asp-route-isStrFiltering="@Model.f.isStrFiltering" asp-route-isLang="@Model.f.isLang" 
+           asp-route-langId="@Model.f.langId" asp-route-isType="@Model.f.isType" asp-route-typeId="@Model.f.typeId" asp-route-isHead="@Model.f.isHead"
+           class="btn @(Model.incp.currentPage==Model.maxpage?"disable-nav":"")">›</a>
+    </div>
+</form>
