@@ -4,6 +4,8 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using ElectronNET.API;
+using ElectronNET.API.Entities;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -55,12 +57,12 @@ namespace mphdeck
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //services.Configure<CookiePolicyOptions>(options =>
-            //{
-            //    // This lambda determines whether user consent for non-essential cookies is needed for a given request.
-            //    options.CheckConsentNeeded = context => true;
-            //    options.MinimumSameSitePolicy = SameSiteMode.None;
-            //});
+            services.Configure<CookiePolicyOptions>(options =>
+            {
+                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
+                options.CheckConsentNeeded = context => true;
+                options.MinimumSameSitePolicy = SameSiteMode.None;
+            });
 
             //string connection = Configuration.GetConnectionString("EtymDBWebContext");
             services.AddTransient<mphObj>();
@@ -70,10 +72,12 @@ namespace mphdeck
 
             services.AddSingleton<IConfiguration>(Configuration);
             services
-                //.AddEntityFrameworkSqlite()
-                .AddDbContext<mphContext>(options => options.UseSqlite($"Filename={Path.Combine(Directory.GetParent(Startup.ContentRootPath).FullName, $"data/mph_{Configuration.GetConnectionString("sqlitedb")}.db")}"), ServiceLifetime.Transient, ServiceLifetime.Transient)
-                .AddDbContext<synsetsContext>(options => options.UseSqlite($"Filename={Path.Combine(Directory.GetParent(Startup.ContentRootPath).FullName, $"data/synsets_{Configuration.GetConnectionString("sqlitedb")}.db")}"), ServiceLifetime.Transient, ServiceLifetime.Transient)
-                .AddDbContext<etymContext>(options => options.UseSqlite($"Filename={Path.Combine(Directory.GetParent(Startup.ContentRootPath).FullName, $"data/etym.db")}"), ServiceLifetime.Transient, ServiceLifetime.Transient);
+                .AddDbContext<mphContext>(options => options.UseSqlite($"Filename={Path.Combine(Directory.GetParent(Directory.GetParent(Startup.ContentRootPath).FullName).FullName, $"data/mph_{Configuration.GetConnectionString("sqlitedb")}.db")}"), ServiceLifetime.Transient, ServiceLifetime.Transient)
+                .AddDbContext<synsetsContext>(options => options.UseSqlite($"Filename={Path.Combine(Directory.GetParent(Directory.GetParent(Startup.ContentRootPath).FullName).FullName, $"data/synsets_{Configuration.GetConnectionString("sqlitedb")}.db")}"), ServiceLifetime.Transient, ServiceLifetime.Transient)
+                .AddDbContext<etymContext>(options => options.UseSqlite($"Filename={Path.Combine(Directory.GetParent(Directory.GetParent(Startup.ContentRootPath).FullName).FullName, $"data/etym.db")}"), ServiceLifetime.Transient, ServiceLifetime.Transient);
+            //.AddDbContext<mphContext>(options => options.UseSqlite($"Filename={Path.Combine("C:\\app\\db", $"mph_{Configuration.GetConnectionString("sqlitedb")}.db")}"), ServiceLifetime.Transient, ServiceLifetime.Transient)
+            //.AddDbContext<synsetsContext>(options => options.UseSqlite($"Filename={Path.Combine("C:\\app\\db", $"synsets_{Configuration.GetConnectionString("sqlitedb")}.db")}"), ServiceLifetime.Transient, ServiceLifetime.Transient)
+            //.AddDbContext<etymContext>(options => options.UseSqlite($"Filename={Path.Combine("C:\\app\\db", "etym.db")}"), ServiceLifetime.Transient, ServiceLifetime.Transient);
 
             services.AddLocalization(options => options.ResourcesPath = "Resources");
             // Add framework services.
@@ -109,6 +113,8 @@ namespace mphdeck
 
             #region adding logger support
             ApplicationLogging.LoggerFactory = loggerFactory;
+            //var s = $"Filename={Path.Combine(Directory.GetParent(Startup.ContentRootPath).FullName, $"data/mph_{Configuration.GetConnectionString("sqlitedb")}.db")}";
+            //loggerFactory.CreateLogger("Debug info").LogError(s);
             #endregion
 
             ApplicationVariables.services = app.ApplicationServices;
@@ -148,6 +154,16 @@ namespace mphdeck
             //        name: "default",
             //        template: "{controller=Home}/{action=Index}/{id?}");
             //});
+
+            var options = new BrowserWindowOptions
+            {
+                WebPreferences = new WebPreferences
+                {
+                    WebSecurity = false
+                }
+            };
+
+            Task.Run(async () => await Electron.WindowManager.CreateWindowAsync());
         }
     }
     public static class ApplicationLogging

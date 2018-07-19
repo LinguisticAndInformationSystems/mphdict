@@ -70,7 +70,6 @@ namespace mphweb
 
             services.AddSingleton<IConfiguration>(Configuration);
             services
-                //.AddEntityFrameworkSqlite()
                 .AddDbContext<mphContext>(options => options.UseSqlite($"Filename={Path.Combine(Directory.GetParent(Startup.ContentRootPath).FullName, $"data/mph_{Configuration.GetConnectionString("sqlitedb")}.db")}"), ServiceLifetime.Transient, ServiceLifetime.Transient)
                 .AddDbContext<synsetsContext>(options => options.UseSqlite($"Filename={Path.Combine(Directory.GetParent(Startup.ContentRootPath).FullName, $"data/synsets_{Configuration.GetConnectionString("sqlitedb")}.db")}"), ServiceLifetime.Transient, ServiceLifetime.Transient)
                 .AddDbContext<etymContext>(options => options.UseSqlite($"Filename={Path.Combine(Directory.GetParent(Startup.ContentRootPath).FullName, $"data/etym.db")}"), ServiceLifetime.Transient, ServiceLifetime.Transient);
@@ -109,6 +108,8 @@ namespace mphweb
 
             #region adding logger support
             ApplicationLogging.LoggerFactory = loggerFactory;
+            //var s = $"Filename={Path.Combine(Directory.GetParent(Startup.ContentRootPath).FullName, $"data/mph_{Configuration.GetConnectionString("sqlitedb")}.db")}";
+            //loggerFactory.CreateLogger("Debug info").LogError(s);
             #endregion
 
             ApplicationVariables.services = app.ApplicationServices;
