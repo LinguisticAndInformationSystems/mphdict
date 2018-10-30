@@ -63,9 +63,6 @@ namespace mphweb
             //});
 
             //string connection = Configuration.GetConnectionString("EtymDBWebContext");
-            services.AddTransient<mphObj>();
-            services.AddTransient<synsetsObj>();
-            services.AddTransient<etymObj>();
             services.AddScoped<RazorViewToStringRenderer, RazorViewToStringRenderer>();
 
             services.AddSingleton<IConfiguration>(Configuration);

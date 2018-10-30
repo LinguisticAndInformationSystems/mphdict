@@ -9,6 +9,9 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using mphdict;
+using mphdict.Models.Etym;
+using mphdict.Models.morph;
+using mphdict.Models.SynonymousSets;
 using Serilog;
 using uSofTrod.generalTypes.Models;
 
@@ -48,7 +51,7 @@ namespace mphweb
             {
                 if (_pclass == null)
                 {
-                    _pclass = new SelectList(((mphObj)ApplicationVariables.services.GetService(typeof(mphObj))).pclass);
+                    _pclass = new SelectList(((mphContext)ApplicationVariables.services.GetService(typeof(mphContext))).pclass);
                 }
                 return _pclass;
             }
@@ -62,7 +65,7 @@ namespace mphweb
                 {
                     try
                     {
-                        var t = ((mphObj)ApplicationVariables.services.GetService(typeof(mphObj))).pofs;
+                        var t = ((mphContext)ApplicationVariables.services.GetService(typeof(mphContext))).pofs;
                         var tpofs = new ps[t[0].Length + t[1].Length];
                         t[0].CopyTo(tpofs, 0);
                         t[1].CopyTo(tpofs, t[0].Length);
@@ -85,7 +88,7 @@ namespace mphweb
                 {
                     try
                     {
-                        var t = ((mphObj)ApplicationVariables.services.GetService(typeof(mphObj))).pofs;
+                        var t = ((mphContext)ApplicationVariables.services.GetService(typeof(mphContext))).pofs;
                         _pofsPcls = new SelectList(t[0], "id", "name");
                     }
                     catch (Exception ex)
@@ -105,7 +108,7 @@ namespace mphweb
                 {
                     try
                     {
-                        _lang = ((mphObj)ApplicationVariables.services.GetService(typeof(mphObj))).lid;
+                        _lang = ((mphContext)ApplicationVariables.services.GetService(typeof(mphContext))).lid;
                     }
                     catch (Exception ex)
                     {
@@ -125,7 +128,7 @@ namespace mphweb
                 {
                     try
                     {
-                        var t = ((synsetsObj)ApplicationVariables.services.GetService(typeof(synsetsObj))).pofs;
+                        var t = ((synsetsContext)ApplicationVariables.services.GetService(typeof(synsetsContext))).Pofs;
                         var tpofs = new ps[t[0].Length];
                         t[0].CopyTo(tpofs, 0);
                         //t[1].CopyTo(tpofs, t[0].Length);
@@ -148,7 +151,7 @@ namespace mphweb
                 {
                     try
                     {
-                        var t = ((etymObj)ApplicationVariables.services.GetService(typeof(etymObj))).pofs;
+                        var t = ((etymContext)ApplicationVariables.services.GetService(typeof(etymContext))).pofs;
                         _etymLang_all = new ps[t[0].Length];
                         t[0].CopyTo(_etymLang_all, 0);
                     }

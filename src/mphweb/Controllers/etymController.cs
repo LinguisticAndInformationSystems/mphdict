@@ -7,14 +7,14 @@ using Microsoft.Extensions.Logging;
 using mphdict;
 using mphweb.Models;
 using Microsoft.AspNetCore.Routing;
+using mphdict.Models.Etym;
 
 namespace mphweb.Controllers
 {
     public class etymController : Controller
     {
-        ILogger Logger { get; } = ApplicationLogging.CreateLogger<inflectionController>();
-        etymObj db;
-        public etymController(etymObj db)
+        etymContext db;
+        public etymController(etymContext db)
         {
             this.db = db;
         }
@@ -66,52 +66,100 @@ namespace mphweb.Controllers
         }
         public async Task<IActionResult> Index(etymincParams incp, etymfilter f)
         {
-            if ((incp.idclass == 0) && (f.isStrFiltering == false) && (f.isLang == false) && (f.isType == false) && (f.isHead == true))
+            try
             {
-                return RedirectToAction("Search", routeValues: setParams(incp, f));
+                if ((incp.idclass == 0) && (f.isStrFiltering == false) && (f.isLang == false) && (f.isType == false) && (f.isHead == true))
+                {
+                    return RedirectToAction("Search", routeValues: setParams(incp, f));
+                }
+                var dps = await prepareData(incp, f);
+                ViewBag.dp = new dictParams() { etym = dps, vtype = viewtype.etym };
+                return View(dps);
             }
-            var dps = await prepareData(incp, f);
-            ViewBag.dp = new dictParams() { etym = dps, vtype = viewtype.etym };
-            return View(dps);
+            catch (Exception ex)
+            {
+                ApplicationLogging.CreateLogger<etymController>().LogError(new EventId(0), ex, ex.Message);
+                return BadRequest("Зверніться до розробника");
+            }
         }
         public async Task<IActionResult> toPrev(etymincParams incp, etymfilter f)
         {
-            incp.currentPage = incp.currentPage - 1;
-            var dps = await prepareData(incp, f);
-            ViewBag.dp = new dictParams() { etym = dps, vtype = viewtype.etym };
-            return View("Index", dps);
+            try
+            {
+                incp.currentPage = incp.currentPage - 1;
+                var dps = await prepareData(incp, f);
+                ViewBag.dp = new dictParams() { etym = dps, vtype = viewtype.etym };
+                return View("Index", dps);
+            }
+            catch (Exception ex)
+            {
+                ApplicationLogging.CreateLogger<etymController>().LogError(new EventId(0), ex, ex.Message);
+                return BadRequest("Зверніться до розробника");
+            }
         }
         public async Task<IActionResult> toNext(etymincParams incp, etymfilter f)
         {
-            incp.currentPage = incp.currentPage + 1;
-            var dps = await prepareData(incp, f);
-            ViewBag.dp = new dictParams() { etym = dps, vtype = viewtype.etym };
-            return View("Index", dps);
+            try
+            {
+                incp.currentPage = incp.currentPage + 1;
+                var dps = await prepareData(incp, f);
+                ViewBag.dp = new dictParams() { etym = dps, vtype = viewtype.etym };
+                return View("Index", dps);
+            }
+            catch (Exception ex)
+            {
+                ApplicationLogging.CreateLogger<etymController>().LogError(new EventId(0), ex, ex.Message);
+                return BadRequest("Зверніться до розробника");
+            }
         }
         public async Task<IActionResult> toPage(etymincParams incp, etymfilter f)
         {
-            incp.currentPage = incp.currentPage - 1;
-            var dps = await prepareData(incp, f);
-            ViewBag.dp = new dictParams() { etym = dps, vtype = viewtype.etym };
-            return View("Index", dps);
+            try
+            {
+                incp.currentPage = incp.currentPage - 1;
+                var dps = await prepareData(incp, f);
+                ViewBag.dp = new dictParams() { etym = dps, vtype = viewtype.etym };
+                return View("Index", dps);
+            }
+            catch (Exception ex)
+            {
+                ApplicationLogging.CreateLogger<etymController>().LogError(new EventId(0), ex, ex.Message);
+                return BadRequest("Зверніться до розробника");
+            }
         }
         public async Task<ActionResult> Search(etymincParams incp, etymfilter f)
         {
-            var dps = new etymdictParams() { incp = incp, f = f };
-            await SearchData(incp.wordSearch, incp, f, dps);
-            ViewBag.dp = new dictParams() { etym = dps, vtype = viewtype.etym };
-            return Redirect(Url.Action("SearchWord", "etym",
-                new { wid = incp.wid, isStrFiltering = f.isStrFiltering, str = f.str, isHead=f.isHead, isLang=f.isLang, langId=f.langId, isType=f.isType, typeId=f.typeId, currentPage = incp.currentPage, wordSearch = incp.wordSearch, idclass = incp.idclass, count = dps.count, maxpage = dps.maxpage }, null, null, $"wid-{incp.wid}"));
+            try
+            {
+                var dps = new etymdictParams() { incp = incp, f = f };
+                await SearchData(incp.wordSearch, incp, f, dps);
+                ViewBag.dp = new dictParams() { etym = dps, vtype = viewtype.etym };
+                return Redirect(Url.Action("SearchWord", "etym",
+                    new { wid = incp.wid, isStrFiltering = f.isStrFiltering, str = f.str, isHead = f.isHead, isLang = f.isLang, langId = f.langId, isType = f.isType, typeId = f.typeId, currentPage = incp.currentPage, wordSearch = incp.wordSearch, idclass = incp.idclass, count = dps.count, maxpage = dps.maxpage }, null, null, $"wid-{incp.wid}"));
+            }
+            catch (Exception ex)
+            {
+                ApplicationLogging.CreateLogger<etymController>().LogError(new EventId(0), ex, ex.Message);
+                return BadRequest("Зверніться до розробника");
+            }
         }
         public async Task<ActionResult> SearchWord(etymincParams incp, etymfilter f, int count, int maxpage)
         {
-            var dps = new etymdictParams() { incp = incp, f = f};
-            dps.count = count;
-            dps.maxpage = maxpage;
-            dps.entry = await db.getEntry(incp.idclass);
-            dps.w = dps.entry!=null? dps.entry.e_classes.Where(c => c.id == incp.idclass).FirstOrDefault().etymons.Where(c => c.id == incp.wid).FirstOrDefault().word:"";
-            ViewBag.dp = new dictParams() { etym = dps, vtype = viewtype.etym };
-            return View("Index", dps);
+            try
+            {
+                var dps = new etymdictParams() { incp = incp, f = f };
+                dps.count = count;
+                dps.maxpage = maxpage;
+                dps.entry = await db.getEntry(incp.idclass);
+                dps.w = dps.entry != null ? dps.entry.e_classes.Where(c => c.id == incp.idclass).FirstOrDefault().etymons.Where(c => c.id == incp.wid).FirstOrDefault().word : "";
+                ViewBag.dp = new dictParams() { etym = dps, vtype = viewtype.etym };
+                return View("Index", dps);
+            }
+            catch (Exception ex)
+            {
+                ApplicationLogging.CreateLogger<etymController>().LogError(new EventId(0), ex, ex.Message);
+                return BadRequest("Зверніться до розробника");
+            }
         }
         private RouteValueDictionary setParams(etymincParams p, etymfilter f)
         {

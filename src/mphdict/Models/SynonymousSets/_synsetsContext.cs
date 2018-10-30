@@ -14,7 +14,7 @@ using uSofTrod.generalTypes.Models;
 
 namespace mphdict.Models.SynonymousSets
 {
-    public class synsetsContext: DbContext
+    public partial class synsetsContext : DbContext
     {
         public string _schema { get; } = string.Empty; 
 

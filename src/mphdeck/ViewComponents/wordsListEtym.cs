@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using mphdict;
+using mphdict.Models.Etym;
 using mphdeck.Models;
 using System;
 using System.Collections.Generic;
@@ -11,17 +12,24 @@ namespace mphdeck.ViewComponents
 {
     public class wordsListEtym : ViewComponent
     {
-        ILogger Logger { get; } = ApplicationLogging.CreateLogger<wordsList>();
-        etymObj db;
-        public wordsListEtym(etymObj db)
+        etymContext db;
+        public wordsListEtym(etymContext db)
         {
             this.db = db;
         }
         public async Task<IViewComponentResult> InvokeAsync(etymdictParams dp)
         {
-            dp.page = await db.getPage(dp.f, dp.incp.currentPage, 100);
+            try
+            {
+                dp.page = await db.getPage(dp.f, dp.incp.currentPage, 100);
 
-            return View("wordsListEtym", dp);
+                return View("wordsListEtym", dp);
+            }
+            catch (Exception ex)
+            {
+                ApplicationLogging.CreateLogger<wordsListEtym>().LogError(new EventId(0), ex, ex.Message);
+                throw new Exception("Помилка БД. Зверніться до розробника");
+            }
         }
     }
 }

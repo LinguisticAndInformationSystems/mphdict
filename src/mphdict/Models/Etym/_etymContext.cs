@@ -14,7 +14,7 @@ using uSofTrod.generalTypes.Models;
 
 namespace mphdict.Models.Etym
 {
-    public class etymContext: DbContext
+    public partial class etymContext: DbContext
     {
         public string _schema { get; } = string.Empty;
 

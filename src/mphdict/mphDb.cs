@@ -306,15 +306,14 @@ namespace mphdict
         public void forming_nrw()
         {
             var context = getContext();
-            mphObj mo = new mphObj(context);
             try
             {
                 int q = 0, cp=0;
                 var a = context.words_list.ToArray();
                 for (int i = 0; i < a.Length; i++)
                 {
-                    a[i].digit = sharedTypes.atod(a[i].reestr, mo.talpha);
-                    a[i].reverse = new string(sharedTypes.atod(a[i].reestr, mo.talpha).ToArray().Reverse().ToArray());
+                    a[i].digit = sharedTypes.atod(a[i].reestr, context.talpha);
+                    a[i].reverse = new string(sharedTypes.atod(a[i].reestr, context.talpha).ToArray().Reverse().ToArray());
                     q++;
                     if (q == 4000)
                     {
@@ -331,7 +330,7 @@ namespace mphdict
                 var af = context.flexes.ToArray();
                 for (int i = 0; i < af.Length; i++)
                 {
-                    af[i].digit = sharedTypes.atod(af[i].flex, mo.talpha, false);  
+                    af[i].digit = sharedTypes.atod(af[i].flex, context.talpha, false);  
                     q++;
                     if (q == 4000)
                     {

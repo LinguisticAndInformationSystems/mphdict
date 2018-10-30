@@ -18,17 +18,15 @@ namespace mphdeck.Controllers
 {
     public class inflectionController : Controller
     {
-        ILogger Logger { get; } = ApplicationLogging.CreateLogger<inflectionController>();
-        mphObj db;
-        public inflectionController(mphObj db) {
+        mphContext db;
+        public inflectionController(mphContext db) {
             this.db = db;
-            this.db.Logger = Logger;
         }
         private string getStartWordId()
         {
             //var env = HttpContext.RequestServices.GetService(typeof(IHostingEnvironment));
             IConfiguration conf = (IConfiguration)HttpContext.RequestServices.GetService(typeof(IConfiguration));
-            return variables.lang.id_lang==1058?conf.GetValue<string>("start_ua_word"): conf.GetValue<string>("start_ru_word");
+            return variables.lang.id_lang == 1058 ? conf.GetValue<string>("start_ua_word") : conf.GetValue<string>("start_ru_word");
         }
         private async Task SearchData(string sw, incParams incp, filter f, grdictParams dp)
         {
@@ -75,44 +73,82 @@ namespace mphdeck.Controllers
         // GET: /<controller>/
         public async Task<IActionResult> Index(incParams incp, filter f)
         {
-            if ((incp.wid == 0)&&(f.isStrFiltering==false)&&(f.ispclass == false) && (f.ispofs == false))
+            try
             {
-                incp.wordSearch = getStartWordId();
-                return RedirectToAction("Search", routeValues: setParams(incp, f));
+                if ((incp.wid == 0) && (f.isStrFiltering == false) && (f.ispclass == false) && (f.ispofs == false))
+                {
+                    incp.wordSearch = getStartWordId();
+                    return RedirectToAction("Search", routeValues: setParams(incp, f));
+                }
+                var dpg = await prepaireData(incp, f);
+                ViewBag.dp = new dictParams() { gr = dpg, vtype = viewtype.dict };
+                return View(dpg);
             }
-            var dpg = await prepaireData(incp, f);
-            ViewBag.dp = new dictParams() { gr = dpg, vtype = viewtype.dict };
-            return View(dpg);
+            catch (Exception ex) {
+                ApplicationLogging.CreateLogger<inflectionController>().LogError(new EventId(0), ex, ex.Message);
+                return BadRequest("Зверніться до розробника");
+            }
         }
         public async Task<IActionResult> toPrev(incParams incp, filter f)
         {
-            incp.currentPage = incp.currentPage-1;
-            var dpg = await prepaireData(incp, f);
-            ViewBag.dp = new dictParams() { gr = dpg, vtype = viewtype.dict };
-            return View("Index", dpg);
+            try
+            {
+                incp.currentPage = incp.currentPage - 1;
+                var dpg = await prepaireData(incp, f);
+                ViewBag.dp = new dictParams() { gr = dpg, vtype = viewtype.dict };
+                return View("Index", dpg);
+            }
+            catch (Exception ex) {
+                ApplicationLogging.CreateLogger<inflectionController>().LogError(new EventId(0), ex, ex.Message);
+                return BadRequest("Зверніться до розробника");
+            }
         }
         public async Task<IActionResult> toNext(incParams incp, filter f)
         {
-            incp.currentPage = incp.currentPage + 1;
-            var dpg = await prepaireData(incp, f);
-            ViewBag.dp = new dictParams() { gr = dpg, vtype = viewtype.dict };
-            return View("Index", dpg);
+            try
+            {
+                incp.currentPage = incp.currentPage + 1;
+                var dpg = await prepaireData(incp, f);
+                ViewBag.dp = new dictParams() { gr = dpg, vtype = viewtype.dict };
+                return View("Index", dpg);
+            }
+            catch (Exception ex)
+            {
+                ApplicationLogging.CreateLogger<inflectionController>().LogError(new EventId(0), ex, ex.Message);
+                return BadRequest("Зверніться до розробника");
+            }
         }
         public async Task<IActionResult> toPage(incParams incp, filter f)
         {
-            incp.currentPage = incp.currentPage-1;
-            var dpg = await prepaireData(incp, f);
-            ViewBag.dp = new dictParams() { gr = dpg, vtype = viewtype.dict };
-            return View("Index", dpg);
+            try
+            {
+                incp.currentPage = incp.currentPage - 1;
+                var dpg = await prepaireData(incp, f);
+                ViewBag.dp = new dictParams() { gr = dpg, vtype = viewtype.dict };
+                return View("Index", dpg);
+            }
+            catch (Exception ex)
+            {
+                ApplicationLogging.CreateLogger<inflectionController>().LogError(new EventId(0), ex, ex.Message);
+                return BadRequest("Зверніться до розробника");
+            }
         }
         public async Task<ActionResult> Search(incParams incp, filter f)
         {
-            var dpg = new grdictParams() { f = f, incp = incp };
-            await SearchData(incp.wordSearch, incp, f, dpg);
-            ViewBag.dp = new dictParams() { gr = dpg, vtype = viewtype.dict };
-            return Redirect(Url.Action("SearchWord", "inflection", 
-                new { isStrFiltering= f.isStrFiltering, str=f.str, isInverse = f.isInverse, ispclass=f.ispclass, pclass=f.pclass, ispofs = f.ispofs, pofs = f.pofs, currentPage= incp.currentPage, wordSearch= incp.wordSearch, wid= incp.wid, count= dpg.count, maxpage = dpg.maxpage }, null, null, $"wid-{incp.wid}"));
+            try
+            {
+                var dpg = new grdictParams() { f = f, incp = incp };
+                await SearchData(incp.wordSearch, incp, f, dpg);
+                ViewBag.dp = new dictParams() { gr = dpg, vtype = viewtype.dict };
+                return Redirect(Url.Action("SearchWord", "inflection",
+                    new { isStrFiltering = f.isStrFiltering, str = f.str, isInverse = f.isInverse, ispclass = f.ispclass, pclass = f.pclass, ispofs = f.ispofs, pofs = f.pofs, currentPage = incp.currentPage, wordSearch = incp.wordSearch, wid = incp.wid, count = dpg.count, maxpage = dpg.maxpage }, null, null, $"wid-{incp.wid}"));
 
+            }
+            catch (Exception ex)
+            {
+                ApplicationLogging.CreateLogger<inflectionController>().LogError(new EventId(0), ex, ex.Message);
+                return BadRequest("Зверніться до розробника");
+            }
         }
         public async Task<ActionResult> SearchWord(incParams incp, filter f, int count, int maxpage)
         {
@@ -124,13 +160,20 @@ namespace mphdeck.Controllers
             //System.Resources.ResourceManager resourceManager = new System.Resources.ResourceManager("MyResource", Assembly.GetExecutingAssembly
             //string test2 = rm.GetString("bname_ua", new System.Globalization.CultureInfo("uk"));
             //string test1 = rm.GetString("bname_ua", new System.Globalization.CultureInfo("en"));
-
-            var dpg = new grdictParams() { incp = incp, f = f, id_lang = db.lid.id_lang };
-            dpg.count=count;
-            dpg.maxpage = maxpage;
-            dpg.entry = await db.getEntry(incp.wid);
-            ViewBag.dp = new dictParams() { gr = dpg, vtype = viewtype.dict };
-            return View("Index", dpg);
+            try
+            {
+                var dpg = new grdictParams() { incp = incp, f = f, id_lang = db.lid.id_lang };
+                dpg.count = count;
+                dpg.maxpage = maxpage;
+                dpg.entry = await db.getEntry(incp.wid);
+                ViewBag.dp = new dictParams() { gr = dpg, vtype = viewtype.dict };
+                return View("Index", dpg);
+            }
+            catch (Exception ex)
+            {
+                ApplicationLogging.CreateLogger<inflectionController>().LogError(new EventId(0), ex, ex.Message);
+                return BadRequest("Зверніться до розробника");
+            }
         }
         private RouteValueDictionary setParams(incParams p, filter f)
         {

@@ -17,7 +17,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "txtools", "src\txtools\txto
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "mphdeck", "src\mphdeck\mphdeck.csproj", "{05CD413F-9837-417E-9DD1-5102BA658185}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mphweb", "src\mphweb\mphweb.csproj", "{4F7C4031-746D-46A7-86ED-38FC0B90122F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "mphweb", "src\mphweb\mphweb.csproj", "{4F7C4031-746D-46A7-86ED-38FC0B90122F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "fbin", "src\fbin\fbin.csproj", "{97E06CB5-145E-4269-AD73-8C3B8B7EAAE6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -49,6 +51,10 @@ Global
 		{4F7C4031-746D-46A7-86ED-38FC0B90122F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4F7C4031-746D-46A7-86ED-38FC0B90122F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4F7C4031-746D-46A7-86ED-38FC0B90122F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{97E06CB5-145E-4269-AD73-8C3B8B7EAAE6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{97E06CB5-145E-4269-AD73-8C3B8B7EAAE6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{97E06CB5-145E-4269-AD73-8C3B8B7EAAE6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{97E06CB5-145E-4269-AD73-8C3B8B7EAAE6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -60,6 +66,7 @@ Global
 		{866D72EB-B4A2-4429-8F60-3F276B3986D5} = {16A3A9BC-FEE2-478D-A1A6-0DB5E5074E93}
 		{05CD413F-9837-417E-9DD1-5102BA658185} = {16A3A9BC-FEE2-478D-A1A6-0DB5E5074E93}
 		{4F7C4031-746D-46A7-86ED-38FC0B90122F} = {16A3A9BC-FEE2-478D-A1A6-0DB5E5074E93}
+		{97E06CB5-145E-4269-AD73-8C3B8B7EAAE6} = {16A3A9BC-FEE2-478D-A1A6-0DB5E5074E93}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E165DABF-2B6B-4B0C-9AD7-3D606B2B1D03}

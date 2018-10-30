@@ -17,11 +17,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using mphdeck.Providers;
 using mphdict;
 using mphdict.Models.Etym;
 using mphdict.Models.morph;
 using mphdict.Models.SynonymousSets;
+using mphdeck.Providers;
 using Mvc.RenderViewToString;
 
 namespace mphdeck
@@ -57,17 +57,14 @@ namespace mphdeck
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.Configure<CookiePolicyOptions>(options =>
-            {
-                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
-                options.CheckConsentNeeded = context => true;
-                options.MinimumSameSitePolicy = SameSiteMode.None;
-            });
+            //services.Configure<CookiePolicyOptions>(options =>
+            //{
+            //    // This lambda determines whether user consent for non-essential cookies is needed for a given request.
+            //    options.CheckConsentNeeded = context => true;
+            //    options.MinimumSameSitePolicy = SameSiteMode.None;
+            //});
 
             //string connection = Configuration.GetConnectionString("EtymDBWebContext");
-            services.AddTransient<mphObj>();
-            services.AddTransient<synsetsObj>();
-            services.AddTransient<etymObj>();
             services.AddScoped<RazorViewToStringRenderer, RazorViewToStringRenderer>();
 
             services.AddSingleton<IConfiguration>(Configuration);
@@ -75,9 +72,6 @@ namespace mphdeck
                 .AddDbContext<mphContext>(options => options.UseSqlite($"Filename={Path.Combine(Directory.GetParent(Directory.GetParent(Startup.ContentRootPath).FullName).FullName, $"data/mph_{Configuration.GetConnectionString("sqlitedb")}.db")}"), ServiceLifetime.Transient, ServiceLifetime.Transient)
                 .AddDbContext<synsetsContext>(options => options.UseSqlite($"Filename={Path.Combine(Directory.GetParent(Directory.GetParent(Startup.ContentRootPath).FullName).FullName, $"data/synsets_{Configuration.GetConnectionString("sqlitedb")}.db")}"), ServiceLifetime.Transient, ServiceLifetime.Transient)
                 .AddDbContext<etymContext>(options => options.UseSqlite($"Filename={Path.Combine(Directory.GetParent(Directory.GetParent(Startup.ContentRootPath).FullName).FullName, $"data/etym.db")}"), ServiceLifetime.Transient, ServiceLifetime.Transient);
-            //.AddDbContext<mphContext>(options => options.UseSqlite($"Filename={Path.Combine("C:\\app\\db", $"mph_{Configuration.GetConnectionString("sqlitedb")}.db")}"), ServiceLifetime.Transient, ServiceLifetime.Transient)
-            //.AddDbContext<synsetsContext>(options => options.UseSqlite($"Filename={Path.Combine("C:\\app\\db", $"synsets_{Configuration.GetConnectionString("sqlitedb")}.db")}"), ServiceLifetime.Transient, ServiceLifetime.Transient)
-            //.AddDbContext<etymContext>(options => options.UseSqlite($"Filename={Path.Combine("C:\\app\\db", "etym.db")}"), ServiceLifetime.Transient, ServiceLifetime.Transient);
 
             services.AddLocalization(options => options.ResourcesPath = "Resources");
             // Add framework services.
@@ -148,12 +142,6 @@ namespace mphdeck
                     name: "default",
                     template: "{controller=inflection}/{action=Index}/{id?}");
             });
-            //app.UseMvc(routes =>
-            //{
-            //    routes.MapRoute(
-            //        name: "default",
-            //        template: "{controller=Home}/{action=Index}/{id?}");
-            //});
 
             var options = new BrowserWindowOptions
             {

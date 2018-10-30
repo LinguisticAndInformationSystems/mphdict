@@ -14,7 +14,7 @@ using uSofTrod.generalTypes.Models;
 
 namespace mphdict.Models.morph
 {
-    public class mphContext : DbContext
+    public partial class mphContext : DbContext
     {
         public string _schema { get; } = string.Empty;
 
