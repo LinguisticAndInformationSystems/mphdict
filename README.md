@@ -1,7 +1,7 @@
 # mphdict
 Digital lexicographic systems Ukrainian language + (the grammatical dictionary, synonymous dictionary, etymological dictionary +)
 
-Copyright © 2016-2018 uSofTrod. Contacts: uSofTrod@outlook.com
+Copyright © 2016-2021 uSofTrod. Contacts: uSofTrod@outlook.com
 
 License: http://opensource.org/licenses/MIT
 
